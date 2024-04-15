@@ -1,0 +1,22 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "nodeVersion": "18.20.1",
+    "sdksVersions": {
+      "@microsoft/microsoft-graph-client": "3.0.2",
+      "@microsoft/teams-js": "2.12.0"
+    },
+    "version": "1.18.2",
+    "libraryName": "obo-global-navigation",
+    "libraryId": "13042b2a-6271-44a0-b6b6-42e209e9dd89",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "OBOGlobalNavigation",
+    "solutionShortDescription": "OBOGlobalNavigation description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "extension",
+    "extensionType": "ApplicationCustomizer"
+  }
+}
