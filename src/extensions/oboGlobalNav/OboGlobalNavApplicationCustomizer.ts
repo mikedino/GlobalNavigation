@@ -16,6 +16,8 @@ import {
 
 import * as strings from 'OboGlobalNavApplicationCustomizerStrings';
 import Strings from '../../strings';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 const LOG_SOURCE: string = 'OboGlobalNavApplicationCustomizer';
 

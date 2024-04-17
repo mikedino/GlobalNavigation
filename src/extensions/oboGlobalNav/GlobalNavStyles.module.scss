@@ -1,9 +1,12 @@
 @import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss';
+//@import '~bootstrap/scss/bootstrap.scss';
 
 $OBObgcolor: #0A314D;
 $OBOcolor: #ffffff;
 $OBOhover: #A6E5F3;
 
+
+/***************  Top header component *******************/
 .menu {
 
   .header {
@@ -26,7 +29,7 @@ $OBOhover: #A6E5F3;
       padding: 0;
       min-width: 0;
 
-      &:hover{
+      &:hover {
         color: $ms-color-themePrimary;
       }
 
@@ -39,29 +42,61 @@ $OBOhover: #A6E5F3;
 
   }
 
+  /**********************  MENU/Navigation ************************/
   .globalMenu {
     position: absolute;
-    top: 40px;
+    top: 35px;
     left: 0px;
     background-color: $OBOcolor;
     color: $OBObgcolor;
     z-index: 0;
-    padding-bottom: 25px;
+    padding-bottom: 5px;
     padding-top: 5px;
     height: 0;
-    transition: opacity 1s ease-out;
+    transition: opacity .25s ease-out;
     opacity: 0;
     overflow: hidden;
     min-width: 600px;
+
+    .menuTopRow {
+      display: flex;
+      padding: 16px 20px;
+
+      div {
+        flex: 50%;
+        display: flex;
+      }
+
+      .menuHome {
+        justify-content: left;
+      }
+
+      .menuExpand {
+        justify-content: right;
+      }
+
+    }
+
   }
 
   .globalMenu.change {
     opacity: 1;
-    height: auto;
+    height: 100%;
     z-index: 20000;
   }
 }
 
+/********* customized Accordion styles **********/
+.headerIcon {
+  padding-right: 10px;
+}
+
+.childItem {
+  margin-left: 27px;
+}
+
+
+/********* FOOTER **********/
 .footer {
   width: 100%;
   height: 48px;
@@ -84,46 +119,48 @@ $OBOhover: #A6E5F3;
     }
   }
 
-  .home{
+  .home {
     flex: 33.3%;
     padding-left: 10px;
     display: flex;
     align-items: center;
-  
-    .homeLogo{
-      padding-right:5px;
+
+    .homeLogo {
+      padding-right: 5px;
       display: flex;
       cursor: pointer;
       overflow: hidden;
-      justify-content: center; /* Center the image horizontally */
-      align-items: center; /* Center the image vertically */
+      justify-content: center;
+      /* Center the image horizontally */
+      align-items: center;
+      /* Center the image vertically */
 
       img {
         max-height: 30px;
 
-        &:hover{
+        &:hover {
           background: #345d9694;
         }
       }
 
     }
 
-    .homeTitle{
+    .homeTitle {
       cursor: pointer;
     }
-    
+
   }
-  
-  .stickyLinks{
+
+  .stickyLinks {
     flex: 33.3%;
-    display:flex;
+    display: flex;
     justify-content: center;
 
-    div{
+    div {
       padding: 0 10px;
       text-align: center;
 
-      &:not(:first-child){
+      &:not(:first-child) {
         //border-left: 1px solid $ms-color-themeDarker;
         border-left: 1px solid $ms-color-neutralPrimary;
       }
@@ -132,29 +169,31 @@ $OBOhover: #A6E5F3;
 
   }
 
-  .support{
+  .support {
     flex: 33.3%;
     padding-right: 10px;
-    
-      div{
-        display: flex;
-        float: right;
-        cursor: pointer;
-  
-        &:hover {
-          color: $ms-color-themePrimary;
-        }
-    
-        &:hover i, i {
-          //color: $ms-color-themePrimary;
-          color: $ms-color-themeDarker;
-        }
 
-        i{
-          font-size: 20px;
-          padding-right: 5px;
-          color: $OBOhover;
-        }
+    div {
+      display: flex;
+      float: right;
+      cursor: pointer;
+      align-items: center;
+
+      &:hover {
+        color: $ms-color-themePrimary;
+      }
+
+      &:hover i,
+      i {
+        //color: $ms-color-themePrimary;
+        color: $ms-color-themeDarker;
+      }
+
+      i {
+        font-size: 20px;
+        padding-right: 5px;
+        color: $OBOhover;
+      }
 
     }
   }
