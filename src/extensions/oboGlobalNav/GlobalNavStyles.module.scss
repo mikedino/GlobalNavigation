@@ -2,104 +2,63 @@
 
 $OBObgcolor: #0A314D;
 $OBOcolor: #ffffff;
+$OBOhover: #A6E5F3;
 
 .menu {
 
   .header {
     height: 40px;
     text-align: left;
-    line-height: 2.5;
-    font-weight: bold;
-    display: flex;
-    position: relative;
     /*background-color: $ms-color-themeDark;*/
     background-color: $OBObgcolor;
     /*color: $ms-color-white;*/
     color: $OBOcolor;
   }
 
-  .menuicon {
-    width: 30px;
-    height: 20px;
-    float: left;
-    margin: 4px;
-    cursor: pointer;
-  }
+  .menuIcon {
+    width: 1em;
+    margin-left: 0.5em;
 
-  .menubar {
-    width: 30px;
-    height: 4px;
-    margin: 4px 0;
-    background-color: #fff;
-    transition: 0.4s;
-  }
+    .toggleButton {
+      background-color: transparent;
+      border: 0;
+      color: inherit;
+      padding: 0;
+      min-width: 0;
 
-  /* Rotate first bar */
-  .change #menubar1 {
-    -webkit-transform: rotate(-45deg) translate(-6px, 6px);
-    transform: rotate(-45deg) translate(-6px, 6px);
-  }
+      &:hover{
+        color: $ms-color-themePrimary;
+      }
 
-  /* Fade out the second bar */
-  .change #menubar2 {
-    opacity: 0;
-  }
+      div {
+        width: 1em;
+        height: 40px;
+        line-height: 40px;
+      }
+    }
 
-  /* Rotate last bar */
-  .change #menubar3 {
-    -webkit-transform: rotate(45deg) translate(-6px, -6px);
-    transform: rotate(45deg) translate(-6px, -6px);
   }
 
   .globalMenu {
     position: absolute;
-    top: 35px;
+    top: 40px;
     left: 0px;
-    background-color: rgba(225, 225, 225, 0.5);
+    background-color: $OBOcolor;
+    color: $OBObgcolor;
     z-index: 0;
-    line-height: normal;
     padding-bottom: 25px;
     padding-top: 5px;
     height: 0;
     transition: opacity 1s ease-out;
     opacity: 0;
     overflow: hidden;
-    width: 100%;
-    display: table;
+    min-width: 600px;
   }
 
   .globalMenu.change {
     opacity: 1;
     height: auto;
     z-index: 20000;
-  }
-
-  .row12 {
-    width: 100%;
-    display: table-row;
-  }
-
-  .colCell {
-    float: left;
-    display: table-cell;
-    width: 20%;
-    margin-left: 10px;
-    min-height: 240px;
-    background-color: #fff;
-    border: 1px solid rgba(18, 98, 101, 1);
-    border-left: 10px solid rgba(18, 98, 101, 1);
-  }
-
-  .colCell>h2 {
-    color: rgba(18, 98, 101, 1);
-  }
-
-  .colCell>ul>li:hover {
-    background-color: rgba(24, 131, 135, 1);
-  }
-
-  .colCell>ul>li>a:hover {
-    color: #fff;
   }
 }
 
@@ -194,7 +153,7 @@ $OBOcolor: #ffffff;
         i{
           font-size: 20px;
           padding-right: 5px;
-          color: #A6E5F3;
+          color: $OBOhover;
         }
 
     }
