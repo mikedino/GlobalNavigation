@@ -134,13 +134,14 @@ const GlobalNav: React.FC<INavProps> = () => {
                             {menuitems.filter(item => item.ParentID === clickMenuParentID)
                                 .map(filteredItem =>
                                     <div key={filteredItem.ID} className={styles.childItemClickMenu}>
-                                        <a href={filteredItem.Url}>{filteredItem.Label}</a>
-                                        {filteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
-                                        
-                                        {menuitems.filter(childItem => childItem.ParentID === filteredItem.ID).map(childFilteredItem => 
-                                            <div className='ps-4'>{childFilteredItem.Label}</div>
+                                        <div>
+                                            <a href={filteredItem.Url}>{filteredItem.Label}</a>
+                                            {filteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
+                                        </div>
+                                        {menuitems.filter(childItem => childItem.ParentID === filteredItem.ID).map(childFilteredItem =>
+                                            <div className='ps-4 pt-2'>{childFilteredItem.Label}</div>
                                         )}
-                                            
+
                                     </div>
                                 )
                             }
