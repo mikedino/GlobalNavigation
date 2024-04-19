@@ -4,134 +4,183 @@ import styles from './GlobalNavStyles.module.scss';
 import { Accordion, AccordionBody, AccordionHeader, AccordionItem } from 'react-bootstrap';
 //import { AccordionEventKey } from 'react-bootstrap/esm/AccordionContext';
 
-export interface MenuItem {
-    Col: string;
+export interface IGlobalNavCategory {
+    ID: string;
     Label: string;
     Url: string;
     Restricted: boolean;
     IconName?: string;
 }
 
-export interface INavProps{
+export interface IGlobalNavItem extends IGlobalNavCategory {
+    CategoryID: string;
+    ParentID: string;
+}
+
+export interface INavProps {
     expanded: boolean;
 }
 
-export interface INavState{
-    expanded: boolean;
-    toggleIconName: string;
-}
+// export interface INavState {
+//     expanded: boolean;
+//     toggleIconName: string;
+// }
 
-const headers: MenuItem[] = [
-    { Col: '2', Label: 'Organization', Url: '', Restricted: false, IconName: "Org" },
-    { Col: '3', Label: 'Applications', Url: '', Restricted: false, IconName: "AppIconDefault" },
-    { Col: '4', Label: 'Processes', Url: '', Restricted: false, IconName: "Processing" },
-    { Col: '5', Label: 'Resources', Url: '', Restricted: false, IconName: "D365BusinessCentral" },
-    { Col: '6', Label: 'Contact/Support', Url: '', Restricted: false, IconName: "ContactList" }
+const headers: IGlobalNavCategory[] = [
+    { ID: '2', Label: 'Organization', Url: '/', Restricted: false, IconName: "Org" },
+    { ID: '3', Label: 'Applications', Url: '/', Restricted: false, IconName: "AppIconDefault" },
+    { ID: '4', Label: 'Processes', Url: '/', Restricted: false, IconName: "Processing" },
+    { ID: '5', Label: 'Resources', Url: '/', Restricted: false, IconName: "D365BusinessCentral" },
+    { ID: '6', Label: 'Contact/Support', Url: '/', Restricted: false, IconName: "ContactList" }
 ];
 
-// const headers: MenuItem[] = [
-//         { Col: '1', Label: 'Directorate of Construction, Facility, and Security Management', Url: '' },
-//         { Col: '2', Label: 'Comptroller', Url: '' },
-//         { Col: '3', Label: 'Directorate for Operations', Url: '' }
-//     ];
+const menuitems: IGlobalNavItem[] = [
+    { CategoryID: '2', ID: '7', ParentID: '', Label: 'Construction, Facility, and Security Management (CFSM)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '33', ParentID: '7', Label: 'Construction Management (CM)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '34', ParentID: '7', Label: 'Security Management (SM)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '8', ParentID: '', Label: 'Comptroller (COMP)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '35', ParentID: '8', Label: 'Financial Management (FM)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '34', ParentID: '8', Label: 'Policy and Program Analysis (P)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '9', ParentID: '', Label: 'External Affairs (EA)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '10', ParentID: '', Label: 'Executive Director (EX)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '37', ParentID: '10', Label: 'Human Resources (HR)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '38', ParentID: '10', Label: 'Information Resource Management (IRM)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '39', ParentID: '10', Label: 'Management Support Office (MSD)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '11', ParentID: '', Label: 'Executive Office (EXEC)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '12', ParentID: '', Label: 'Front Office (FO)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '13', ParentID: '', Label: 'Operations (OPS)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '40', ParentID: '13', Label: 'Area Management (AM)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '41', ParentID: '13', Label: 'Art in Embassies (ART)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '42', ParentID: '13', Label: 'Cultural Heritage (CH)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '43', ParentID: '13', Label: 'Facilities Management (FAC)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '50', ParentID: '43', Label: 'AMT', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '51', ParentID: '43', Label: 'FMA', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '52', ParentID: '43', Label: 'MM', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '53', ParentID: '43', Label: 'PM', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '44', ParentID: '13', Label: 'Fire Protection (FIRE)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '45', ParentID: '13', Label: 'Residential Design and Furnishings (RDF)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '46', ParentID: '13', Label: 'Health, Safety and Health Administration (SHEM)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '14', ParentID: '', Label: 'Program Development, Coordination, and Support (PDCS)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '15', ParentID: '', Label: 'Planning and Real Estate (PRE)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '16', ParentID: '', Label: 'Resource Management (RM)', Url: '/', Restricted: false },
+    { CategoryID: '3', ID: '17', ParentID: '', Label: 'Asset Management', Url: '/', Restricted: true },
+    { CategoryID: '3', ID: '18', ParentID: '', Label: 'BIMS', Url: '/', Restricted: false },
+    { CategoryID: '3', ID: '19', ParentID: '', Label: 'E2', Url: '/', Restricted: true },
+    { CategoryID: '3', ID: '20', ParentID: '', Label: 'FAC Apps', Url: '/', Restricted: true },
+    { CategoryID: '3', ID: '21', ParentID: '', Label: 'GFMS', Url: '/', Restricted: false },
+    { CategoryID: '4', ID: '22', ParentID: '', Label: 'SA Tracker', Url: '/', Restricted: false },
+    { CategoryID: '4', ID: '23', ParentID: '', Label: 'Project Authorization Documents (PAD)', Url: '/', Restricted: false },
+    { CategoryID: '5', ID: '24', ParentID: '', Label: 'FSI (Training)', Url: '/', Restricted: false },
+    { CategoryID: '5', ID: '25', ParentID: '', Label: 'Onboarding', Url: '/', Restricted: false },
+    { CategoryID: '5', ID: '26', ParentID: '', Label: 'HR', Url: '/', Restricted: false },
+    { CategoryID: '5', ID: '27', ParentID: '', Label: 'Policies & Procedures', Url: '/', Restricted: false },
+    { CategoryID: '5', ID: '28', ParentID: '', Label: 'Telework Information', Url: '/', Restricted: false },
+    { CategoryID: '5', ID: '29', ParentID: '', Label: 'Acronyms', Url: '/', Restricted: false },
+    { CategoryID: '6', ID: '30', ParentID: '', Label: 'rOBO', Url: '/', Restricted: false },
+    { CategoryID: '6', ID: '31', ParentID: '', Label: 'OBO SharePoint Support', Url: '/', Restricted: false },
+    { CategoryID: '6', ID: '32', ParentID: '', Label: 'IT Service Center', Url: '/', Restricted: false }
+];
 
-const menuitems: MenuItem[] = [
-        { Col: '2', Label: 'Office of Construction Management (OBO/CFSM/CM)', Url: '#', Restricted: false },
-        { Col: '2', Label: 'Office of Security Management (OBO/CFSM/SM)', Url: '#', Restricted: false },
-        { Col: '2', Label: 'Office of Financial Management (OBO/COMP/FM) ', Url: '#', Restricted: false },
-        { Col: '2', Label: 'Office of Policy and Program Analysis (OBO/COMP/P)', Url: '#', Restricted: true },
-        { Col: '2', Label: 'Office of Area Management (OBO/OPS/AM)', Url: '#', Restricted: true },
-        { Col: '2', Label: 'Office of Art in Embassies (OBO/OPS/ART)', Url: '#', Restricted: false },
-        { Col: '2', Label: 'Office of Cultural Heritage (OBO/OPS/CH) ', Url: '#', Restricted: false },
-        { Col: '2', Label: 'Office of Facilities Management (OBO/OPS/FAC) ', Url: '', Restricted: false },
-        { Col: '2', Label: 'Office of Fire Protection (OBO/OPS/FIRE)', Url: '', Restricted: true },
-        { Col: '2', Label: 'Office of Residential Design and Furnishings (OBO/OPS/RDF) ', Url: '', Restricted: false },
-        { Col: '2', Label: 'Office of Health, Safety and Health Administration (OBO/OPS/SHEM)', Url: '', Restricted: false },
-        { Col: '3', Label: 'Asset Management', Url: '', Restricted: true },
-        { Col: '3', Label: 'BIMS', Url: '', Restricted: false },
-        { Col: '3', Label: 'E2', Url: '', Restricted: true },
-        { Col: '3', Label: 'FAC Apps', Url: '', Restricted: true },
-        { Col: '3', Label: 'GFMS', Url: '', Restricted: false },
-        { Col: '4', Label: 'SA Tracker', Url: '', Restricted: false },
-        { Col: '4', Label: 'Project Authorization Documents (PAD)', Url: '', Restricted: false },
-        { Col: '5', Label: 'FSI (Training)', Url: '', Restricted: false },
-        { Col: '5', Label: 'Onboarding', Url: '', Restricted: false },
-        { Col: '5', Label: 'HR', Url: '', Restricted: false },
-        { Col: '5', Label: 'Policies & Procedures', Url: '', Restricted: false },
-        { Col: '5', Label: 'Telework Information', Url: '', Restricted: false },
-        { Col: '5', Label: 'Acronyms', Url: '', Restricted: false },
-        { Col: '6', Label: 'rOBO', Url: '', Restricted: false },
-        { Col: '6', Label: 'OBO SharePoint Support', Url: '', Restricted: false },
-        { Col: '6', Label: 'IT Service Center', Url: '', Restricted: false }
-    ];
 
-export default class GlobalNav extends React.Component<INavProps,INavState> {  
-    constructor(props: INavProps){
-        super(props)
 
-        this.state = {
-            expanded: false,
-            toggleIconName: "CollapseMenu"
+const GlobalNav: React.FC<INavProps> = () => {
+    // State to set menu toggle status
+    const [expanded, setExpanded] = React.useState<boolean>(false);
+    // State to swap the menu icon 
+    const [toggleIconName, setToggleIconName] = React.useState<string>("CollapseMenu");
+    // State for breadcrumb & click menu
+    const [breadcrumb, setBreadcrumb] = React.useState<string[]>(["Organization"]);
+    const [showClickMenu, setClickMenu] = React.useState<boolean>(false);
+    // State for the click menu parent item id
+    const [clickMenuParentID, setClickMenuParentID] = React.useState<string>("");
+
+    // Toggle menu function
+    const menuToggle = (): void => {
+        setExpanded(!expanded);
+        setToggleIconName(expanded ? "CollapseMenu" : "ChromeClose");
+    };
+
+    // Handler for menu item click
+    const menuSelect = (label: string, reset: boolean, ID: string): void => {
+        // if this is a click on parent item, reset the breadcrumb/array and hide it
+        if (reset) {
+            setBreadcrumb([label])
+            setClickMenu(false);
+        } else {
+            // append to end of breadcrumb and show it
+            setBreadcrumb(prevBreadcrumb => [...prevBreadcrumb, label]);
+            // once we have a second level click, show the breadcrumb
+            setClickMenu(true);
+            setClickMenuParentID(ID);
         }
-    }
+    };
 
-    private _menuToggle = (): void => {
-        const wasExpanded: boolean = this.state.expanded;
-        this.setState({
-            expanded: !wasExpanded,
-            toggleIconName: wasExpanded ? "CollapseMenu" : "ChromeClose"
-        })
-    }
-
-    public render(): React.ReactElement<any> {
-
-        // // hook to pass the state value into the activeKey prop on the accordion
-        // const [activeKeys, setActiveKeys] = React.useState(["0"]);
-        // // onSelect handler for accordion so when it changes the value by click, the new value can flow to the activeKeys state
-        // const handleSelect = (eventKey: AccordionEventKey) => setActiveKeys(eventKey as string[]);
-        // // collapse all handler.  sends blank array to activeKey prop.
-        // const handleCollapseClick = () => {
-        //     setActiveKeys([]);
-        // }
-
-        return (
-            <div className={styles.menu}>
-                <div className={styles.header}>
-                    <div id="menu-icon" className={styles.menuIcon}>
-                        <DefaultButton
-                            iconProps={{ iconName: this.state.toggleIconName }}
-                            title={this.state.expanded ? "Close OBO Global Menu" : "Open OBO Global Menu"}
-                            className={styles.toggleButton}
-                            onClick={this._menuToggle}
-                        />
+    return (
+        <div className={styles.menu}>
+            <div className={styles.header}>
+                <div id="menu-icon" className={styles.menuIcon}>
+                    <DefaultButton
+                        iconProps={{ iconName: toggleIconName }}
+                        title={expanded ? "Close OBO Global Menu" : "Open OBO Global Menu"}
+                        className={styles.toggleButton}
+                        onClick={menuToggle}
+                    />
+                </div>
+                <div className={`${styles.globalMenu} ${expanded ? styles.change : ""}`} id="GlobalMenu" >
+                    <div className={`${styles.clickMenu} ${showClickMenu ? styles.toggle : ""}`}>
+                        <div className={`${styles.menuTopRow} ${styles.mainMenuBack} accordion-button`} onClick={() => menuSelect('Organization', true, '')}><Icon iconName='Back' className={styles.headerIcon} about='Back to main menu' title='Back to main menu'></Icon>Main Menu</div>
+                        <div className={`${styles.menuTopRow} accordion-button`}>{breadcrumb.join(' > ')}</div>
+                        <div className='clickMenuSubItemsContainer accordion-body'>
+                            {menuitems.filter(item => item.ParentID === clickMenuParentID)
+                                .map(filteredItem =>
+                                    <div key={filteredItem.ID} className={styles.childItemClickMenu}>
+                                        <a href={filteredItem.Url}>{filteredItem.Label}</a>
+                                        {filteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
+                                        
+                                        {menuitems.filter(childItem => childItem.ParentID === filteredItem.ID).map(childFilteredItem => 
+                                            <div className='ps-4'>{childFilteredItem.Label}</div>
+                                        )}
+                                            
+                                    </div>
+                                )
+                            }
+                        </div>
                     </div>
-                    <div className={`${styles.globalMenu} ${this.state.expanded ? styles.change : ""}`} id="GlobalMenu" >
+                    <div className={`${showClickMenu ? styles.accordionContainerHide : ""}`}>
                         <div className={`${styles.menuTopRow} accordion-button`}>
                             <div className={styles.menuHome}><Icon iconName='Home' className={styles.headerIcon}></Icon>OBO Home</div>
                             <div className={styles.menuExpand}><Icon iconName='ExpandAll' className='mx-1'></Icon></div>
                         </div>
-                        {headers.map(header => 
-                            <div>
+                        <div>
                             {/* <Accordion defaultActiveKey='2' activeKey={activeKeys} onSelect={handleSelect} alwaysOpen> */}
                             <Accordion defaultActiveKey='2'>
-                                <AccordionItem eventKey={header.Col}>
-                                    <AccordionHeader><Icon iconName={header.IconName} className={styles.headerIcon}></Icon> {header.Label}</AccordionHeader>
-                                    <AccordionBody>
-                                        {menuitems.filter(item => item.Col === header.Col)
-                                            .map(filteredItem => 
-                                                <div className={styles.childItem}>{filteredItem.Label} {filteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : null}</div> 
-                                            )
-                                        }
-                                    </AccordionBody>
-                                </AccordionItem>
+                                {headers.map(header =>
+                                    <AccordionItem eventKey={header.ID}>
+                                        <AccordionHeader onClick={() => menuSelect(`${header.Label}`, true, '')}><Icon iconName={header.IconName} className={styles.headerIcon}></Icon> {header.Label}</AccordionHeader>
+                                        <AccordionBody>
+                                            {menuitems.filter(item => item.CategoryID === header.ID && item.ParentID === '')
+                                                .map(filteredItem =>
+                                                    <div key={filteredItem.ID} className={styles.childItem} onClick={() => menuSelect(`${filteredItem.Label}`, false, `${filteredItem.ID}`)}>
+                                                        <div>
+                                                            <a href={filteredItem.Url}>{filteredItem.Label}</a>
+                                                            {filteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
+                                                        </div>
+                                                        <div className={styles.moreItemsIcon}>
+                                                            <Icon iconName='ChevronRight' about='See sub-sites' title='See sub-sites'></Icon>
+                                                        </div>
+                                                    </div>
+                                                )
+                                            }
+                                        </AccordionBody>
+                                    </AccordionItem>
+                                )}
                             </Accordion>
-                            </div>
-                        )}
+                        </div>
                     </div>
                 </div>
             </div>
-        );
+        </div>
+    );
+};
 
-    }
-
-}
+export default GlobalNav;

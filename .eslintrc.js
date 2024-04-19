@@ -1,6 +1,6 @@
 require('@rushstack/eslint-config/patch/modern-module-resolution');
 module.exports = {
-  extends: ['@microsoft/eslint-config-spfx/lib/profiles/default'],
+  extends: ['@microsoft/eslint-config-spfx/lib/profiles/default', 'plugin:react-hooks/recommended'],
   parserOptions: { tsconfigRootDir: __dirname },
   overrides: [
     {
@@ -12,6 +12,8 @@ module.exports = {
         'sourceType': 'module'
       },
       rules: {
+        //custom rule for react hooks -- these cause the component to fail/not render https://react.dev/warnings/invalid-hook-call-warning 
+        'react-hooks/rules-of-hooks': 'error',
         // Prevent usage of the JavaScript null value, while allowing code to access existing APIs that may require null. https://www.npmjs.com/package/@rushstack/eslint-plugin
         '@rushstack/no-new-null': 1,
         // Require Jest module mocking APIs to be called before any other statements in their code block. https://www.npmjs.com/package/@rushstack/eslint-plugin

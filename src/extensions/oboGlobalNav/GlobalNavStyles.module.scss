@@ -3,7 +3,10 @@
 
 $OBObgcolor: #0A314D;
 $OBOcolor: #ffffff;
-$OBOhover: #A6E5F3;
+$OBOhoverBG: #A6E5F3;
+$OBOhoverLink: #2499C2;
+$MenuHoverBG: #cfe2ff;
+
 
 
 /***************  Top header component *******************/
@@ -61,6 +64,8 @@ $OBOhover: #A6E5F3;
     .menuTopRow {
       display: flex;
       padding: 16px 20px;
+      align-items: center;
+      cursor: pointer;
 
       div {
         flex: 50%;
@@ -87,12 +92,82 @@ $OBOhover: #A6E5F3;
 }
 
 /********* customized Accordion styles **********/
+.accordionContainerHide{
+  display: none !important;
+}
+
 .headerIcon {
   padding-right: 10px;
+  padding-top:2px;
 }
 
 .childItem {
-  margin-left: 27px;
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-left: 27px;
+  padding-top: 3px;
+  cursor: pointer;
+
+  &:hover{
+    background-color: $MenuHoverBG;
+  }
+
+  a, a:visited,
+  > div > a, a:visited {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      color: $OBOhoverLink;
+    }
+  }
+
+  .moreItemsIcon{
+    text-align: right;
+    flex-grow: 1;
+    padding-right: 5px;
+  }
+}
+
+.childItemClickMenu {
+  padding-left: 27px;
+  padding-top: 3px;
+  cursor: pointer;
+
+  &:hover{
+    background-color: $MenuHoverBG;
+  }
+
+  a, a:visited,
+  > div > a, a:visited {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover {
+      color: $OBOhoverLink;
+    }
+  }
+}
+
+/****************** breadcrumb *********************/
+.clickMenu{
+  width: 100%;
+  display: none !important;
+  box-sizing: content-box; /*undo the icon :before :after box-sizing*/
+
+  .mainMenuBack{
+    border-bottom: 1px solid black;
+    font-weight: 500;
+    cursor: pointer;
+
+    &:hover{
+      background-color: $MenuHoverBG;
+    }
+  }
+}
+.clickMenu.toggle{
+  display: inline-block !important;
 }
 
 
@@ -192,7 +267,7 @@ $OBOhover: #A6E5F3;
       i {
         font-size: 20px;
         padding-right: 5px;
-        color: $OBOhover;
+        color: $OBOhoverLink;
       }
 
     }

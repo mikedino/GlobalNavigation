@@ -14,7 +14,7 @@ export class GlobalFooter extends React.Component {
                     </div>
                 </div>
                 <div className={styles.stickyLinks}>
-                    <div><a href="https://seirmprod3.servicenowservices.com/obo">rOBO</a></div>
+                    {/* <div><a href="https://seirmprod3.servicenowservices.com/obo">rOBO</a></div> */}
                     <div><a href="mailto:obosharepoint.state.gov">OBO SharePoint Support</a></div>
                     <div><a href="https://myapps.microsoft.com/">My Apps Dashboard</a></div>
                 </div>
