@@ -139,7 +139,7 @@ const GlobalNav: React.FC<INavProps> = () => {
                                             {filteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
                                         </div>
                                         {menuitems.filter(childItem => childItem.ParentID === filteredItem.ID).map(childFilteredItem =>
-                                            <div className='ps-4 pt-2'>{childFilteredItem.Label}</div>
+                                            <div className='ps-4 py-1'>{childFilteredItem.Label}</div>
                                         )}
 
                                     </div>
