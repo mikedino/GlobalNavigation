@@ -37,7 +37,12 @@ const headers: IGlobalNavCategory[] = [
 const menuitems: IGlobalNavItem[] = [
     { CategoryID: '2', ID: '7', ParentID: '', Label: 'Construction, Facility, and Security Management (CFSM)', Url: '/', Restricted: false },
     { CategoryID: '2', ID: '33', ParentID: '7', Label: 'Construction Management (CM)', Url: '/', Restricted: false },
-    { CategoryID: '2', ID: '34', ParentID: '7', Label: 'Security Management (SM)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '63', ParentID: '33', Label: 'Construction Operations (CO)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '64', ParentID: '33', Label: 'Construction Support (CS)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '34', ParentID: '7', Label: 'Security Management (SM)', Url: '/', Restricted: true },
+    { CategoryID: '2', ID: '65', ParentID: '34', Label: 'Administrative Services (ASD)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '66', ParentID: '34', Label: 'Security Countermeasures (SCD)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '67', ParentID: '34', Label: 'Security Operations (SOD)', Url: '/', Restricted: false },
     { CategoryID: '2', ID: '8', ParentID: '', Label: 'Comptroller (COMP)', Url: '/', Restricted: false },
     { CategoryID: '2', ID: '35', ParentID: '8', Label: 'Financial Management (FM)', Url: '/', Restricted: false },
     { CategoryID: '2', ID: '34', ParentID: '8', Label: 'Policy and Program Analysis (P)', Url: '/', Restricted: false },
@@ -52,14 +57,17 @@ const menuitems: IGlobalNavItem[] = [
     { CategoryID: '2', ID: '40', ParentID: '13', Label: 'Area Management (AM)', Url: '/', Restricted: false },
     { CategoryID: '2', ID: '41', ParentID: '13', Label: 'Art in Embassies (ART)', Url: '/', Restricted: false },
     { CategoryID: '2', ID: '42', ParentID: '13', Label: 'Cultural Heritage (CH)', Url: '/', Restricted: false },
-    { CategoryID: '2', ID: '43', ParentID: '13', Label: 'Facilities Management (FAC)', Url: '/', Restricted: false },
-    { CategoryID: '2', ID: '50', ParentID: '43', Label: 'AMT', Url: '/', Restricted: false },
-    { CategoryID: '2', ID: '51', ParentID: '43', Label: 'FMA', Url: '/', Restricted: false },
-    { CategoryID: '2', ID: '52', ParentID: '43', Label: 'MM', Url: '/', Restricted: false },
-    { CategoryID: '2', ID: '53', ParentID: '43', Label: 'PM', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '43', ParentID: '13', Label: 'Facilities Management (FAC)', Url: '/', Restricted: true },
+    { CategoryID: '2', ID: '50', ParentID: '43', Label: 'Asset Management & Transitions (AMT)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '51', ParentID: '43', Label: 'Facility Management Administration (FMA)', Url: '/', Restricted: true },
+    { CategoryID: '2', ID: '52', ParentID: '43', Label: 'Maintenance Management (MM)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '53', ParentID: '43', Label: 'Program Management (PM)', Url: '/', Restricted: false },
     { CategoryID: '2', ID: '44', ParentID: '13', Label: 'Fire Protection (FIRE)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '60', ParentID: '44', Label: 'Fire Protection Analysis and Field Inspections (FPA)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '61', ParentID: '44', Label: 'Fire Protection Engineering (FPE)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '62', ParentID: '44', Label: 'Fire Protection Systems (FPS)', Url: '/', Restricted: false },
     { CategoryID: '2', ID: '45', ParentID: '13', Label: 'Residential Design and Furnishings (RDF)', Url: '/', Restricted: false },
-    { CategoryID: '2', ID: '46', ParentID: '13', Label: 'Health, Safety and Health Administration (SHEM)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '46', ParentID: '13', Label: 'Health, Safety and Health Administration (SHEM)', Url: '/', Restricted: true },
     { CategoryID: '2', ID: '14', ParentID: '', Label: 'Program Development, Coordination, and Support (PDCS)', Url: '/', Restricted: false },
     { CategoryID: '2', ID: '15', ParentID: '', Label: 'Planning and Real Estate (PRE)', Url: '/', Restricted: false },
     { CategoryID: '2', ID: '16', ParentID: '', Label: 'Resource Management (RM)', Url: '/', Restricted: false },
@@ -133,13 +141,20 @@ const GlobalNav: React.FC<INavProps> = () => {
                         <div className='clickMenuSubItemsContainer accordion-body'>
                             {menuitems.filter(item => item.ParentID === clickMenuParentID)
                                 .map(filteredItem =>
-                                    <div key={filteredItem.ID} className={styles.childItemClickMenu}>
-                                        <div>
-                                            <a href={filteredItem.Url}>{filteredItem.Label}</a>
-                                            {filteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
+                                    <div key={filteredItem.ID}>
+                                        <div className={styles.childItem}>
+                                            <div>
+                                                <a href={filteredItem.Url}>{filteredItem.Label}</a>
+                                                {filteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
+                                            </div>
                                         </div>
                                         {menuitems.filter(childItem => childItem.ParentID === filteredItem.ID).map(childFilteredItem =>
-                                            <div className='ps-4 py-1'>{childFilteredItem.Label}</div>
+                                            <div className={`${styles.childItem} ${styles.indent}`}>
+                                                <div>
+                                                    <a href={childFilteredItem.Url}>{childFilteredItem.Label}</a>
+                                                    {childFilteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
+                                                </div>
+                                            </div>
                                         )}
 
                                     </div>

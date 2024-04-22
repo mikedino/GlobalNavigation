@@ -7,7 +7,10 @@ $OBOhoverBG: #A6E5F3;
 $OBOhoverLink: #2499C2;
 $MenuHoverBG: #cfe2ff;
 
-
+/*** override bootstrap classes taking over SP controls ***/
+body, body.ms-font-m{
+  background-color: $ms-color-white !important;
+}
 
 /***************  Top header component *******************/
 .menu {
@@ -130,27 +133,32 @@ $MenuHoverBG: #cfe2ff;
   }
 }
 
-.childItemClickMenu {
-  padding-left: 27px;
-  padding-top: 5px;
-  cursor: pointer;
+/****************** breadcrumb / click menu *********************/
 
-  &div:hover{
-    background-color: $MenuHoverBG;
-  }
+// .childItemClickMenu {
+//   padding-left: 27px;
+//   padding-top: 5px;
+//   cursor: pointer;
 
-  a, a:visited,
-  > div > a, a:visited {
-    color: inherit;
-    text-decoration: none;
+//   > div > div:hover{
+//     background-color: $MenuHoverBG;
+//   }
 
-    &:hover {
-      color: $OBOhoverLink;
-    }
-  }
+//   a, a:visited,
+//   > div > a, a:visited {
+//     color: inherit;
+//     text-decoration: none;
+
+//     &:hover {
+//       color: $OBOhoverLink;
+//     }
+//   }
+// }
+
+.childItem.indent{
+  padding-left: 50px;
 }
 
-/****************** breadcrumb *********************/
 .clickMenu{
   width: 100%;
   display: none !important;
