@@ -43,7 +43,7 @@ const menuitems: IGlobalNavItem[] = [
     { CategoryID: '2', ID: '65', ParentID: '34', Label: 'Administrative Services (ASD)', Url: '/', Restricted: false },
     { CategoryID: '2', ID: '66', ParentID: '34', Label: 'Security Countermeasures (SCD)', Url: '/', Restricted: false },
     { CategoryID: '2', ID: '67', ParentID: '34', Label: 'Security Operations (SOD)', Url: '/', Restricted: false },
-    { CategoryID: '2', ID: '8', ParentID: '', Label: 'Comptroller (COMP)', Url: '/', Restricted: false },
+    { CategoryID: '2', ID: '8', ParentID: '', Label: 'Comptroller (COMP)', Url: '/', Restricted: true },
     { CategoryID: '2', ID: '35', ParentID: '8', Label: 'Financial Management (FM)', Url: '/', Restricted: false },
     { CategoryID: '2', ID: '34', ParentID: '8', Label: 'Policy and Program Analysis (P)', Url: '/', Restricted: false },
     { CategoryID: '2', ID: '9', ParentID: '', Label: 'External Affairs (EA)', Url: '/', Restricted: false },
@@ -175,17 +175,25 @@ const GlobalNav: React.FC<INavProps> = () => {
                                         <AccordionHeader onClick={() => menuSelect(`${header.Label}`, true, '')}><Icon iconName={header.IconName} className={styles.headerIcon}></Icon> {header.Label}</AccordionHeader>
                                         <AccordionBody>
                                             {menuitems.filter(item => item.CategoryID === header.ID && item.ParentID === '')
-                                                .map(filteredItem =>
-                                                    <div key={filteredItem.ID} className={styles.childItem} onClick={() => menuSelect(`${filteredItem.Label}`, false, `${filteredItem.ID}`)}>
-                                                        <div>
-                                                            <a href={filteredItem.Url}>{filteredItem.Label}</a>
-                                                            {filteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
+                                                .map(filteredItem => {
+
+                                                    // Check if filteredItem.ID is also ParentID in the array (if it has children)
+                                                    const hasChildren = menuitems.some(childItem => childItem.ParentID === filteredItem.ID);
+
+                                                    return (
+
+                                                        <div key={filteredItem.ID} className={styles.childItem} onClick={() => menuSelect(`${filteredItem.Label}`, false, `${filteredItem.ID}`)}>
+                                                            <div>
+                                                                <a href={filteredItem.Url}>{filteredItem.Label}</a>
+                                                                {filteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
+                                                            </div>
+                                                            {hasChildren ? <div className={styles.moreItemsIcon}>
+                                                                <Icon iconName='ChevronRight' about='See sub-sites' title='See sub-sites'></Icon>
+                                                            </div> : ""}
                                                         </div>
-                                                        <div className={styles.moreItemsIcon}>
-                                                            <Icon iconName='ChevronRight' about='See sub-sites' title='See sub-sites'></Icon>
-                                                        </div>
-                                                    </div>
-                                                )
+
+                                                    );
+                                                })
                                             }
                                         </AccordionBody>
                                     </AccordionItem>
