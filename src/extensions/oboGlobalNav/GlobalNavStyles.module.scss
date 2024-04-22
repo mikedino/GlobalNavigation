@@ -175,6 +175,16 @@ body, body.ms-font-m{
 
     &:hover{
       background-color: $MenuHoverBG;
+      color: $ms-color-themePrimary;
+    }
+  }
+
+  .parentItem{
+    font-weight: 500;
+
+    &:hover {
+      color: $ms-color-themePrimary;
+      background-color: $MenuHoverBG;
     }
   }
 }

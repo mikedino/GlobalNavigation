@@ -97,7 +97,8 @@ const GlobalNav: React.FC<INavProps> = () => {
     // State to swap the menu icon 
     const [toggleIconName, setToggleIconName] = React.useState<string>("CollapseMenu");
     // State for breadcrumb & click menu
-    const [breadcrumb, setBreadcrumb] = React.useState<string[]>(["Organization"]);
+    //const [breadcrumb, setBreadcrumb] = React.useState<string[]>(["Organization"]); ///this was for a breadcrumb (using array)
+    const [breadcrumb, setBreadcrumb] = React.useState<IGlobalNavCategory>(); ///this is for a string only (show Division)
     const [showClickMenu, setClickMenu] = React.useState<boolean>(false);
     // State for the click menu parent item id
     const [clickMenuParentID, setClickMenuParentID] = React.useState<string>("");
@@ -109,19 +110,28 @@ const GlobalNav: React.FC<INavProps> = () => {
     };
 
     // Handler for menu item click
-    const menuSelect = (label: string, reset: boolean, ID: string): void => {
+    const menuSelect = (item: IGlobalNavCategory, reset: boolean): void => {
         // if this is a click on parent item, reset the breadcrumb/array and hide it
         if (reset) {
-            setBreadcrumb([label])
+            //setBreadcrumb([item.Label]);
+            //setBreadcrumb(null);
             setClickMenu(false);
         } else {
             // append to end of breadcrumb and show it
-            setBreadcrumb(prevBreadcrumb => [...prevBreadcrumb, label]);
+            //setBreadcrumb(prevBreadcrumb => [...prevBreadcrumb, item.Label]);
+            setBreadcrumb(item);
             // once we have a second level click, show the breadcrumb
             setClickMenu(true);
-            setClickMenuParentID(ID);
+            setClickMenuParentID(item.ID);
         }
     };
+
+    // Use useEffect hook to call menuSelect with the first item of the headers array on component load
+    React.useEffect(() => {
+        if (headers.length > 0) {
+            menuSelect(headers[0], true); // Calling menuSelect with the first item and reset flag as false
+        }
+    }, []); // Empty dependency array ensures this effect runs only once after the component mounts
 
     return (
         <div className={styles.menu}>
@@ -136,8 +146,17 @@ const GlobalNav: React.FC<INavProps> = () => {
                 </div>
                 <div className={`${styles.globalMenu} ${expanded ? styles.change : ""}`} id="GlobalMenu" >
                     <div className={`${styles.clickMenu} ${showClickMenu ? styles.toggle : ""}`}>
-                        <div className={`${styles.menuTopRow} ${styles.mainMenuBack} accordion-button`} onClick={() => menuSelect('Organization', true, '')}><Icon iconName='Back' className={styles.headerIcon} about='Back to main menu' title='Back to main menu'></Icon>Main Menu</div>
-                        <div className={`${styles.menuTopRow} accordion-button`}>{breadcrumb.join(' > ')}</div>
+                        <div className={`${styles.menuTopRow} ${styles.mainMenuBack} accordion-button`} onClick={() => menuSelect(headers[0], true)}>
+                            <Icon iconName='Back' className={styles.headerIcon} about='Back to main menu' title='Back to main menu'></Icon>
+                            Main Menu
+                        </div>
+                        {/* <div className={`${styles.menuTopRow} accordion-button`}>{breadcrumb.join(' > ')}</div> */}
+                        <div className={`${styles.menuTopRow} ${styles.parentItem} accordion-button`} onClick={() => {
+                            if (breadcrumb && breadcrumb.Url) {
+                                window.location.href = breadcrumb.Url;
+                            }
+                        }}>{breadcrumb?.Label}
+                        </div>
                         <div className='clickMenuSubItemsContainer accordion-body'>
                             {menuitems.filter(item => item.ParentID === clickMenuParentID)
                                 .map(filteredItem =>
@@ -172,7 +191,7 @@ const GlobalNav: React.FC<INavProps> = () => {
                             <Accordion defaultActiveKey='2'>
                                 {headers.map(header =>
                                     <AccordionItem eventKey={header.ID}>
-                                        <AccordionHeader onClick={() => menuSelect(`${header.Label}`, true, '')}><Icon iconName={header.IconName} className={styles.headerIcon}></Icon> {header.Label}</AccordionHeader>
+                                        <AccordionHeader onClick={() => menuSelect(header, true)}><Icon iconName={header.IconName} className={styles.headerIcon}></Icon> {header.Label}</AccordionHeader>
                                         <AccordionBody>
                                             {menuitems.filter(item => item.CategoryID === header.ID && item.ParentID === '')
                                                 .map(filteredItem => {
@@ -182,7 +201,7 @@ const GlobalNav: React.FC<INavProps> = () => {
 
                                                     return (
 
-                                                        <div key={filteredItem.ID} className={styles.childItem} onClick={() => menuSelect(`${filteredItem.Label}`, false, `${filteredItem.ID}`)}>
+                                                        <div key={filteredItem.ID} className={styles.childItem} onClick={() => menuSelect(filteredItem, false)}>
                                                             <div>
                                                                 <a href={filteredItem.Url}>{filteredItem.Label}</a>
                                                                 {filteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
