@@ -4,9 +4,6 @@ import styles from './GlobalNavStyles.module.scss';
 import { Accordion, AccordionBody, AccordionHeader, AccordionItem } from 'react-bootstrap';
 import { SearchBoxCustom } from './SearchComponent';
 import { IGlobalNavCategory, IGlobalNavItem } from './DummyNavProvider';
-// import { DummyNavProvider } from './DummyNavProvider';
-// import { Log } from '@microsoft/sp-core-library';
-// import Strings from '../../strings';
 
 export interface INavProps {
     isExpanded: boolean;
@@ -14,43 +11,7 @@ export interface INavProps {
     menuitems: IGlobalNavItem[];
 }
 
-// interface INavState {
-//     expanded: boolean;
-//     categories: IGlobalNavCategory[];
-//     menuitems: IGlobalNavItem[];
-// }
-
 const GlobalNav: React.FC<INavProps> = ({ isExpanded, categories, menuitems }) => {
-
-    //local state to hold the categories and menu items 
-    // const [navData, setNavData] = React.useState<INavState>({
-    //     expanded: isExpanded,
-    //     categories: [],
-    //     menuitems: [],
-    // });
-
-    // Use useEffect hook to get the data
-    // React.useEffect(() => {
-
-    //     DummyNavProvider.init().then(
-    //         //successfully loaded data
-    //         () => {
-    //             console.log("GlobalNav Data loaded successfully");
-    //             //update state with data
-    //             setNavData({
-    //                 ...navData,
-    //                 categories: DummyNavProvider.Categories,
-    //                 menuitems: DummyNavProvider.MenuItems
-    //             });
-
-    //         },
-    //         error => {
-    //             Log.warn(Strings.ProjectName, "Error loading Datasource: " + error);
-    //             console.error("Error loading GlobalNav Datasource: " + error);
-    //         }
-    //     );
-
-    // }, []); // Empty dependency array ensures this effect runs only once after the component mounts
 
     // Use useEffect set default Click menu parent
     React.useEffect(() => {
@@ -185,6 +146,20 @@ const GlobalNav: React.FC<INavProps> = ({ isExpanded, categories, menuitems }) =
                         </div>
                     </div>
                     <SearchBoxCustom />
+                    <div>
+                        {categories.map(category => (
+                            <div key={category.ID}>
+                                <div>{category.Label}</div>
+                                {/* Filtered items for the current category */}
+                                {menuitems.filter(item => item.CategoryID === category.ID)
+                                    .map(filteredItem => (
+                                        <div key={filteredItem.ID}>
+                                            {filteredItem.Label}
+                                        </div>
+                                    ))}
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
