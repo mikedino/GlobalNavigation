@@ -15,7 +15,7 @@ body, body.ms-font-m{
 /***************  Top header component *******************/
 .menu {
 
-  .header {
+  .category {
     height: 40px;
     text-align: left;
     /*background-color: $ms-color-themeDark;*/
@@ -48,6 +48,18 @@ body, body.ms-font-m{
 
   }
 
+  /********************** Search ************************/
+  .searchBoxCustom{
+    background-color: $ms-color-white;
+    color: $ms-color-themePrimary;
+    border-color: $ms-color-themeDarker;
+    width: 300px;
+
+    ::-ms-input-placeholder{
+      color:#8a8a8a;
+    }
+  }
+
   /**********************  MENU/Navigation ************************/
   .globalMenu {
     position: absolute;
@@ -63,6 +75,7 @@ body, body.ms-font-m{
     opacity: 0;
     overflow: hidden;
     min-width: 600px;
+    border: 2px solid #91c9d5;
 
     .menuTopRow {
       display: flex;
@@ -99,7 +112,7 @@ body, body.ms-font-m{
   display: none !important;
 }
 
-.headerIcon {
+.categoryIcon {
   padding-right: 10px;
   padding-top:2px;
 }
