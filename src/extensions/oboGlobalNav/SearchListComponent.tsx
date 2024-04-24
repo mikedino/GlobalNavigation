@@ -1,6 +1,22 @@
 import * as React from 'react';
+import styles from './GlobalNavStyles.module.scss';
 import { DummyNavProvider, IGlobalNavCategory, IGlobalNavItem } from './DummyNavProvider';
 import SearchBoxCustom from './SearchBoxComponent';
+import { Icon } from '@fluentui/react';
+
+const boldifyMatch = (text: string, searchTerm: string): React.ReactNode => {
+
+    // If the search term is empty, return the original text without any modifications
+    if (!searchTerm) {
+        return text;
+    }
+
+    // Create a regular expression with the global flag to match all occurrences of the search term
+    const regex = new RegExp(searchTerm, 'gi');
+
+    // Replace occurrences of the search term with bold text
+    return text.replace(regex, match => `<strong>${match}</strong>`);
+};
 
 const SearchResultsList: React.FC = () => {
 
@@ -30,16 +46,16 @@ const SearchResultsList: React.FC = () => {
 
         fetchDataAsync().catch(error => // Call the async function to fetch data
             console.error('Error in fetchDataAsync:', error) // Ensure that the Promise is handled properly 
-        ); 
+        );
     }, []); // Empty dependency array means this effect runs only once, similar to componentDidMount
 
     // Function to filter menu items based on search term
-    const filteredMenuItems = menuItems?.filter(item => 
+    const filteredMenuItems = menuItems?.filter(item =>
         item.Label.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
     );
 
     return (
-        <div>
+        <div className={styles.searchCustom}>
             {/* Search box */}
             <SearchBoxCustom onSearchTermChange={setSearchTerm} />
 
@@ -50,10 +66,27 @@ const SearchResultsList: React.FC = () => {
                     <div key={category.ID}>
                         <div className='py-1'>{category.Label}</div>
                         {/* Filtered items for the current category */}
-                        {filteredMenuItems?.filter(filteredItem => filteredItem.CategoryID === category.ID)
-                            .map(filteredItem => (
-                                <div key={filteredItem.ID} className='ps-2 py-1'>{filteredItem.Label}</div>
-                            ))}
+                        {filteredMenuItems?.filter(level2Item => level2Item.CategoryID === category.ID)
+                            .map(level2Item => (
+                                <div key={level2Item.ID}>
+                                    <div className={`${styles.results} ps-2 py-1`}>
+                                        <Icon iconName='Childof' className={styles.childOfIcon}></Icon>
+                                        <div dangerouslySetInnerHTML={{ __html: boldifyMatch(level2Item.Label, searchTerm) }}></div>
+                                    </div>
+                                    {/* level 3 items for the menu item */}
+                                    {filteredMenuItems?.filter(level3Item => level3Item.ParentID === level2Item.ID)
+                                        .map(level3Item => (
+                                            <div key={level2Item.ID}>
+                                                <div className={`${styles.results} ps-4 py-1`}>
+                                                    <Icon iconName='Childof' className={styles.childOfIcon}></Icon>
+                                                    <div dangerouslySetInnerHTML={{ __html: boldifyMatch(level3Item.Label, searchTerm) }}></div>
+                                                </div>
+                                            </div>
+                                        ))
+                                    }
+                                </div>
+                            )
+                            )}
                     </div>
                 ))
             )}

@@ -88,7 +88,7 @@ export class DummyNavProvider {
                 { CategoryID: '2', ID: '67', ParentID: '34', Label: 'Security Operations (SOD)', Url: '/', Restricted: false },
                 { CategoryID: '2', ID: '8', ParentID: '', Label: 'Comptroller (COMP)', Url: '/', Restricted: true },
                 { CategoryID: '2', ID: '35', ParentID: '8', Label: 'Financial Management (FM)', Url: '/', Restricted: false },
-                { CategoryID: '2', ID: '34', ParentID: '8', Label: 'Policy and Program Analysis (P)', Url: '/', Restricted: false },
+                { CategoryID: '2', ID: '36', ParentID: '8', Label: 'Policy and Program Analysis (P)', Url: '/', Restricted: false },
                 { CategoryID: '2', ID: '9', ParentID: '', Label: 'External Affairs (EA)', Url: '/', Restricted: false },
                 { CategoryID: '2', ID: '10', ParentID: '', Label: 'Executive Director (EX)', Url: '/', Restricted: false },
                 { CategoryID: '2', ID: '37', ParentID: '10', Label: 'Human Resources (HR)', Url: '/', Restricted: false },

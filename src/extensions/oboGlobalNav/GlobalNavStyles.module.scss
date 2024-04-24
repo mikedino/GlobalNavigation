@@ -48,18 +48,6 @@ body, body.ms-font-m{
 
   }
 
-  /********************** Search ************************/
-  .searchBoxCustom{
-    background-color: $ms-color-white;
-    color: $ms-color-themePrimary;
-    border-color: $ms-color-themeDarker;
-    width: 300px;
-
-    ::-ms-input-placeholder{
-      color:#8a8a8a;
-    }
-  }
-
   /**********************  MENU/Navigation ************************/
   .globalMenu {
     position: absolute;
@@ -307,4 +295,32 @@ body, body.ms-font-m{
 
     }
   }
+
+  /********************** Search ************************/
+  .searchCustom{
+    // background-color: $ms-color-white;
+    // color: $ms-color-themePrimary;
+    // border-color: $ms-color-themeDarker;
+    // width: 300px;
+
+    // ::-ms-input-placeholder{
+    //   color:#8a8a8a;
+    // }
+
+    // .results{
+    //   display: flex !important;
+    //   color: red !important;
+    // }
+
+    .childOfIcon{
+      padding-top:3px;
+    }
+
+  }
+
+}
+
+.results{
+  display: flex !important;
+  color: red !important;
 }
