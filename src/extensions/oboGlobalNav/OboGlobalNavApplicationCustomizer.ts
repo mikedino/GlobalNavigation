@@ -35,8 +35,8 @@ export default class OboGlobalNavApplicationCustomizer
   extends BaseApplicationCustomizer<IOboGlobalNavApplicationCustomizerProperties> {
 
   // global variable
-  private _navbar:PlaceholderContent | any = null;
-  private _footer:PlaceholderContent | any = null;
+  private _navbar: PlaceholderContent | any = null;
+  private _footer: PlaceholderContent | any = null;
 
   @override
   public async onInit(): Promise<void> {
@@ -49,8 +49,8 @@ export default class OboGlobalNavApplicationCustomizer
       //data successfully loaded
       () => {
         Log.info(Strings.ProjectName, "DataProvider > init() ran successfully");
-        
-        this.renderGlobalNav().then(()=>{
+
+        this.renderGlobalNav().then(() => {
           return Promise.resolve();
         });
 
@@ -58,7 +58,7 @@ export default class OboGlobalNavApplicationCustomizer
       //error loading data
       error => {
         Log.warn(Strings.ProjectName, "error loading Datasource" + error);
-        
+
         return Promise.reject();
       }
     )
@@ -72,8 +72,8 @@ export default class OboGlobalNavApplicationCustomizer
     if (!this._navbar) {
 
       // Create the header
-      this._navbar = this.context.placeholderProvider.tryCreateContent(PlaceholderName.Top, { onDispose: this._onDispose });      
-      Log.info(Strings.ProjectName,"created the header");
+      this._navbar = this.context.placeholderProvider.tryCreateContent(PlaceholderName.Top, { onDispose: this._onDispose });
+      Log.info(Strings.ProjectName, "created the header");
 
       const navElement: React.ReactElement<INavProps> = React.createElement(
         GlobalNav,
@@ -85,23 +85,27 @@ export default class OboGlobalNavApplicationCustomizer
       );
 
       // render the Nav UI using a React component
-      await new Promise<void>((resolve, reject) =>{
+      await new Promise<void>((resolve, reject) => {
         try {
-          ReactDom.render(navElement, this._navbar.domElement, () => {console.log("render the header"); resolve()});
-        } catch(error){
+          ReactDom.render(navElement, this._navbar.domElement, () => { console.log("render the header"); resolve() });
+        } catch (error) {
           console.error(error);
           Log.error(Strings.ProjectName, error);
           reject(error);
         }
       });
 
+    } else {
+      //unmount existing ones if they exist
+      ReactDom.unmountComponentAtNode(this._navbar.domElement);
+      this._navbar = undefined;
     }
 
     // Ensure the footer doesn't exist already
     if (!this._footer) {
       // Create the footer
       this._footer = this.context.placeholderProvider.tryCreateContent(PlaceholderName.Bottom, { onDispose: this._onDispose });
-      Log.info(Strings.ProjectName,"created the footer");
+      Log.info(Strings.ProjectName, "created the footer");
 
       const footerElement: React.ReactElement = React.createElement(
         GlobalFooter
@@ -110,14 +114,18 @@ export default class OboGlobalNavApplicationCustomizer
       // render the Footer UI using a React component
       await new Promise<void>((resolve, reject) => {
         try {
-          ReactDom.render(footerElement, this._footer.domElement, () => {Log.info(Strings.ProjectName,"render the footer"); resolve()});
+          ReactDom.render(footerElement, this._footer.domElement, () => { Log.info(Strings.ProjectName, "render the footer"); resolve() });
         } catch (error) {
           console.error(error);
           Log.error(Strings.ProjectName, error);
           reject(error);
         }
       });
-      
+
+    } else {
+      //unmount existing ones if they exist
+      ReactDom.unmountComponentAtNode(this._footer.domElement);
+      this._footer = undefined;
     }
 
     return Promise.resolve();

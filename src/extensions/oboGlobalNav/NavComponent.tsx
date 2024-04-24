@@ -2,8 +2,9 @@ import * as React from 'react';
 import { DefaultButton, Icon } from '@fluentui/react';
 import styles from './GlobalNavStyles.module.scss';
 import { Accordion, AccordionBody, AccordionHeader, AccordionItem } from 'react-bootstrap';
-import { SearchBoxCustom } from './SearchComponent';
+//import SearchBoxCustom from './SearchComponent';
 import { IGlobalNavCategory, IGlobalNavItem } from './DummyNavProvider';
+import SearchResultsList from './SearchListComponent';
 
 export interface INavProps {
     isExpanded: boolean;
@@ -12,16 +13,6 @@ export interface INavProps {
 }
 
 const GlobalNav: React.FC<INavProps> = ({ isExpanded, categories, menuitems }) => {
-
-    // Use useEffect set default Click menu parent
-    React.useEffect(() => {
-
-        // Call menuSelect with the first item if categories are available
-        if (categories.length > 0) {
-            menuSelect(categories[0], true);
-        }
-
-    }, []);
 
     // State to set menu toggle status
     const [expanded, setExpanded] = React.useState<boolean>(isExpanded);
@@ -33,12 +24,6 @@ const GlobalNav: React.FC<INavProps> = ({ isExpanded, categories, menuitems }) =
     const [showClickMenu, setClickMenu] = React.useState<boolean>(false);
     // State for the click menu parent item id
     const [clickMenuParentID, setClickMenuParentID] = React.useState<string>("");
-
-    // Toggle menu function
-    const menuToggle = (): void => {
-        setExpanded(!expanded);
-        setToggleIconName(expanded ? "CollapseMenu" : "ChromeClose");
-    };
 
     // Handler for menu item click
     const menuSelect = (item: IGlobalNavCategory, reset: boolean): void => {
@@ -55,6 +40,22 @@ const GlobalNav: React.FC<INavProps> = ({ isExpanded, categories, menuitems }) =
             setClickMenu(true);
             setClickMenuParentID(item.ID);
         }
+    };
+    
+    // Use useEffect set default Click menu parent
+    React.useEffect(() => {
+        // Call menuSelect with the first item if categories are available
+        if (categories.length > 0) {
+            menuSelect(categories[0], true);
+        }
+        // Disable the warning for missing 'categories' in the dependency array because we only want this to run once on load
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    // Toggle menu function
+    const menuToggle = (): void => {
+        setExpanded(!expanded);
+        setToggleIconName(expanded ? "CollapseMenu" : "ChromeClose");
     };
 
 
@@ -145,21 +146,7 @@ const GlobalNav: React.FC<INavProps> = ({ isExpanded, categories, menuitems }) =
                             </Accordion>
                         </div>
                     </div>
-                    <SearchBoxCustom />
-                    <div>
-                        {categories.map(category => (
-                            <div key={category.ID}>
-                                <div>{category.Label}</div>
-                                {/* Filtered items for the current category */}
-                                {menuitems.filter(item => item.CategoryID === category.ID)
-                                    .map(filteredItem => (
-                                        <div key={filteredItem.ID}>
-                                            {filteredItem.Label}
-                                        </div>
-                                    ))}
-                            </div>
-                        ))}
-                    </div>
+                    <SearchResultsList />
                 </div>
             </div>
         </div>

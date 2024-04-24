@@ -16,30 +16,39 @@ export interface IGlobalNavItem extends IGlobalNavCategory {
  **/
 export class DummyNavProvider {
 
+    //prevent this from being initialized twice
+    static initialized: boolean = false;
+
     //initialize
     public static init(): Promise<any> {
 
-        //return a promise
-        return new Promise<void>((resolve, reject) => {
+        if (!this.initialized) { //ensure this was not already initialized
+            //return a promise
+            return new Promise<void>((resolve, reject) => {
 
-            //get the categories
-            this.getCategories().then((categories) => {
-                this._categories = categories;
-                console.log("Categories", this._categories)
-                //then get the menu items
-                this.getMenuItems().then((menuItems)=>{ 
-                    this._menuItems = menuItems;
-                    console.log("MenuItems", this.MenuItems)
-                    resolve();
-                }, (error) => { 
-                    console.error("GlobalNav > getMenuItem error: " + error);
-                    reject(error);
+                //get the categories
+                this.getCategories().then((categories) => {
+                    this._categories = categories;
+                    console.log("Categories", this._categories)
+                    //then get the menu items
+                    this.getMenuItems().then((menuItems) => {
+                        this._menuItems = menuItems;
+                        console.log("MenuItems", this.MenuItems)
+                        //set initialized flag
+                        this.initialized = true;
+                        resolve();
+                    }, (error) => {
+                        console.error("GlobalNav > getMenuItem error: " + error);
+                        reject(error);
+                    });
+                }, (error2) => {
+                    console.error("GlobalNav > getCategories error: " + error2);
+                    reject(error2);
                 });
-            }, (error2) => { 
-                console.error("GlobalNav > getCategories error: " + error2);
-                reject(error2);
-            });
-        })
+            })
+
+        } else return Promise.resolve(); //already initialized once
+
     }
 
     private static _categories: IGlobalNavCategory[] = [];
@@ -48,7 +57,7 @@ export class DummyNavProvider {
 
         return new Promise<IGlobalNavCategory[]>((resolve, reject) => {
 
-            let _categories: IGlobalNavCategory[] = [
+            const _categories: IGlobalNavCategory[] = [
                 { ID: '2', Label: 'Organization', Url: '/', Restricted: false, IconName: "Org" },
                 { ID: '3', Label: 'Applications', Url: '/', Restricted: false, IconName: "AppIconDefault" },
                 { ID: '4', Label: 'Processes', Url: '/', Restricted: false, IconName: "Processing" },
@@ -68,7 +77,7 @@ export class DummyNavProvider {
 
         return new Promise<IGlobalNavItem[]>((resolve, reject) => {
 
-            let _menuItems: IGlobalNavItem[] = [
+            const _menuItems: IGlobalNavItem[] = [
                 { CategoryID: '2', ID: '7', ParentID: '', Label: 'Construction, Facility, and Security Management (CFSM)', Url: '/', Restricted: false },
                 { CategoryID: '2', ID: '33', ParentID: '7', Label: 'Construction Management (CM)', Url: '/', Restricted: false },
                 { CategoryID: '2', ID: '63', ParentID: '33', Label: 'Construction Operations (CO)', Url: '/', Restricted: false },
