@@ -73,7 +73,7 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({ onSearchTermChang
             ) : (
                 // Conditionally render the search results based on the length of searchTerm
                 searchTerm.length > 0 && (
-                    <div id='searchResults'>
+                    <div id='searchResults' className={styles.searchResults}>
                         {categories?.map(category => (
                             <div key={category.ID}>
                                 <div className='py-1'>{category.Label}</div>

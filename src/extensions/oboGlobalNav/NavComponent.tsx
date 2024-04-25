@@ -116,7 +116,7 @@ const GlobalNav: React.FC<INavProps> = ({ isExpanded, categories, menuitems }) =
                         <div id='accordionContainer' className={`${showClickMenu ? styles.accordionContainerHide : ""}`}>
                             <div className={`${styles.menuTopRow} accordion-button`}>
                                 <div className={styles.menuHome}><Icon iconName='Home' className={styles.categoryIcon}></Icon>OBO Home</div>
-                                <div className={styles.menuExpand}><Icon iconName='ExpandAll' className='mx-1'></Icon></div>
+                                <div className={styles.menuExpand}>{/* <Icon iconName='ExpandAll' className='mx-1'></Icon> */}</div>
                             </div>
                             <div>
                                 {/* <Accordion defaultActiveKey='2' activeKey={activeKeys} onSelect={handleSelect} alwaysOpen> */}
