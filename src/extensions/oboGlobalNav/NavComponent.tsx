@@ -10,6 +10,7 @@ export interface INavProps {
     isExpanded: boolean;
     categories: IGlobalNavCategory[];
     menuitems: IGlobalNavItem[];
+    //searchTerm: string; //for toggling the accordion show/hide
 }
 
 const GlobalNav: React.FC<INavProps> = ({ isExpanded, categories, menuitems }) => {
@@ -24,6 +25,8 @@ const GlobalNav: React.FC<INavProps> = ({ isExpanded, categories, menuitems }) =
     const [showClickMenu, setClickMenu] = React.useState<boolean>(false);
     // State for the click menu parent item id
     const [clickMenuParentID, setClickMenuParentID] = React.useState<string>("");
+    // State for holding the search term callback
+    const [searchTerm, setSearchTerm] = React.useState<string>('');
 
     // Handler for menu item click
     const menuSelect = (item: IGlobalNavCategory, reset: boolean): void => {
@@ -41,7 +44,7 @@ const GlobalNav: React.FC<INavProps> = ({ isExpanded, categories, menuitems }) =
             setClickMenuParentID(item.ID);
         }
     };
-    
+
     // Use useEffect set default Click menu parent
     React.useEffect(() => {
         // Call menuSelect with the first item if categories are available
@@ -60,7 +63,7 @@ const GlobalNav: React.FC<INavProps> = ({ isExpanded, categories, menuitems }) =
 
 
     return (
-        <div className={styles.menu}>
+        <div id='OBOGlobalMenuContainer' className={styles.menu}>
             <div className={styles.category}>
                 <div id="menu-icon" className={styles.menuIcon}>
                     <DefaultButton
@@ -71,7 +74,8 @@ const GlobalNav: React.FC<INavProps> = ({ isExpanded, categories, menuitems }) =
                     />
                 </div>
                 <div className={`${styles.globalMenu} ${expanded ? styles.change : ""}`} id="GlobalMenu" >
-                    <div className={`${styles.clickMenu} ${showClickMenu ? styles.toggle : ""}`}>
+                    <SearchResultsList onSearchTermChange={(term) => setSearchTerm(term)} />
+                    <div id='clickMenuContainer' className={`${styles.clickMenu} ${showClickMenu ? styles.toggle : ""}`}>
                         <div className={`${styles.menuTopRow} ${styles.mainMenuBack} accordion-button`} onClick={() => menuSelect(categories[0], true)}>
                             <Icon iconName='Back' className={styles.categoryIcon} about='Back to main menu' title='Back to main menu'></Icon>
                             Main Menu
@@ -107,46 +111,48 @@ const GlobalNav: React.FC<INavProps> = ({ isExpanded, categories, menuitems }) =
                             }
                         </div>
                     </div>
-                    <div className={`${showClickMenu ? styles.accordionContainerHide : ""}`}>
-                        <div className={`${styles.menuTopRow} accordion-button`}>
-                            <div className={styles.menuHome}><Icon iconName='Home' className={styles.categoryIcon}></Icon>OBO Home</div>
-                            <div className={styles.menuExpand}><Icon iconName='ExpandAll' className='mx-1'></Icon></div>
-                        </div>
-                        <div>
-                            {/* <Accordion defaultActiveKey='2' activeKey={activeKeys} onSelect={handleSelect} alwaysOpen> */}
-                            <Accordion defaultActiveKey='2'>
-                                {categories.map(category =>
-                                    <AccordionItem eventKey={category.ID}>
-                                        <AccordionHeader onClick={() => menuSelect(category, true)}><Icon iconName={category.IconName} className={styles.categoryIcon}></Icon> {category.Label}</AccordionHeader>
-                                        <AccordionBody>
-                                            {menuitems.filter(item => item.CategoryID === category.ID && item.ParentID === '')
-                                                .map(filteredItem => {
+                    {/* Conditionally render the accordionContainer based on searchTerm */}
+                    {!searchTerm && (
+                        <div id='accordionContainer' className={`${showClickMenu ? styles.accordionContainerHide : ""}`}>
+                            <div className={`${styles.menuTopRow} accordion-button`}>
+                                <div className={styles.menuHome}><Icon iconName='Home' className={styles.categoryIcon}></Icon>OBO Home</div>
+                                <div className={styles.menuExpand}><Icon iconName='ExpandAll' className='mx-1'></Icon></div>
+                            </div>
+                            <div>
+                                {/* <Accordion defaultActiveKey='2' activeKey={activeKeys} onSelect={handleSelect} alwaysOpen> */}
+                                <Accordion defaultActiveKey='2'>
+                                    {categories.map(category =>
+                                        <AccordionItem eventKey={category.ID}>
+                                            <AccordionHeader onClick={() => menuSelect(category, true)}><Icon iconName={category.IconName} className={styles.categoryIcon}></Icon> {category.Label}</AccordionHeader>
+                                            <AccordionBody>
+                                                {menuitems.filter(item => item.CategoryID === category.ID && item.ParentID === '')
+                                                    .map(filteredItem => {
 
-                                                    // Check if filteredItem.ID is also ParentID in the array (if it has children)
-                                                    const hasChildren = menuitems.some(childItem => childItem.ParentID === filteredItem.ID);
+                                                        // Check if filteredItem.ID is also ParentID in the array (if it has children)
+                                                        const hasChildren = menuitems.some(childItem => childItem.ParentID === filteredItem.ID);
 
-                                                    return (
+                                                        return (
 
-                                                        <div key={filteredItem.ID} className={styles.childItem} onClick={() => menuSelect(filteredItem, false)}>
-                                                            <div>
-                                                                <a href={filteredItem.Url}>{filteredItem.Label}</a>
-                                                                {filteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
+                                                            <div key={filteredItem.ID} className={styles.childItem} onClick={() => menuSelect(filteredItem, false)}>
+                                                                <div>
+                                                                    <a href={filteredItem.Url}>{filteredItem.Label}</a>
+                                                                    {filteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
+                                                                </div>
+                                                                {hasChildren ? <div className={styles.moreItemsIcon}>
+                                                                    <Icon iconName='ChevronRight' about='See sub-sites' title='See sub-sites'></Icon>
+                                                                </div> : ""}
                                                             </div>
-                                                            {hasChildren ? <div className={styles.moreItemsIcon}>
-                                                                <Icon iconName='ChevronRight' about='See sub-sites' title='See sub-sites'></Icon>
-                                                            </div> : ""}
-                                                        </div>
 
-                                                    );
-                                                })
-                                            }
-                                        </AccordionBody>
-                                    </AccordionItem>
-                                )}
-                            </Accordion>
+                                                        );
+                                                    })
+                                                }
+                                            </AccordionBody>
+                                        </AccordionItem>
+                                    )}
+                                </Accordion>
+                            </div>
                         </div>
-                    </div>
-                    <SearchResultsList />
+                    )}
                 </div>
             </div>
         </div>

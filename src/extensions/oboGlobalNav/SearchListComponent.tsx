@@ -4,6 +4,10 @@ import { DummyNavProvider, IGlobalNavCategory, IGlobalNavItem } from './DummyNav
 import SearchBoxCustom from './SearchBoxComponent';
 import { Icon } from '@fluentui/react';
 
+interface SearchResultsListProps {
+    onSearchTermChange: (term: string) => void; // Callback function prop
+}
+
 const boldifyMatch = (text: string, searchTerm: string): React.ReactNode => {
 
     // If the search term is empty, return the original text without any modifications
@@ -18,7 +22,7 @@ const boldifyMatch = (text: string, searchTerm: string): React.ReactNode => {
     return text.replace(regex, match => `<strong>${match}</strong>`);
 };
 
-const SearchResultsList: React.FC = () => {
+const SearchResultsList: React.FC<SearchResultsListProps> = ({ onSearchTermChange }) => {
 
     // Initialize categories, menuitem and loading state with null
     const [categories, setCategories] = React.useState<IGlobalNavCategory[] | null>(null);
@@ -54,6 +58,11 @@ const SearchResultsList: React.FC = () => {
         item.Label.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
     );
 
+    // Call the callback function with the new search term whenever it changes
+    React.useEffect(() => {
+        onSearchTermChange(searchTerm);
+    }, [searchTerm, onSearchTermChange]);
+
     return (
         <div className={styles.searchCustom}>
             {/* Search box */}
@@ -62,34 +71,40 @@ const SearchResultsList: React.FC = () => {
             {isLoading ? (
                 <div>Loading data....</div>
             ) : (
-                categories?.map(category => (
-                    <div key={category.ID}>
-                        <div className='py-1'>{category.Label}</div>
-                        {/* Filtered items for the current category */}
-                        {filteredMenuItems?.filter(level2Item => level2Item.CategoryID === category.ID)
-                            .map(level2Item => (
-                                <div key={level2Item.ID}>
-                                    <div className={`${styles.results} ps-2 py-1`}>
-                                        <Icon iconName='Childof' className={styles.childOfIcon}></Icon>
-                                        <div dangerouslySetInnerHTML={{ __html: boldifyMatch(level2Item.Label, searchTerm) }}></div>
-                                    </div>
-                                    {/* level 3 items for the menu item */}
-                                    {filteredMenuItems?.filter(level3Item => level3Item.ParentID === level2Item.ID)
-                                        .map(level3Item => (
-                                            <div key={level2Item.ID}>
-                                                <div className={`${styles.results} ps-4 py-1`}>
-                                                    <Icon iconName='Childof' className={styles.childOfIcon}></Icon>
-                                                    <div dangerouslySetInnerHTML={{ __html: boldifyMatch(level3Item.Label, searchTerm) }}></div>
-                                                </div>
+                // Conditionally render the search results based on the length of searchTerm
+                searchTerm.length > 0 && (
+                    <div id='searchResults'>
+                        {categories?.map(category => (
+                            <div key={category.ID}>
+                                <div className='py-1'>{category.Label}</div>
+                                {/* Filtered items for the current category */}
+                                {filteredMenuItems?.filter(level2Item => level2Item.CategoryID === category.ID)
+                                    .map(level2Item => (
+                                        <div key={level2Item.ID}>
+                                            <div className={`${styles.resultsItem} ${styles.level2item}`} onClick={() => {window.location.href = level2Item.Url;}} >
+                                                <Icon iconName='Childof' className={styles.childOfIcon}></Icon>
+                                                <div dangerouslySetInnerHTML={{ __html: boldifyMatch(level2Item.Label, searchTerm) }}></div>
                                             </div>
-                                        ))
-                                    }
-                                </div>
-                            )
-                            )}
+                                            {/* level 3 items for the menu item */}
+                                            {filteredMenuItems?.filter(level3Item => level3Item.ParentID === level2Item.ID)
+                                                .map(level3Item => (
+                                                    <div key={level2Item.ID}>
+                                                        <div className={`${styles.resultsItem} ${styles.level3item}`} onClick={() => {window.location.href = level3Item.Url;}} >
+                                                            <Icon iconName='Childof' className={styles.childOfIcon}></Icon>
+                                                            <div dangerouslySetInnerHTML={{ __html: boldifyMatch(level3Item.Label, searchTerm) }}></div>
+                                                        </div>
+                                                    </div>
+                                                ))
+                                            }
+                                        </div>
+                                    )
+                                    )}
+                            </div>
+                        ))}
                     </div>
-                ))
-            )}
+                )
+            )
+            }
         </div>
     );
 };

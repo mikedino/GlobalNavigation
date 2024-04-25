@@ -140,26 +140,6 @@ body, body.ms-font-m{
 
 /****************** breadcrumb / click menu *********************/
 
-// .childItemClickMenu {
-//   padding-left: 27px;
-//   padding-top: 5px;
-//   cursor: pointer;
-
-//   > div > div:hover{
-//     background-color: $MenuHoverBG;
-//   }
-
-//   a, a:visited,
-//   > div > a, a:visited {
-//     color: inherit;
-//     text-decoration: none;
-
-//     &:hover {
-//       color: $OBOhoverLink;
-//     }
-//   }
-// }
-
 .childItem.indent{
   padding-left: 50px;
 }
@@ -193,8 +173,39 @@ body, body.ms-font-m{
   display: inline-block !important;
 }
 
+/********************** Search ************************/
+.searchCustom{
+  padding: 10px;
 
-/********* FOOTER **********/
+  .resultsItem{
+    display: flex;
+    cursor: pointer;
+
+    > div{
+      padding: 4px 3px;
+    }
+
+    &:hover{
+      background-color: $MenuHoverBG;
+    }
+  }
+
+  .level2item{
+    padding-left: 15px;
+  }
+
+  .level3item{
+    padding-left: 50px;
+  }
+
+  .childOfIcon{
+    padding-top:3px;
+  }
+
+}
+
+
+/*************** FOOTER ***************/
 .footer {
   width: 100%;
   height: 48px;
@@ -296,31 +307,7 @@ body, body.ms-font-m{
     }
   }
 
-  /********************** Search ************************/
-  .searchCustom{
-    // background-color: $ms-color-white;
-    // color: $ms-color-themePrimary;
-    // border-color: $ms-color-themeDarker;
-    // width: 300px;
-
-    // ::-ms-input-placeholder{
-    //   color:#8a8a8a;
-    // }
-
-    // .results{
-    //   display: flex !important;
-    //   color: red !important;
-    // }
-
-    .childOfIcon{
-      padding-top:3px;
-    }
-
-  }
+  
 
 }
 
-.results{
-  display: flex !important;
-  color: red !important;
-}
