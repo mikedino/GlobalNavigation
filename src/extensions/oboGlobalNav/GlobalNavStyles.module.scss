@@ -226,6 +226,10 @@ body, body.ms-font-m{
     &:hover{
       background-color: $MenuHoverBG;
     }
+
+    &:hover > div {
+      color: $OBOhoverLink;
+    }
   }
 
   .level2item{

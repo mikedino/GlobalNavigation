@@ -1,19 +1,13 @@
 import * as React from 'react';
 import { DefaultButton, Icon } from '@fluentui/react';
-import styles from './GlobalNavStyles.module.scss';
+import styles from '../GlobalNavStyles.module.scss';
 import { Accordion, AccordionBody, AccordionHeader, AccordionItem } from 'react-bootstrap';
 //import SearchBoxCustom from './SearchComponent';
-import { IGlobalNavCategory, IGlobalNavItem } from './DummyNavProvider';
-import SearchResultsList from './SearchListComponent';
+import { IGlobalNavCategory } from '../datasource/dsDefinitions';
+import SearchResultsList from './SearchList';
+import { IGlobalNavProps } from './NavigationProps';
 
-export interface INavProps {
-    isExpanded: boolean;
-    categories: IGlobalNavCategory[];
-    menuitems: IGlobalNavItem[];
-    //searchTerm: string; //for toggling the accordion show/hide
-}
-
-const GlobalNav: React.FC<INavProps> = ({ isExpanded, categories, menuitems }) => {
+const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitems }) => {
 
     // State to set menu toggle status
     const [expanded, setExpanded] = React.useState<boolean>(isExpanded);

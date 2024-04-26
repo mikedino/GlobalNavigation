@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { SearchBox } from '@fluentui/react/lib/SearchBox';
-import styles from './GlobalNavStyles.module.scss';
+import styles from '../GlobalNavStyles.module.scss';
 import { createTheme } from '@fluentui/react/lib/Styling';
 
 const lightTheme = createTheme({

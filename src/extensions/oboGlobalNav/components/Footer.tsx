@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styles from './GlobalNavStyles.module.scss';
+import styles from '../GlobalNavStyles.module.scss';
 import { Icon } from '@fluentui/react/lib/Icon'; 
 
 export class GlobalFooter extends React.Component {

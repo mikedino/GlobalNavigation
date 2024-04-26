@@ -1,9 +1,9 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-import { INavProps } from './NavComponent';
-import GlobalNav from './NavComponent';
-import { GlobalFooter } from './FooterComponent';
-import { DummyNavProvider } from './DummyNavProvider';
+import { IGlobalNavProps } from './components/NavigationProps';
+import GlobalNav from './components/Navigation';
+import { GlobalFooter } from './components/Footer';
+import { DummyNavProvider } from './datasource/DummyNavProvider';
 import { Log } from '@microsoft/sp-core-library';
 import {
   BaseApplicationCustomizer,
@@ -75,7 +75,7 @@ export default class OboGlobalNavApplicationCustomizer
       this._navbar = this.context.placeholderProvider.tryCreateContent(PlaceholderName.Top, { onDispose: this._onDispose });
       Log.info(Strings.ProjectName, "created the header");
 
-      const navElement: React.ReactElement<INavProps> = React.createElement(
+      const navElement: React.ReactElement<IGlobalNavProps> = React.createElement(
         GlobalNav,
         {
           isExpanded: false,

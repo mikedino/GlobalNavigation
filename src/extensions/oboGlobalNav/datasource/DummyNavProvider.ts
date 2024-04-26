@@ -1,15 +1,4 @@
-export interface IGlobalNavCategory {
-    ID: string;
-    Label: string;
-    Url: string;
-    Restricted: boolean;
-    IconName?: string;
-}
-
-export interface IGlobalNavItem extends IGlobalNavCategory {
-    CategoryID: string;
-    ParentID: string;
-}
+import { IGlobalNavCategory, IGlobalNavItem } from "./dsDefinitions";
 
 /**
  * Fake data provider for offline tests and debugging.

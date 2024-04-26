@@ -1,7 +1,8 @@
 import * as React from 'react';
-import styles from './GlobalNavStyles.module.scss';
-import { DummyNavProvider, IGlobalNavCategory, IGlobalNavItem } from './DummyNavProvider';
-import SearchBoxCustom from './SearchBoxComponent';
+import styles from '../GlobalNavStyles.module.scss';
+import { DummyNavProvider } from '../datasource/DummyNavProvider';
+import { IGlobalNavCategory, IGlobalNavItem } from '../datasource/dsDefinitions';
+import SearchBoxCustom from './SearchBox';
 import { Icon } from '@fluentui/react';
 
 interface SearchResultsListProps {
@@ -81,8 +82,8 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({ onSearchTermChang
                         {categories?.map(category => (
                             <div key={category.ID}>
                                 <div className='py-1'>{category.Label}</div>
-                                {/* Filtered items for the current category */}
-                                {filteredMenuItems?.filter(level2Item => level2Item.CategoryID === category.ID)
+                                {/* Filtered items for the current category that are not a level 3 child */}
+                                {filteredMenuItems?.filter(level2Item => level2Item.CategoryID === category.ID && level2Item.ParentID === '')
                                     .map(level2Item => (
                                         <div key={level2Item.ID}>
                                             <div className={`${styles.resultsItem} ${styles.level2item}`} onClick={() => handleDivClick(level2Item.Url)} >
