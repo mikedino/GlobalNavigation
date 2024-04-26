@@ -113,6 +113,12 @@ body, body.ms-font-m{
   padding-top: 3px;
   cursor: pointer;
 
+  &.linkOnly:hover{
+    > div > a{
+      color: $OBOhoverLink;
+    }
+  }
+
   &:hover{
     background-color: $MenuHoverBG;
   }
@@ -178,30 +184,30 @@ body, body.ms-font-m{
   padding: 10px;
 
   .searchBox{
-    width: 300px;
+    width: 350px;
 
-    // **** using a theme in the SearchBoxComponent instead
-    //
-    //> div{
-    //   background-color: $OBOcolor;
-    //   border-color: $OBObgcolor;
-    // }
+    /**** using a theme in the SearchBoxComponent instead
+    
+    > div{
+      background-color: $OBOcolor;
+      border-color: $OBObgcolor;
+    }
 
-    // input{
-    //   color: $OBObgcolor;
-    // }
-    // input::placeholder{
-    //   color:$OBOhoverLink;
-    // }
+    input{
+      color: $OBObgcolor;
+    }
+    input::placeholder{
+      color:$OBOhoverLink;
+    }
 
-    // button{
-    //   color: $OBObgcolor;
+    button{
+      color: $OBObgcolor;
 
-    //   &:hover{
-    //     background-color: $OBOcolor;
-    //     color: $OBOhoverLink;
-    //   }
-    // }
+      &:hover{
+        background-color: $OBOcolor;
+        color: $OBOhoverLink;
+      }
+    }   ***********/
 
   }
 

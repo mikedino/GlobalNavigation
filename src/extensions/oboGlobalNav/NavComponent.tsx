@@ -61,6 +61,9 @@ const GlobalNav: React.FC<INavProps> = ({ isExpanded, categories, menuitems }) =
         setToggleIconName(expanded ? "CollapseMenu" : "ChromeClose");
     };
 
+    const handleDivClick = (url:string):void => {
+        window.location.href = url;
+    }
 
     return (
         <div id='OBOGlobalMenuContainer' className={styles.menu}>
@@ -82,23 +85,21 @@ const GlobalNav: React.FC<INavProps> = ({ isExpanded, categories, menuitems }) =
                         </div>
                         {/* <div className={`${styles.menuTopRow} accordion-button`}>{breadcrumb.join(' > ')}</div> */}
                         <div className={`${styles.menuTopRow} ${styles.parentItem} accordion-button`} onClick={() => {
-                            if (breadcrumb && breadcrumb.Url) {
-                                window.location.href = breadcrumb.Url;
-                            }
+                            if (breadcrumb && breadcrumb.Url) handleDivClick(breadcrumb.Url)
                         }}>{breadcrumb?.Label}
                         </div>
                         <div className='clickMenuSubItemsContainer accordion-body'>
                             {menuitems.filter(item => item.ParentID === clickMenuParentID)
                                 .map(filteredItem =>
                                     <div key={filteredItem.ID}>
-                                        <div className={styles.childItem}>
+                                        <div className={`${styles.childItem} ${styles.linkOnly}`} onClick={() => handleDivClick(filteredItem.Url)}>
                                             <div>
                                                 <a href={filteredItem.Url}>{filteredItem.Label}</a>
                                                 {filteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
                                             </div>
                                         </div>
                                         {menuitems.filter(childItem => childItem.ParentID === filteredItem.ID).map(childFilteredItem =>
-                                            <div className={`${styles.childItem} ${styles.indent}`}>
+                                            <div className={`${styles.childItem} ${styles.indent} ${styles.linkOnly}`} onClick={() => handleDivClick(filteredItem.Url)}>
                                                 <div>
                                                     <a href={childFilteredItem.Url}>{childFilteredItem.Label}</a>
                                                     {childFilteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
@@ -133,7 +134,9 @@ const GlobalNav: React.FC<INavProps> = ({ isExpanded, categories, menuitems }) =
 
                                                         return (
 
-                                                            <div key={filteredItem.ID} className={styles.childItem} onClick={() => menuSelect(filteredItem, false)}>
+                                                            <div key={filteredItem.ID} className={`${styles.childItem} ${hasChildren ? '' : styles.linkOnly}`} onClick={() => 
+                                                                hasChildren ? menuSelect(filteredItem, false) : handleDivClick(filteredItem.Url)
+                                                            }>
                                                                 <div>
                                                                     <a href={filteredItem.Url}>{filteredItem.Label}</a>
                                                                     {filteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}

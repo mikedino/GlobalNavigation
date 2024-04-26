@@ -58,6 +58,10 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({ onSearchTermChang
         item.Label.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
     );
 
+    const handleDivClick = (url:string):void => {
+        window.location.href = url;
+    }
+
     // Call the callback function with the new search term whenever it changes
     React.useEffect(() => {
         onSearchTermChange(searchTerm);
@@ -81,7 +85,7 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({ onSearchTermChang
                                 {filteredMenuItems?.filter(level2Item => level2Item.CategoryID === category.ID)
                                     .map(level2Item => (
                                         <div key={level2Item.ID}>
-                                            <div className={`${styles.resultsItem} ${styles.level2item}`} onClick={() => {window.location.href = level2Item.Url;}} >
+                                            <div className={`${styles.resultsItem} ${styles.level2item}`} onClick={() => handleDivClick(level2Item.Url)} >
                                                 <Icon iconName='Childof' className={styles.childOfIcon}></Icon>
                                                 <div dangerouslySetInnerHTML={{ __html: boldifyMatch(level2Item.Label, searchTerm) }}></div>
                                             </div>
@@ -89,7 +93,7 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({ onSearchTermChang
                                             {filteredMenuItems?.filter(level3Item => level3Item.ParentID === level2Item.ID)
                                                 .map(level3Item => (
                                                     <div key={level2Item.ID}>
-                                                        <div className={`${styles.resultsItem} ${styles.level3item}`} onClick={() => {window.location.href = level3Item.Url;}} >
+                                                        <div className={`${styles.resultsItem} ${styles.level3item}`} onClick={() => handleDivClick(level3Item.Url)} >
                                                             <Icon iconName='Childof' className={styles.childOfIcon}></Icon>
                                                             <div dangerouslySetInnerHTML={{ __html: boldifyMatch(level3Item.Label, searchTerm) }}></div>
                                                         </div>
