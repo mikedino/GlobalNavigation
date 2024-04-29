@@ -18,7 +18,7 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
     const [breadcrumb, setBreadcrumb] = React.useState<IGlobalNavCategory>(); ///this is for a string only (show Division)
     const [showClickMenu, setClickMenu] = React.useState<boolean>(false);
     // State for the click menu parent item id
-    const [clickMenuParentID, setClickMenuParentID] = React.useState<string>("");
+    const [clickMenuParentID, setClickMenuParentID] = React.useState<number | null >(null);
     // State for holding the search term callback
     const [searchTerm, setSearchTerm] = React.useState<string>('');
 
@@ -26,12 +26,8 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
     const menuSelect = (item: IGlobalNavCategory, reset: boolean): void => {
         // if this is a click on parent item, reset the breadcrumb/array and hide it
         if (reset) {
-            //setBreadcrumb([item.Label]);
-            //setBreadcrumb(null);
             setClickMenu(false);
         } else {
-            // append to end of breadcrumb and show it
-            //setBreadcrumb(prevBreadcrumb => [...prevBreadcrumb, item.Label]);
             setBreadcrumb(item);
             // once we have a second level click, show the breadcrumb
             setClickMenu(true);
@@ -39,7 +35,7 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
         }
     };
 
-    // Use useEffect set default Click menu parent
+    // Use useEffect set default Click menu parent on component load (which is the first category)
     React.useEffect(() => {
         // Call menuSelect with the first item if categories are available
         if (categories.length > 0) {
@@ -80,22 +76,22 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
                         {/* <div className={`${styles.menuTopRow} accordion-button`}>{breadcrumb.join(' > ')}</div> */}
                         <div className={`${styles.menuTopRow} ${styles.parentItem} accordion-button`} onClick={() => {
                             if (breadcrumb && breadcrumb.Url) handleDivClick(breadcrumb.Url)
-                        }}>{breadcrumb?.Label}
+                        }}>{breadcrumb?.Title}
                         </div>
                         <div className='clickMenuSubItemsContainer accordion-body'>
-                            {menuitems.filter(item => item.ParentID === clickMenuParentID)
+                            {menuitems.filter(item => item.Parent?.Id === clickMenuParentID)
                                 .map(filteredItem =>
                                     <div key={filteredItem.ID}>
                                         <div className={`${styles.childItem} ${styles.linkOnly}`} onClick={() => handleDivClick(filteredItem.Url)}>
                                             <div>
-                                                <a href={filteredItem.Url}>{filteredItem.Label}</a>
+                                                <a href={filteredItem.Url}>{filteredItem.Title}</a>
                                                 {filteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
                                             </div>
                                         </div>
-                                        {menuitems.filter(childItem => childItem.ParentID === filteredItem.ID).map(childFilteredItem =>
+                                        {menuitems.filter(childItem => childItem.Parent?.Id === filteredItem.ID).map(childFilteredItem =>
                                             <div className={`${styles.childItem} ${styles.indent} ${styles.linkOnly}`} onClick={() => handleDivClick(filteredItem.Url)}>
                                                 <div>
-                                                    <a href={childFilteredItem.Url}>{childFilteredItem.Label}</a>
+                                                    <a href={childFilteredItem.Url}>{childFilteredItem.Title}</a>
                                                     {childFilteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
                                                 </div>
                                             </div>
@@ -117,14 +113,14 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
                                 {/* <Accordion defaultActiveKey='2' activeKey={activeKeys} onSelect={handleSelect} alwaysOpen> */}
                                 <Accordion defaultActiveKey='2'>
                                     {categories.map(category =>
-                                        <AccordionItem eventKey={category.ID}>
-                                            <AccordionHeader onClick={() => menuSelect(category, true)}><Icon iconName={category.IconName} className={styles.categoryIcon}></Icon> {category.Label}</AccordionHeader>
+                                        <AccordionItem eventKey={category.ID.toString()}>
+                                            <AccordionHeader onClick={() => menuSelect(category, true)}><Icon iconName={category.IconName} className={styles.categoryIcon}></Icon> {category.Title}</AccordionHeader>
                                             <AccordionBody>
-                                                {menuitems.filter(item => item.CategoryID === category.ID && item.ParentID === '')
+                                                {menuitems.filter(item => item.Category.Id === category.ID && item.Parent?.Id === null)
                                                     .map(filteredItem => {
 
                                                         // Check if filteredItem.ID is also ParentID in the array (if it has children)
-                                                        const hasChildren = menuitems.some(childItem => childItem.ParentID === filteredItem.ID);
+                                                        const hasChildren = menuitems.some(childItem => childItem.Parent?.Id === filteredItem.ID);
 
                                                         return (
 
@@ -132,7 +128,7 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
                                                                 hasChildren ? menuSelect(filteredItem, false) : handleDivClick(filteredItem.Url)
                                                             }>
                                                                 <div>
-                                                                    <a href={filteredItem.Url}>{filteredItem.Label}</a>
+                                                                    <a href={filteredItem.Url}>{filteredItem.Title}</a>
                                                                     {filteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
                                                                 </div>
                                                                 {hasChildren ? <div className={styles.moreItemsIcon}>
