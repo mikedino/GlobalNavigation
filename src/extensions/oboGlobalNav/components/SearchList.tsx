@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styles from '../GlobalNavStyles.module.scss';
-import { DummyNavProvider } from '../datasource/DummyNavProvider';
-import { IGlobalNavCategory, IGlobalNavItem } from '../datasource/dsDefinitions';
+import { DummyNavProvider } from '../provider/DummyNavProvider';
+import { IGlobalNavCategory, IGlobalNavItem } from '../provider/dsDefinitions';
 import SearchBoxCustom from './SearchBox';
 import { Icon } from '@fluentui/react';
 

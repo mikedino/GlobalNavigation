@@ -16,10 +16,10 @@
     },
     "metadata": {
       "shortDescription": {
-        "default": "OBOGlobalNavigation description"
+        "default": "OBO Global Navigation hamburger menu and fixed footer"
       },
       "longDescription": {
-        "default": "OBOGlobalNavigation description"
+        "default": "OBO Global Navigation hamburger menu and fixed footer; both data driven by SP Lists."
       },
       "screenshotPaths": [],
       "videoUrl": "",

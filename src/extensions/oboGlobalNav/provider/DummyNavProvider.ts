@@ -1,4 +1,5 @@
 import { IGlobalNavCategory, IGlobalNavItem } from "./dsDefinitions";
+import {setContext} from "../../../strings";
 
 /**
  * Fake data provider for offline tests and debugging.
@@ -9,7 +10,13 @@ export class DummyNavProvider {
     static initialized: boolean = false;
 
     //initialize
-    public static init(): Promise<any> {
+    public static init(context?:any): Promise<any> {
+
+        // See if the page context exists
+        if (context) {
+            // Set the context
+            setContext(context);
+        }
 
         if (!this.initialized) { //ensure this was not already initialized
             //return a promise

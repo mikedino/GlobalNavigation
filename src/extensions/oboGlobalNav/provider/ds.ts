@@ -1,5 +1,5 @@
 import { IGlobalNavCategory, IGlobalNavItem } from "./dsDefinitions";
-import Strings from "../../../strings";
+import Strings, {setContext} from "../../../strings";
 import { Web } from "gd-sprest";
 
 /**
@@ -11,7 +11,13 @@ export class Datasource {
     static initialized: boolean = false;
 
     //initialize
-    public static init(): Promise<any> {
+    public static init(context?:any): Promise<any> {
+
+        // See if the page context exists
+        if (context) {
+            // Set the context
+            setContext(context);
+        }
 
         if (!this.initialized) { //ensure this was not already initialized
             //return a promise
@@ -56,7 +62,7 @@ export class Datasource {
             this._categories = [];
 
             // load the data
-            Web(`${Strings.TenantUrl}/sites/${Strings.NavLinksSite}`).Lists(Strings.CategoriesListName).Items().query({
+            Web("https://1g518n.sharepoint.com").Lists("GlobalNavCategory").Items().query({
                 GetAllItems: true,
                 OrderBy: ["SortOrder"],
                 Select: ["Title", "ID", "Url", "IconName"]
@@ -64,10 +70,10 @@ export class Datasource {
                 // success
                 items => {
 
-                    // ensure there are items
-                    if (items) {
+                    // ensure items is defined and is not empty
+                    if (items && items.results.length > 0) {
 
-                        // Parse the items
+                        // Parse the items & set the categories
                         for (let i = 0; i < items.results.length; i++) {
                             let item: IGlobalNavCategory = items.results[i] as any;
                             this._categories.push({
@@ -83,9 +89,8 @@ export class Datasource {
                     } else reject(); console.error(Strings.ProjectName, "No categories loaded in list")
                 },
                 //error
-                (error) => { reject(error); console.log(Strings.ProjectName, "Error loading categories: " + error); }
+                (error) => { reject(error); console.error(Strings.ProjectName, "Error loading categories: " + error); }
             )
-
 
         });
 
@@ -101,10 +106,10 @@ export class Datasource {
             this._menuItems = [];
 
             // load the data
-            Web(`${Strings.TenantUrl}/sites/${Strings.NavLinksSite}`).Lists(Strings.MenuItemsListName).Items().query({
+            Web(`${Strings.TenantUrl}/sites/${Strings.NavLinksSite!}`).Lists(Strings.MenuItemsListName).Items().query({
                 GetAllItems: true,
                 OrderBy: ["SortOrder"],
-                Expand: [ "Category", "Parent"],
+                Expand: ["Category", "Parent"],
                 Select: ["Title", "ID", "Url", "Restricted", "Category/Id", "Parent/Id"],
                 Top: 5000
             }).execute(
@@ -114,12 +119,13 @@ export class Datasource {
                     // ensure there are items
                     if (items) {
 
+                        // set the menu items
                         this._menuItems = items.results as any;
-                        
+
                     } else reject(); console.error(Strings.ProjectName, "No menu items loaded in list")
                 },
                 //error
-                (error) => { reject(error); console.log(Strings.ProjectName, "Error loading menu items: " + error); }
+                (error) => { reject(error); console.error(Strings.ProjectName, "Error loading menu items: " + error); }
             )
 
         });

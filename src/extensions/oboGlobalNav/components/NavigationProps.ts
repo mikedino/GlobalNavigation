@@ -1,4 +1,4 @@
-import { IGlobalNavCategory, IGlobalNavItem } from "../datasource/dsDefinitions";
+import { IGlobalNavCategory, IGlobalNavItem } from "../provider/dsDefinitions";
 
 export interface IGlobalNavProps {
     isExpanded: boolean;

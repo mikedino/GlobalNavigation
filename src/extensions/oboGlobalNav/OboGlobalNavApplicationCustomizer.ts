@@ -3,9 +3,11 @@ import * as ReactDom from 'react-dom';
 import { IGlobalNavProps } from './components/NavigationProps';
 import GlobalNav from './components/Navigation';
 import { GlobalFooter } from './components/Footer';
-import { DummyNavProvider } from './datasource/DummyNavProvider';
+import { DummyNavProvider } from './provider/DummyNavProvider';
+import { Datasource } from './provider/ds';
 import { Log } from '@microsoft/sp-core-library';
 import {
+  //ApplicationCustomizerContext,
   BaseApplicationCustomizer,
   PlaceholderContent,
   PlaceholderName
@@ -45,7 +47,7 @@ export default class OboGlobalNavApplicationCustomizer
     // Handle possible changes on the existence of placeholders
     //this.context.placeholderProvider.changedEvent.add(this, this.renderGlobalNav);
 
-    DummyNavProvider.init().then(
+    Datasource.init(this.context).then(
       //data successfully loaded
       () => {
         Log.info(Strings.ProjectName, "DataProvider > init() ran successfully");
@@ -65,7 +67,6 @@ export default class OboGlobalNavApplicationCustomizer
 
   }
 
-
   private async renderGlobalNav(): Promise<void> {
 
     // Ensure the header doesn't exist already
@@ -79,8 +80,8 @@ export default class OboGlobalNavApplicationCustomizer
         GlobalNav,
         {
           isExpanded: false,
-          categories: DummyNavProvider.Categories,
-          menuitems: DummyNavProvider.MenuItems
+          categories: Datasource.Categories,
+          menuitems: Datasource.MenuItems
         }
       );
 

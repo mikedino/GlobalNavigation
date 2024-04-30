@@ -3,7 +3,7 @@ import { DefaultButton, Icon } from '@fluentui/react';
 import styles from '../GlobalNavStyles.module.scss';
 import { Accordion, AccordionBody, AccordionHeader, AccordionItem } from 'react-bootstrap';
 //import SearchBoxCustom from './SearchComponent';
-import { IGlobalNavCategory } from '../datasource/dsDefinitions';
+import { IGlobalNavCategory } from '../provider/dsDefinitions';
 import SearchResultsList from './SearchList';
 import { IGlobalNavProps } from './NavigationProps';
 
