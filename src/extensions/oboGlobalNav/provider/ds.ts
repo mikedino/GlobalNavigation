@@ -20,30 +20,31 @@ export class Datasource {
         }
 
         if (!this.initialized) { //ensure this was not already initialized
+
             //return a promise
             return new Promise<void>((resolve, reject) => {
 
                 //get the categories
-                this.getCategories().then((categories) => {
+                this.getCategories().then(() => {
 
-                    this._categories = categories;
+                    //this._categories = categories;
                     console.log("Categories", this._categories)
 
                     //then get the menu items
-                    this.getMenuItems().then((menuItems) => {
+                    this.getMenuItems().then(() => {
 
-                        this._menuItems = menuItems;
+                        //this._menuItems = menuItems;
                         console.log("MenuItems", this.MenuItems)
                         //set initialized flag
                         this.initialized = true;
                         resolve();
 
                     }, (error) => {
-                        console.error("GlobalNav > getMenuItem error: " + error);
+                        console.error(Strings.ProjectName, "getMenuItem error: " + JSON.stringify(error));
                         reject(error);
                     });
                 }, (error2) => {
-                    console.error("GlobalNav > getCategories error: " + error2);
+                    console.error(Strings.ProjectName, "getCategories error: " + JSON.stringify(error2));
                     reject(error2);
                 });
             })
@@ -62,11 +63,10 @@ export class Datasource {
             this._categories = [];
 
             // load the data
-            //Web("https://1g518n.sharepoint.com").Lists("GlobalNavCategory").Items().query({
-            Web(`${Strings.TenantUrl}/sites/${Strings.NavLinksSite!}`).Lists(Strings.CategoriesList).Items().query({
+            Web(`${Strings.TenantUrl}/sites/${Strings.NavLinksSite}`).Lists(Strings.CategoriesList).Items().query({
                 GetAllItems: true,
                 OrderBy: ["SortOrder"],
-                Select: ["Title", "ID", "Url", "IconName"]
+                Select: ["Title", "ID", "Url", "IconName", "SortOrder"]
             }).execute(
                 // success
                 items => {
@@ -76,21 +76,23 @@ export class Datasource {
 
                         // Parse the items & set the categories
                         for (let i = 0; i < items.results.length; i++) {
-                            let item: IGlobalNavCategory = items.results[i] as any;
+                            const item: IGlobalNavCategory = items.results[i] as any;
                             this._categories.push({
                                 ID: item.ID,
                                 Title: item.Title,
                                 Url: item.Url,
+                                SortOrder: item.SortOrder,
                                 Restricted: false
-                            })
-
-                            // resolve the requet
-                            resolve(this._categories);
+                            })    
                         }
-                    } else reject(); console.error(Strings.ProjectName, "No categories loaded in list")
+
+                        // resolve the requet
+                        resolve(this._categories);
+                        
+                    } else reject();
                 },
                 //error
-                (error) => { reject(error); console.error(Strings.ProjectName, "Error loading categories: " + error); }
+                (error) => { reject(error); }
             )
 
         });
@@ -109,21 +111,41 @@ export class Datasource {
             // load the data
             Web(`${Strings.TenantUrl}/sites/${Strings.NavLinksSite}`).Lists(Strings.MenuItemsList).Items().query({
                 GetAllItems: true,
-                OrderBy: ["SortOrder"],
+                OrderBy: ["Title"],
                 Expand: ["Category", "Parent"],
-                Select: ["Title", "ID", "Url", "Restricted", "Category/Id", "Parent/Id"],
+                Select: ["Title", "ID", "Url", "SortOrder", "Restricted0", "Category/Id", "Category/Title", "Parent/Id", "Parent/Title"],
                 Top: 5000
             }).execute(
                 // success
-                items => {
+                (items) => {
 
-                    // ensure there are items
-                    if (items) {
+                    // ensure items is defined and is not empty
+                    if (items && items.results.length > 0) {
 
-                        // set the menu items
-                        this._menuItems = items.results as any;
+                        // Parse the items & set the menu items
+                        for (let i = 0; i < items.results.length; i++) {
+                            const item = items.results[i] as any;
+                            this._menuItems.push({
+                                ID: item.ID,
+                                Title: item.Title,
+                                Url: item.Url,
+                                SortOrder: item.SortOrder,
+                                Restricted: item.Restricted0,
+                                Category: {
+                                    Id: item.Category.Id,
+                                    Title: item.Category.Title
+                                },
+                                Parent: {
+                                    Id: item.Parent.Id,
+                                    Title: item.Parent.Title
+                                }
+                            });
+                        }
+                        
+                        // resolve the requet
+                        resolve(this._menuItems);
 
-                    } else reject(); console.error(Strings.ProjectName, "No menu items loaded in list")
+                    } else reject(); console.warn(Strings.ProjectName, "Warning: no menu items loaded in list")
                 },
                 //error
                 (error) => { reject(error); console.error(Strings.ProjectName, "Error loading menu items: " + error); }
