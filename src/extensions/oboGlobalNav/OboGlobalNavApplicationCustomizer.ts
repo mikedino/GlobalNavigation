@@ -3,7 +3,7 @@ import * as ReactDom from 'react-dom';
 import { IGlobalNavProps } from './components/NavigationProps';
 import GlobalNav from './components/Navigation';
 import { GlobalFooter } from './components/Footer';
-import { DummyNavProvider } from './provider/DummyNavProvider';
+//import { DummyNavProvider } from './provider/DummyNavProvider';
 import { Datasource } from './provider/ds';
 import { Log } from '@microsoft/sp-core-library';
 import {

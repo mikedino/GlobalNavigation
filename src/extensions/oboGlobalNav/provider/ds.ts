@@ -62,7 +62,8 @@ export class Datasource {
             this._categories = [];
 
             // load the data
-            Web("https://1g518n.sharepoint.com").Lists("GlobalNavCategory").Items().query({
+            //Web("").Lists("").Items().query({})
+            Web("https://1g51.8n.sharepoint.com").Lists("GlobalNavCategory").Items().?query({
                 GetAllItems: true,
                 OrderBy: ["SortOrder"],
                 Select: ["Title", "ID", "Url", "IconName"]

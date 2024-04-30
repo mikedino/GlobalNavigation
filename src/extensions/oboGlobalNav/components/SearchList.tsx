@@ -56,7 +56,7 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({ onSearchTermChang
 
     // Function to filter menu items based on search term
     const filteredMenuItems = menuItems?.filter(item =>
-        item.Label.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+        item.Title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
     );
 
     const handleDivClick = (url:string):void => {
@@ -81,22 +81,22 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({ onSearchTermChang
                     <div id='searchResults' className={styles.searchResults}>
                         {categories?.map(category => (
                             <div key={category.ID}>
-                                <div className='py-1'>{category.Label}</div>
+                                <div className='py-1'>{category.Title}</div>
                                 {/* Filtered items for the current category that are not a level 3 child */}
-                                {filteredMenuItems?.filter(level2Item => level2Item.CategoryID === category.ID && level2Item.ParentID === '')
+                                {filteredMenuItems?.filter(level2Item => level2Item.Category.Id === category.ID && level2Item.Parent?.Id === null)
                                     .map(level2Item => (
                                         <div key={level2Item.ID}>
                                             <div className={`${styles.resultsItem} ${styles.level2item}`} onClick={() => handleDivClick(level2Item.Url)} >
                                                 <Icon iconName='Childof' className={styles.childOfIcon}></Icon>
-                                                <div dangerouslySetInnerHTML={{ __html: boldifyMatch(level2Item.Label, searchTerm) }}></div>
+                                                <div dangerouslySetInnerHTML={{ __html: boldifyMatch(level2Item.Title, searchTerm) }}></div>
                                             </div>
                                             {/* level 3 items for the menu item */}
-                                            {filteredMenuItems?.filter(level3Item => level3Item.ParentID === level2Item.ID)
+                                            {filteredMenuItems?.filter(level3Item => level3Item.Parent?.Id === level2Item.ID)
                                                 .map(level3Item => (
                                                     <div key={level2Item.ID}>
                                                         <div className={`${styles.resultsItem} ${styles.level3item}`} onClick={() => handleDivClick(level3Item.Url)} >
                                                             <Icon iconName='Childof' className={styles.childOfIcon}></Icon>
-                                                            <div dangerouslySetInnerHTML={{ __html: boldifyMatch(level3Item.Label, searchTerm) }}></div>
+                                                            <div dangerouslySetInnerHTML={{ __html: boldifyMatch(level3Item.Title, searchTerm) }}></div>
                                                         </div>
                                                     </div>
                                                 ))
