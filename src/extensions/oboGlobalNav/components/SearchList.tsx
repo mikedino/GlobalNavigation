@@ -1,6 +1,7 @@
 import * as React from 'react';
 import styles from '../GlobalNavStyles.module.scss';
-import { DummyNavProvider } from '../provider/DummyNavProvider';
+//import { DummyNavProvider } from '../provider/DummyDatasource';
+import { Datasource } from '../provider/ds';
 import { IGlobalNavCategory, IGlobalNavItem } from '../provider/dsDefinitions';
 import SearchBoxCustom from './SearchBox';
 import { Icon } from '@fluentui/react';
@@ -36,11 +37,11 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({ onSearchTermChang
         const fetchDataAsync = async (): Promise<void> => {
             try {
                 // wait for the data initialization function which returns a Promise
-                await DummyNavProvider.init();
+                await Datasource.init();
 
                 // Set the categories and menuItems states with the data from DummyNavProvider
-                setCategories(DummyNavProvider.Categories);
-                setMenuItems(DummyNavProvider.MenuItems);
+                setCategories(Datasource.Categories);
+                setMenuItems(Datasource.MenuItems);
 
             } catch (error) {
                 console.error('Error fetching data for search results:', error);

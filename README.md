@@ -2,9 +2,11 @@
 
 ## Summary
 
-Short summary on functionality and used technologies.
+Provides a global navigation as a hamburger menu which has an accordion and search function.  Items are data-driven from an SP List defined in the Strings.
 
-[picture of the solution in action, if possible]
+Also creates a fixed footer with a logo, center links and support link on the right.  This data is also data-driven.
+
+[pictures forthcoming...]
 
 ## Used SharePoint Framework Version
 
@@ -19,20 +21,22 @@ Short summary on functionality and used technologies.
 
 ## Prerequisites
 
-> Any special pre-requisites?
+> The following lists must be created to work:
+  - GlobalNavCategory
+  - GlobalNavItem
+  - GlobalNavFooter
 
 ## Solution
 
 | Solution    | Author(s)                                               |
 | ----------- | ------------------------------------------------------- |
-| folder name | Author details (name, company, twitter alias with link) |
+| GlobalNav   | Mike Landino, Koniag Government Services                |
 
 ## Version history
 
 | Version | Date             | Comments        |
 | ------- | ---------------- | --------------- |
-| 1.1     | March 10, 2021   | Update comment  |
-| 1.0     | January 29, 2021 | Initial release |
+| 1.0     | May 1, 2024      | Initial release |
 
 ## Disclaimer
 

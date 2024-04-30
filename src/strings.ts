@@ -17,8 +17,9 @@ export const setContext = (context: any) => {
 const Strings = {
     ProjectName: "OBO Global Navigation",
     NavLinksSite: "TheLanding",
-    CategoriesListName: "GlobalNavCategory",
-    MenuItemsListName: "GlobalNavItem",
+    CategoriesList: "GlobalNavCategory",
+    MenuItemsList: "GlobalNavItem",
+    FooterList: "GlobalNavFooter",
     TenantUrl: ContextInfo.portalUrl,
     Version: "0.1"
 };

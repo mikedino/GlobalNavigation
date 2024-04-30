@@ -62,8 +62,8 @@ export class Datasource {
             this._categories = [];
 
             // load the data
-            //Web("").Lists("").Items().query({})
-            Web("https://1g51.8n.sharepoint.com").Lists("GlobalNavCategory").Items().?query({
+            //Web("https://1g518n.sharepoint.com").Lists("GlobalNavCategory").Items().query({
+            Web(`${Strings.TenantUrl}/sites/${Strings.NavLinksSite!}`).Lists(Strings.CategoriesList).Items().query({
                 GetAllItems: true,
                 OrderBy: ["SortOrder"],
                 Select: ["Title", "ID", "Url", "IconName"]
@@ -107,7 +107,7 @@ export class Datasource {
             this._menuItems = [];
 
             // load the data
-            Web(`${Strings.TenantUrl}/sites/${Strings.NavLinksSite!}`).Lists(Strings.MenuItemsListName).Items().query({
+            Web(`${Strings.TenantUrl}/sites/${Strings.NavLinksSite}`).Lists(Strings.MenuItemsList).Items().query({
                 GetAllItems: true,
                 OrderBy: ["SortOrder"],
                 Expand: ["Category", "Parent"],

@@ -4,7 +4,7 @@ import {setContext} from "../../../strings";
 /**
  * Fake data provider for offline tests and debugging.
  **/
-export class DummyNavProvider {
+export class DummyDatasource {
 
     //prevent this from being initialized twice
     static initialized: boolean = false;
