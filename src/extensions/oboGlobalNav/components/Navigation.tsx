@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { DefaultButton, Icon } from '@fluentui/react';
-import styles from '../GlobalNavStyles.module.scss';
+import styles from '../styles/GlobalNavStyles.module.scss';
 import { Accordion, AccordionBody, AccordionHeader, AccordionItem } from 'react-bootstrap';
 //import SearchBoxCustom from './SearchComponent';
 import { IGlobalNavCategory } from '../provider/dsDefinitions';
@@ -117,7 +117,7 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
                                         <AccordionItem eventKey={category.ID.toString()}>
                                             <AccordionHeader onClick={() => menuSelect(category, true)}><Icon iconName={category.IconName} className={styles.categoryIcon}></Icon> {category.Title}</AccordionHeader>
                                             <AccordionBody>
-                                                {menuitems.filter(item => item.Category.Id === category.ID && (item.Parent.Id === null || item.Parent.Id === undefined))
+                                                {menuitems.filter(item => item.Category.Id === category.ID && item.Parent.Id === undefined)
                                                     .map(filteredItem => {
 
                                                         // Check if filteredItem.ID is also ParentID in the array (if it has children)

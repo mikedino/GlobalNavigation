@@ -1,6 +1,5 @@
 import * as React from 'react';
-import styles from '../GlobalNavStyles.module.scss';
-//import { DummyNavProvider } from '../provider/DummyDatasource';
+import styles from '../styles/GlobalNavStyles.module.scss';
 import { Datasource } from '../provider/ds';
 import { IGlobalNavCategory, IGlobalNavItem } from '../provider/dsDefinitions';
 import SearchBoxCustom from './SearchBox';
@@ -38,33 +37,9 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({ onSearchTermChang
             setIsLoading(false); // Set loading state to false regardless of success or failure
             setCategories(Datasource.Categories);
             setMenuItems(Datasource.MenuItems);
+            console.log("[Search Menu Items]", Datasource.MenuItems);
         })
     }, []); // Empty dependency array means this effect runs only once, similar to componentDidMount)
-    
-    // React.useEffect(() => {
-    //     const fetchDataAsync = async (): Promise<void> => {
-    //         try {
-    //             // wait for the data initialization function which returns a Promise
-    //             await Datasource.init().then(() => {
-    //                 // Set the categories and menuItems states with the data from DummyNavProvider
-    //                 setCategories(Datasource.Categories);
-    //                 setMenuItems(Datasource.MenuItems);
-    //             });
-
-    //         } catch (error) {
-    //             console.error('Error fetching data for search results:', error);
-    //         } finally {
-    //             setIsLoading(false); // Set loading state to false regardless of success or failure
-
-    //             console.log("[Search] categories: ", categories);
-    //             console.log("[Search] menu items: ", menuItems);
-    //         }
-    //     };
-
-    //     fetchDataAsync().catch(error => // Call the async function to fetch data
-    //         console.error('Error in fetchDataAsync:', error) // Ensure that the Promise is handled properly 
-    //     );
-    // }, []); // Empty dependency array means this effect runs only once, similar to componentDidMount
 
     // Function to filter menu items based on search term
     const filteredMenuItems = menuItems?.filter(item =>
@@ -95,7 +70,7 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({ onSearchTermChang
                             <div key={category.ID}>
                                 <div className='py-1'>{category.Title}</div>
                                 {/* Filtered items for the current category that are not a level 3 child */}
-                                {filteredMenuItems?.filter(level2Item => level2Item.Category.Id === category.ID && level2Item.Parent?.Id === null)
+                                {filteredMenuItems?.filter(level2Item => level2Item.Category.Id === category.ID && level2Item.Parent.Id === undefined)
                                     .map(level2Item => (
                                         <div key={level2Item.ID}>
                                             <div className={`${styles.resultsItem} ${styles.level2item}`} onClick={() => handleDivClick(level2Item.Url)} >
@@ -103,12 +78,12 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({ onSearchTermChang
                                                 <div dangerouslySetInnerHTML={{ __html: boldifyMatch(level2Item.Title, searchTerm) }}></div>
                                             </div>
                                             {/* level 3 items for the menu item */}
-                                            {filteredMenuItems?.filter(level3Item => level3Item.Parent?.Id === level2Item.ID)
+                                            {filteredMenuItems?.filter(level3Item => level3Item.Parent.Id === level2Item.ID)
                                                 .map(level3Item => (
                                                     <div key={level2Item.ID}>
                                                         <div className={`${styles.resultsItem} ${styles.level3item}`} onClick={() => handleDivClick(level3Item.Url)} >
                                                             <Icon iconName='Childof' className={styles.childOfIcon}></Icon>
-                                                            <div dangerouslySetInnerHTML={{ __html: boldifyMatch(level3Item.Title, searchTerm) }}></div>
+                                                            <div dangerouslySetInnerHTML={{ __html: boldifyMatch(level3Item.Title, searchTerm) }}></div>                                                            
                                                         </div>
                                                     </div>
                                                 ))

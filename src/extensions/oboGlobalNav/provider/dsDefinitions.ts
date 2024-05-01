@@ -12,11 +12,11 @@ export interface IGlobalNavCategory {
 
 export interface IGlobalNavItem extends IGlobalNavCategory {
     Category: {
-        Id: number | null;
-        Title: string | null;
+        Id: number | undefined;
+        Title: string | undefined;
     };
     Parent: {
-        Id: number | null;
-        Title: string | null;
+        Id: number | undefined;
+        Title: string | undefined;
     };
 }

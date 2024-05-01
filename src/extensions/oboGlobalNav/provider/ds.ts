@@ -29,9 +29,6 @@ export class Datasource {
                     
                     this._categories = DummyDatasource.Categories;
                     this._menuItems = DummyDatasource.MenuItems;
-
-                    console.log("[Dummy Data Categories] ", this._categories);
-                    console.log("[Dummy Data Menu Items: ", this._menuItems);
                     
                     //set initialized flag
                     this.initialized = true;
@@ -46,13 +43,11 @@ export class Datasource {
                     //get the categories
                     this.getCategories().then(() => {
 
-                        //this._categories = categories;
                         console.log("Categories", this._categories)
 
                         //then get the menu items
                         this.getMenuItems().then(() => {
 
-                            //this._menuItems = menuItems;
                             console.log("MenuItems", this.MenuItems)
                             //set initialized flag
                             this.initialized = true;
@@ -114,9 +109,8 @@ export class Datasource {
                         resolve(this._categories);
 
                     } else reject();
-                },
-                //error
-                (error) => { reject(error); }
+
+                }, (error) => reject(error)
             )
 
         });
@@ -169,7 +163,8 @@ export class Datasource {
                         // resolve the requet
                         resolve(this._menuItems);
 
-                    } else reject(); console.warn(Strings.ProjectName, "Warning: no menu items loaded in list")
+                    } else reject; 
+
                 },
                 //error
                 (error) => { reject(error); console.error(Strings.ProjectName, "Error loading menu items: " + error); }

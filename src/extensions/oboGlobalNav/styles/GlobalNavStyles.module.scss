@@ -185,30 +185,6 @@ body, body.ms-font-m{
 
   .searchBox{
     width: 350px;
-
-    /**** using a theme in the SearchBoxComponent instead
-    
-    > div{
-      background-color: $OBOcolor;
-      border-color: $OBObgcolor;
-    }
-
-    input{
-      color: $OBObgcolor;
-    }
-    input::placeholder{
-      color:$OBOhoverLink;
-    }
-
-    button{
-      color: $OBObgcolor;
-
-      &:hover{
-        background-color: $OBOcolor;
-        color: $OBOhoverLink;
-      }
-    }   ***********/
-
   }
 
   .searchResults{
