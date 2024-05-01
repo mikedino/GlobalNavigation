@@ -51,6 +51,7 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
         setToggleIconName(expanded ? "CollapseMenu" : "ChromeClose");
     };
 
+    // open menu items without children by clicking the entire DIV
     const handleDivClick = (url:string):void => {
         window.location.href = url;
     }
@@ -111,12 +112,12 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
                             </div>
                             <div>
                                 {/* <Accordion defaultActiveKey='2' activeKey={activeKeys} onSelect={handleSelect} alwaysOpen> */}
-                                <Accordion defaultActiveKey='2'>
+                                <Accordion defaultActiveKey={categories[0].ID.toString()}>
                                     {categories.map(category =>
                                         <AccordionItem eventKey={category.ID.toString()}>
                                             <AccordionHeader onClick={() => menuSelect(category, true)}><Icon iconName={category.IconName} className={styles.categoryIcon}></Icon> {category.Title}</AccordionHeader>
                                             <AccordionBody>
-                                                {menuitems.filter(item => item.Category.Id === category.ID && item.Parent?.Id === undefined)
+                                                {menuitems.filter(item => item.Category.Id === category.ID && (item.Parent.Id === null || item.Parent.Id === undefined))
                                                     .map(filteredItem => {
 
                                                         // Check if filteredItem.ID is also ParentID in the array (if it has children)

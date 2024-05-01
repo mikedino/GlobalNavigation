@@ -33,27 +33,38 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({ onSearchTermChang
     // State for search term from SearchBoxCustom
     const [searchTerm, setSearchTerm] = React.useState<string>('');
 
-    React.useEffect(() => {
-        const fetchDataAsync = async (): Promise<void> => {
-            try {
-                // wait for the data initialization function which returns a Promise
-                await Datasource.init();
+    React.useEffect(() =>{
+        Datasource.init().then(() => {
+            setIsLoading(false); // Set loading state to false regardless of success or failure
+            setCategories(Datasource.Categories);
+            setMenuItems(Datasource.MenuItems);
+        })
+    }, []); // Empty dependency array means this effect runs only once, similar to componentDidMount)
+    
+    // React.useEffect(() => {
+    //     const fetchDataAsync = async (): Promise<void> => {
+    //         try {
+    //             // wait for the data initialization function which returns a Promise
+    //             await Datasource.init().then(() => {
+    //                 // Set the categories and menuItems states with the data from DummyNavProvider
+    //                 setCategories(Datasource.Categories);
+    //                 setMenuItems(Datasource.MenuItems);
+    //             });
 
-                // Set the categories and menuItems states with the data from DummyNavProvider
-                setCategories(Datasource.Categories);
-                setMenuItems(Datasource.MenuItems);
+    //         } catch (error) {
+    //             console.error('Error fetching data for search results:', error);
+    //         } finally {
+    //             setIsLoading(false); // Set loading state to false regardless of success or failure
 
-            } catch (error) {
-                console.error('Error fetching data for search results:', error);
-            } finally {
-                setIsLoading(false); // Set loading state to false regardless of success or failure
-            }
-        };
+    //             console.log("[Search] categories: ", categories);
+    //             console.log("[Search] menu items: ", menuItems);
+    //         }
+    //     };
 
-        fetchDataAsync().catch(error => // Call the async function to fetch data
-            console.error('Error in fetchDataAsync:', error) // Ensure that the Promise is handled properly 
-        );
-    }, []); // Empty dependency array means this effect runs only once, similar to componentDidMount
+    //     fetchDataAsync().catch(error => // Call the async function to fetch data
+    //         console.error('Error in fetchDataAsync:', error) // Ensure that the Promise is handled properly 
+    //     );
+    // }, []); // Empty dependency array means this effect runs only once, similar to componentDidMount
 
     // Function to filter menu items based on search term
     const filteredMenuItems = menuItems?.filter(item =>

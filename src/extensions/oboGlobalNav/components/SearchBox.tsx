@@ -35,7 +35,7 @@ const SearchBoxCustom: React.FC<{ onSearchTermChange: (searchTerm: string) => vo
 
   // Function to handle search term change
   const handleSearchTermChange = (event: React.ChangeEvent<HTMLInputElement>):void => {
-    const newSearchTerm = event.target.value;
+    const newSearchTerm = event ? event.target.value : '';
     setSearchTerm(newSearchTerm);
     // Call the callback function to update the search term in the parent component
     onSearchTermChange(newSearchTerm);

@@ -28,8 +28,14 @@ const LOG_SOURCE: string = 'OboGlobalNavApplicationCustomizer';
  * You can define an interface to describe it.
  */
 export interface IOboGlobalNavApplicationCustomizerProperties {
-  // This is an example; replace with your own property
-  testMessage: string;
+  /**
+   * If isDebug=true then the customizer will use fake json data instead of
+   * existing sharepoint list.
+   * Note: that property in the debug url queryString should be:
+   *                  GOOD:{"isDebug":false}
+   *                  WRONG: {"isDebug":"false"}
+   */
+  isDebug: boolean;
 }
 
 /** A Custom Action which can be run during execution of a Client Side Application */
@@ -47,7 +53,7 @@ export default class OboGlobalNavApplicationCustomizer
     // Handle possible changes on the existence of placeholders
     //this.context.placeholderProvider.changedEvent.add(this, this.renderGlobalNav);
 
-    Datasource.init(this.context).then(
+    Datasource.init(this.context, this.properties.isDebug).then(
       //data successfully loaded
       () => {
         Log.info(Strings.ProjectName, "DataProvider > init() ran successfully");
@@ -88,7 +94,7 @@ export default class OboGlobalNavApplicationCustomizer
       // render the Nav UI using a React component
       await new Promise<void>((resolve, reject) => {
         try {
-          ReactDom.render(navElement, this._navbar.domElement, () => { console.log("render the header"); resolve() });
+          ReactDom.render(navElement, this._navbar.domElement, () => { Log.info(Strings.ProjectName, "render the header"); resolve() });
         } catch (error) {
           console.error(error);
           Log.error(Strings.ProjectName, error);

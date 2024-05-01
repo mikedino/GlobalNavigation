@@ -7,7 +7,10 @@
       "pageUrl": "https://1g518n.sharepoint.com/sites/TheLanding/SitePages/Home.aspx",
       "customActions": {
         "bd69934f-f947-425f-8c09-d23fb7802fa0": {
-          "location": "ClientSideExtension.ApplicationCustomizer"
+          "location": "ClientSideExtension.ApplicationCustomizer",
+          "properties": {
+            "isDebug": false
+          }
         }
       }
     },
@@ -15,7 +18,10 @@
       "pageUrl": "https://1g518n.sharepoint.com/sites/TheLanding/SitePages/Home.aspx",
       "customActions": {
         "bd69934f-f947-425f-8c09-d23fb7802fa0": {
-          "location": "ClientSideExtension.ApplicationCustomizer"
+          "location": "ClientSideExtension.ApplicationCustomizer",
+          "properties": {
+            "isDebug": false
+          }
         }
       }
     }

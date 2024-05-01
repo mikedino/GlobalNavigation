@@ -4,6 +4,6 @@
         Title="OboGlobalNav"
         Location="ClientSideExtension.ApplicationCustomizer"
         ClientSideComponentId="bd69934f-f947-425f-8c09-d23fb7802fa0"
-        ClientSideComponentProperties="{&quot;testMessage&quot;:&quot;Test message&quot;}">
+        ClientSideComponentProperties="{&quot;isDebug&quot;:false}">
     </CustomAction>
 </Elements>

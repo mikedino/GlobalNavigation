@@ -1,5 +1,6 @@
 import { IGlobalNavCategory, IGlobalNavItem } from "./dsDefinitions";
-import Strings, {setContext} from "../../../strings";
+import { DummyDatasource } from "./DummyDatasource";
+import Strings, { setContext } from "../../../strings";
 import { Web } from "gd-sprest";
 
 /**
@@ -11,7 +12,7 @@ export class Datasource {
     static initialized: boolean = false;
 
     //initialize
-    public static init(context?:any): Promise<any> {
+    public static init(context?: any, isDebug?: boolean): Promise<any> {
 
         // See if the page context exists
         if (context) {
@@ -21,35 +22,58 @@ export class Datasource {
 
         if (!this.initialized) { //ensure this was not already initialized
 
-            //return a promise
-            return new Promise<void>((resolve, reject) => {
+            if (isDebug) {
+                
+                // get dummy data for debug
+                return DummyDatasource.init().then(()=>{
+                    
+                    this._categories = DummyDatasource.Categories;
+                    this._menuItems = DummyDatasource.MenuItems;
 
-                //get the categories
-                this.getCategories().then(() => {
-
-                    //this._categories = categories;
-                    console.log("Categories", this._categories)
-
-                    //then get the menu items
-                    this.getMenuItems().then(() => {
-
-                        //this._menuItems = menuItems;
-                        console.log("MenuItems", this.MenuItems)
-                        //set initialized flag
-                        this.initialized = true;
-                        resolve();
-
-                    }, (error) => {
-                        console.error(Strings.ProjectName, "getMenuItem error: " + JSON.stringify(error));
-                        reject(error);
-                    });
-                }, (error2) => {
-                    console.error(Strings.ProjectName, "getCategories error: " + JSON.stringify(error2));
-                    reject(error2);
+                    console.log("[Dummy Data Categories] ", this._categories);
+                    console.log("[Dummy Data Menu Items: ", this._menuItems);
+                    
+                    //set initialized flag
+                    this.initialized = true;
                 });
-            })
 
-        } else return Promise.resolve(); //already initialized once
+
+            } else {
+                //get SP list data
+                //return a promise
+                return new Promise<void>((resolve, reject) => {
+
+                    //get the categories
+                    this.getCategories().then(() => {
+
+                        //this._categories = categories;
+                        console.log("Categories", this._categories)
+
+                        //then get the menu items
+                        this.getMenuItems().then(() => {
+
+                            //this._menuItems = menuItems;
+                            console.log("MenuItems", this.MenuItems)
+                            //set initialized flag
+                            this.initialized = true;
+                            resolve();
+
+                        }, (error) => {
+                            console.error(Strings.ProjectName, "getMenuItem error: " + JSON.stringify(error));
+                            reject(error);
+                        });
+                    }, (error2) => {
+                        console.error(Strings.ProjectName, "getCategories error: " + JSON.stringify(error2));
+                        reject(error2);
+                    });
+                })
+
+            }
+
+        } else {
+            console.log(Strings.ProjectName, "tried to init the datasource again");
+            return Promise.resolve(); //already initialized once
+        }
 
     }
 
@@ -83,12 +107,12 @@ export class Datasource {
                                 Url: item.Url,
                                 SortOrder: item.SortOrder,
                                 Restricted: false
-                            })    
+                            })
                         }
 
                         // resolve the requet
                         resolve(this._categories);
-                        
+
                     } else reject();
                 },
                 //error
@@ -141,7 +165,7 @@ export class Datasource {
                                 }
                             });
                         }
-                        
+
                         // resolve the requet
                         resolve(this._menuItems);
 
