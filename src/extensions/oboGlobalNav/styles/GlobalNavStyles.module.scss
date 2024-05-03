@@ -1,11 +1,108 @@
+//
+// Bring in Bootstrap
+//
+
+// Option 1
+//
+// Import all of Bootstrap's CSS
+
+// @import "bootstrap/scss/bootstrap";
+
+// Option 2
+//
+// Place variable overrides first, then import just the styles you need. Note that some stylesheets are required no matter what.
+
+// Toggle global options
+// $enable-gradients: true;
+// $enable-shadows: true;
+
+// $offcanvas-box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175);
+
+// Include functions first
+@import "~bootstrap/scss/functions";
+
+// Customize some defaults
+// $body-color: #333;
+// $body-bg: #fff;
+// $border-radius: .4rem;
+// $success: #7952b3;
+$accordion-button-bg: #333; 
+
+// Required
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/variables-dark";
+@import "~bootstrap/scss/maps";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/utilities";
+@import "~bootstrap/scss/root";
+@import "~bootstrap/scss/reboot";
+
+//@import "~bootstrap/scss/type";
+// @import "bootstrap/scss/images";
+//@import "~bootstrap/scss/containers";
+//@import "~bootstrap/scss/grid";
+// @import "bootstrap/scss/tables";
+// @import "bootstrap/scss/forms";
+// @import "~bootstrap/scss/buttons";
+// @import "~bootstrap/scss/transitions";
+// @import "~bootstrap/scss/dropdown";
+// @import "bootstrap/scss/button-group";
+// @import "bootstrap/scss/nav";
+// @import "bootstrap/scss/navbar"; // Requires nav
+// @import "bootstrap/scss/card";
+// @import "bootstrap/scss/breadcrumb";
+@import "~bootstrap/scss/accordion";
+// @import "bootstrap/scss/pagination";
+// @import "bootstrap/scss/badge";
+// @import "bootstrap/scss/alert";
+// @import "bootstrap/scss/progress";
+// @import "bootstrap/scss/list-group";
+//@import "~bootstrap/scss/close";
+// @import "bootstrap/scss/toasts";
+//@import "~bootstrap/scss/modal"; // Requires transitions
+// @import "bootstrap/scss/tooltip";
+//@import "~bootstrap/scss/popover";
+// @import "bootstrap/scss/carousel";
+// @import "bootstrap/scss/spinners";
+//@import "~bootstrap/scss/offcanvas"; // Requires transitions
+// @import "bootstrap/scss/placeholders";
+
+// Helpers
+// @import "bootstrap/scss/helpers";
+
+// Utilities
+//@import "~bootstrap/scss/utilities/api";
+
+
+//
+// Custom styles
+//
+
+
 @import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss';
-//@import '~bootstrap/scss/bootstrap.scss';
+//@import '../../../../node_modules/bootstrap/scss/bootstrap.scss';
+
+// $accordion-button-bg: blue;
+
+// // Required for bootstrap overrides
+// @import "../../../../node_modules/bootstrap/scss/functions";
+// // Default variable overrides
+// // $body-bg: #000;
+// // $body-color: #111;
+// // Required for bootstrap
+// @import "../../../../node_modules/bootstrap/scss/variables";
+// @import "../../../../node_modules/bootstrap/scss/variables-dark";
+// @import "../../../../node_modules/bootstrap/scss/mixins";
+// @import "../../../../node_modules/bootstrap/scss/root";
+// // Bootstrap component
+// @import '../../../../node_modules/bootstrap/scss/accordion';
 
 $OBObgcolor: #0A314D;
 $OBOcolor: #ffffff;
 $OBOhoverBG: #A6E5F3;
 $OBOhoverLink: #2499C2;
 $MenuHoverBG: #cfe2ff;
+
 
 /*** override bootstrap classes taking over SP controls ***/
 body, body.ms-font-m{
@@ -98,6 +195,14 @@ body, body.ms-font-m{
 /********* customized Accordion styles **********/
 .accordionContainerHide{
   display: none !important;
+}
+
+.accordion-button{
+  color: $MenuHoverBG;
+  $bs-accordion-color: $MenuHoverBG;
+  // > i {
+  //   color: $OBOhoverLink;
+  // }
 }
 
 .categoryIcon {

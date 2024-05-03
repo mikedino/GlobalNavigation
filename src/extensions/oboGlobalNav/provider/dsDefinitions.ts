@@ -4,6 +4,7 @@ export interface IGlobalNavCategory {
     Url: string;
     SortOrder: number;
     IconName?: string;
+    isHome?: boolean;
     Restricted: boolean; 
     // "Restricted" is technically not needed for categories, and doesn't "do" anything on them but I'm using
     // it for the click actions on both the categories AND the child items so I can use this
@@ -19,4 +20,13 @@ export interface IGlobalNavItem extends IGlobalNavCategory {
         Id: number | undefined;
         Title: string | undefined;
     };
+}
+
+export interface IGlobalFooter {
+    ID: number;
+    Title: string;
+    Url: string;
+    Position: string;
+    SortOrder: number;
+    IconName?: string;
 }

@@ -37,7 +37,7 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({ onSearchTermChang
             setIsLoading(false); // Set loading state to false regardless of success or failure
             setCategories(Datasource.Categories);
             setMenuItems(Datasource.MenuItems);
-            console.log("[Search Menu Items]", Datasource.MenuItems);
+            //console.log("[Search Menu Items]", Datasource.MenuItems);
         })
     }, []); // Empty dependency array means this effect runs only once, similar to componentDidMount)
 

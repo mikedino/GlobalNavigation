@@ -1,10 +1,14 @@
 import * as React from 'react';
 import styles from '../GlobalNavStyles.module.scss';
-import { Icon } from '@fluentui/react/lib/Icon'; 
+import { Icon } from '@fluentui/react/lib/Icon';
+import { IGlobalFooterProps } from './FooterProps';
+import { IGlobalFooter } from '../provider/dsDefinitions';
 
-export class GlobalFooter extends React.Component {
+export class GlobalFooter extends React.Component<IGlobalFooterProps> {
 
-    public render(): React.ReactElement<any> {
+    public render(): React.ReactElement<IGlobalFooterProps> {
+
+        const footerItems: IGlobalFooter[] = this.props.footerItems as [];
 
         return (
             <div className={styles.footer}>
@@ -14,15 +18,22 @@ export class GlobalFooter extends React.Component {
                     </div>
                 </div>
                 <div className={styles.stickyLinks}>
-                    {/* <div><a href="https://seirmprod3.servicenowservices.com/obo">rOBO</a></div> */}
-                    <div><a href="mailto:obosharepoint.state.gov">OBO SharePoint Support</a></div>
-                    <div><a href="https://myapps.microsoft.com/">My Apps Dashboard</a></div>
+                    {footerItems
+                        .filter(item => item.Position === "CENTER")
+                        .map(filteredItem =>
+                            <div key={filteredItem.ID}><a href={filteredItem.Url}>{filteredItem.Title}</a></div>
+                        )}
                 </div>
                 <div className={styles.support}>
-                    <div>
-                        <div><Icon iconName='Headset' /></div>
-                        <div>IT Service Center (202.647.2000)</div>
-                    </div>
+                    {footerItems
+                        .filter(item => item.Position === "RIGHT")
+                        .slice(0, 1) // Only take the first item if any
+                        .map(filteredItem => (
+                            <div key={filteredItem.ID}>
+                                <div><Icon iconName={filteredItem.IconName} /></div>
+                                <div><a href={filteredItem.Url}>{filteredItem.Title}</a></div>
+                            </div>
+                        ))}
                 </div>
             </div>
         );

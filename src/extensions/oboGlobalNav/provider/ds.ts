@@ -1,4 +1,4 @@
-import { IGlobalNavCategory, IGlobalNavItem } from "./dsDefinitions";
+import { IGlobalNavCategory, IGlobalNavItem, IGlobalFooter } from "./dsDefinitions";
 import { DummyDatasource } from "./DummyDatasource";
 import Strings, { setContext } from "../../../strings";
 import { Web } from "gd-sprest";
@@ -23,13 +23,14 @@ export class Datasource {
         if (!this.initialized) { //ensure this was not already initialized
 
             if (isDebug) {
-                
+
                 // get dummy data for debug
-                return DummyDatasource.init().then(()=>{
-                    
+                return DummyDatasource.init().then(() => {
                     this._categories = DummyDatasource.Categories;
                     this._menuItems = DummyDatasource.MenuItems;
-                    
+                    // get real footer data
+                    return this.getFooterItems();
+                }).then(() => {
                     //set initialized flag
                     this.initialized = true;
                 });
@@ -42,24 +43,26 @@ export class Datasource {
 
                     //get the categories
                     this.getCategories().then(() => {
-
-                        console.log("Categories", this._categories)
-
+                        //console.log("Categories", this._categories)
                         //then get the menu items
                         this.getMenuItems().then(() => {
-
-                            console.log("MenuItems", this.MenuItems)
-                            //set initialized flag
-                            this.initialized = true;
-                            resolve();
-
-                        }, (error) => {
-                            console.error(Strings.ProjectName, "getMenuItem error: " + JSON.stringify(error));
-                            reject(error);
+                            //console.log("MenuItems", this.MenuItems)
+                            //then get the footer items
+                            this.getFooterItems().then(() => {
+                                //set initialized flag
+                                this.initialized = true;
+                                resolve();
+                            },(error) => {
+                                console.error(Strings.ProjectName, "[Datasource] getFooterItems error: " + JSON.stringify(error));
+                                reject(error);
+                            });
+                        }, (error2) => {
+                            console.error(Strings.ProjectName, "[Datasource] getMenuItems error: " + JSON.stringify(error2));
+                            reject(error2);
                         });
-                    }, (error2) => {
-                        console.error(Strings.ProjectName, "getCategories error: " + JSON.stringify(error2));
-                        reject(error2);
+                    }, (error3) => {
+                        console.error(Strings.ProjectName, "[Datasource] getCategories error: " + JSON.stringify(error3));
+                        reject(error3);
                     });
                 })
 
@@ -85,7 +88,7 @@ export class Datasource {
             Web(`${Strings.TenantUrl}/sites/${Strings.NavLinksSite}`).Lists(Strings.CategoriesList).Items().query({
                 GetAllItems: true,
                 OrderBy: ["SortOrder"],
-                Select: ["Title", "ID", "Url", "IconName", "SortOrder"]
+                Select: ["Title", "ID", "Url", "IconName", "SortOrder", "isHome"]
             }).execute(
                 // success
                 items => {
@@ -101,6 +104,8 @@ export class Datasource {
                                 Title: item.Title,
                                 Url: item.Url,
                                 SortOrder: item.SortOrder,
+                                IconName: item.IconName,
+                                isHome: item.isHome,
                                 Restricted: false
                             })
                         }
@@ -163,11 +168,59 @@ export class Datasource {
                         // resolve the requet
                         resolve(this._menuItems);
 
-                    } else reject; 
+                    } else reject;
 
                 },
                 //error
                 (error) => { reject(error); console.error(Strings.ProjectName, "Error loading menu items: " + error); }
+            )
+
+        });
+
+    }
+
+    private static _footerItems: IGlobalFooter[] = [];
+    static get FooterItems(): IGlobalFooter[] { return this._footerItems; }
+    private static getFooterItems(): Promise<IGlobalFooter[]> {
+
+        return new Promise<IGlobalFooter[]>((resolve, reject) => {
+
+            // clear the items
+            this._footerItems = [];
+
+            // load the data
+            Web(`${Strings.TenantUrl}/sites/${Strings.NavLinksSite}`).Lists(Strings.FooterList).Items().query({
+                GetAllItems: true,
+                OrderBy: ["SortOrder"],
+                Select: ["Title", "Url", "SortOrder", "Position", "IconName"]
+            }).execute(
+                // success
+                (items) => {
+
+                    // ensure items is defined and is not empty
+                    if (items && items.results.length > 0) {
+
+                        // Parse the items & set the menu items
+                        for (let i = 0; i < items.results.length; i++) {
+                            const item: IGlobalFooter = items.results[i] as any;
+                            this._footerItems.push({
+                                ID: item.ID,
+                                Title: item.Title,
+                                Url: item.Url,
+                                Position: item.Position,
+                                SortOrder: item.SortOrder,
+                                IconName: item.IconName
+                            });
+                        }
+
+                        // resolve the requet
+                        resolve(this._footerItems);
+
+                    } else reject;
+
+                },
+                //error
+                (error) => { reject(error); console.error(Strings.ProjectName, "Error loading footer items: " + error); }
             )
 
         });

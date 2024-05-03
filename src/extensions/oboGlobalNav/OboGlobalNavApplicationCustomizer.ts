@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import { IGlobalNavProps } from './components/NavigationProps';
+import { IGlobalFooterProps } from './components/FooterProps';
 import GlobalNav from './components/Navigation';
 import { GlobalFooter } from './components/Footer';
 //import { DummyNavProvider } from './provider/DummyNavProvider';
@@ -114,8 +115,11 @@ export default class OboGlobalNavApplicationCustomizer
       this._footer = this.context.placeholderProvider.tryCreateContent(PlaceholderName.Bottom, { onDispose: this._onDispose });
       Log.info(Strings.ProjectName, "created the footer");
 
-      const footerElement: React.ReactElement = React.createElement(
-        GlobalFooter
+      const footerElement: React.ReactElement<IGlobalFooterProps> = React.createElement(
+        GlobalFooter,
+        {
+          footerItems: Datasource.FooterItems
+        }
       );
 
       // render the Footer UI using a React component
