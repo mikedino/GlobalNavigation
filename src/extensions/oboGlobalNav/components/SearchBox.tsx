@@ -1,35 +1,7 @@
 import * as React from 'react';
 import { SearchBox } from '@fluentui/react/lib/SearchBox';
-import styles from '../styles/GlobalNavStyles.module.scss';
-//import { createTheme } from '@fluentui/react/lib/Styling';
-import { lightTheme } from '../styles/themes';
-
-// const lightTheme = createTheme({
-//   palette: {
-//     themePrimary: '#0078D4', // Adjust colors as needed
-//     themeLighterAlt: '#eff6fc',
-//     themeLighter: '#deecf9',
-//     themeLight: '#c7e0f4',
-//     themeTertiary: '#71afe5',
-//     themeSecondary: '#2b88d8',
-//     themeDarkAlt: '#106ebe',
-//     themeDark: '#005a9e',
-//     themeDarker: '#004578',
-//     neutralLighterAlt: '#f8f8f8',
-//     neutralLighter: '#f4f4f4',
-//     neutralLight: '#eaeaea',
-//     neutralQuaternaryAlt: '#dadada',
-//     neutralQuaternary: '#d0d0d0',
-//     neutralTertiaryAlt: '#c8c8c8',
-//     neutralTertiary: '#c2c2c2',
-//     neutralSecondary: '#858585',
-//     neutralPrimaryAlt: '#4b4b4b',
-//     neutralPrimary: '#333333',
-//     neutralDark: '#272727',
-//     black: '#1d1d1d',
-//     white: '#ffffff',
-//   },
-// });
+import styles from '../styles/styles.module.scss';
+//import { lightTheme } from '../styles/themes';
 
 const SearchBoxCustom: React.FC<{ onSearchTermChange: (searchTerm: string) => void }> = ({ onSearchTermChange }) => {
   const [searchTerm, setSearchTerm] = React.useState<string>('');
@@ -57,7 +29,8 @@ const SearchBoxCustom: React.FC<{ onSearchTermChange: (searchTerm: string) => vo
         value={searchTerm}
         onEscape={handleClearSearch}
         onClear={handleClearSearch}
-        onChange={handleSearchTermChange} theme={lightTheme}
+        onChange={handleSearchTermChange} 
+        //theme={lightTheme}
       />
     </div>
 

@@ -1,11 +1,12 @@
 import * as React from 'react';
 import { DefaultButton, Icon } from '@fluentui/react';
-import styles from '../styles/GlobalNavStyles.module.scss';
+import styles from '../styles/styles.module.scss';
 import { Accordion, AccordionBody, AccordionHeader, AccordionItem } from 'react-bootstrap';
 //import SearchBoxCustom from './SearchComponent';
 import { IGlobalNavCategory } from '../provider/dsDefinitions';
 import SearchResultsList from './SearchList';
-import { IGlobalNavProps } from './NavigationProps';
+import { IGlobalNavProps } from './MenuProps';
+require('../styles/bootstrap-custom.scss');
 
 const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitems }) => {
 
@@ -17,6 +18,8 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
     //const [breadcrumb, setBreadcrumb] = React.useState<string[]>(["Organization"]); ///this was for a breadcrumb (using array)
     const [breadcrumb, setBreadcrumb] = React.useState<IGlobalNavCategory>(); ///this is for a string only (show Division)
     const [showClickMenu, setClickMenu] = React.useState<boolean>(false);
+    // State for the default active key (default expanded category)
+    const [defaultActiveKey, setDefaultActiveKey] = React.useState<string>();
     // State for the click menu parent item id
     const [clickMenuParentID, setClickMenuParentID] = React.useState<number | null>(null);
     // State for holding the search term callback
@@ -35,15 +38,23 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
         }
     };
 
-    // Use useEffect set default Click menu parent on component load (which is the first category)
+    // Use useEffect set default Click menu parent on component load (which is the expanded category)
     React.useEffect(() => {
-        // Call menuSelect with the first item if categories are available
+        // Call menuSelect with the default expanded item if categories are available
         if (categories.length > 0) {
-            menuSelect(categories[0], true);
+            // find the default expanded item
+            const defaultCategory = categories.filter(category => category.defaultExpanded)[0];
+            // ensure defaultCategory is defined
+            if(defaultCategory){
+                setDefaultActiveKey(defaultCategory.ID.toString());
+                menuSelect(defaultCategory, true);
+            }
         }
         // Disable the warning for missing 'categories' in the dependency array because we only want this to run once on load
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    // get the default active key (expanded menu item)
 
     // Toggle menu function
     const menuToggle = (): void => {
@@ -58,7 +69,7 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
 
     return (
         <div id='OBOGlobalMenuContainer' className={styles.menu}>
-            <div className={styles.category}>
+            <div className={styles.menuIconContainer}>
                 <div id="menu-icon" className={styles.menuIcon}>
                     <DefaultButton
                         iconProps={{ iconName: toggleIconName }}
@@ -119,13 +130,13 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
                             }
                             <div>
                                 {/* <Accordion defaultActiveKey='2' activeKey={activeKeys} onSelect={handleSelect} alwaysOpen> */}
-                                <Accordion flush defaultActiveKey={categories[0].ID.toString()}>
+                                <Accordion flush defaultActiveKey={defaultActiveKey}>
                                     {categories
-                                        .filter(category => !category.isHome)
+                                        //.filter(category => !category.isHome)
                                         .map(fCategory =>
                                             <AccordionItem eventKey={fCategory.ID.toString()}>
                                                 <AccordionHeader onClick={() => menuSelect(fCategory, true)}><Icon iconName={fCategory.IconName} className={styles.categoryIcon}></Icon> {fCategory.Title}</AccordionHeader>
-                                                <AccordionBody>
+                                                <AccordionBody onEnter={fCategory.isHome ? () => handleDivClick(fCategory.Url) : undefined}>
                                                     {menuitems
                                                         .filter(item => item.Category.Id === fCategory.ID && item.Parent.Id === undefined)
                                                         .map(filteredItem => {

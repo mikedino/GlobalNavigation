@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styles from '../styles/GlobalNavStyles.module.scss';
+import styles from '../styles/styles.module.scss';
 import { Datasource } from '../provider/ds';
 import { IGlobalNavCategory, IGlobalNavItem } from '../provider/dsDefinitions';
 import SearchBoxCustom from './SearchBox';

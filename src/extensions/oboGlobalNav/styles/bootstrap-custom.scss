@@ -1,0 +1,55 @@
+//
+// BOOTSTRAP CUSTOMIZATION
+//
+// I had to create a separate file so that the solution would build. For some reason, it would not build
+// with the bootstrap scss included in my styles module. I tried 100 different things and could never get
+// it to work, so here we are... -MDL 5/7/24
+//
+//********** Option 1: Include the entire Bootstrap lib
+// custom variable overrides go first
+// $accordion-bg: #0A314D;
+$body-bg: #0A314D;
+$body-color: #fff;
+$primary-bg-subtle: #345d96;
+//$accordion-button-active-bg: #345d96;
+$accordion-button-active-color: $body-color;
+$primary-text-emphasis: #A6E5F3;
+
+
+// then import the lib
+@import "~bootstrap/scss/bootstrap";
+
+
+//********** Option 2:  Only include required parts
+//1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
+// @import "../../../../node_modules/bootstrap/scss/functions";
+
+// 2. Include any default variable overrides here
+//$body-color: #fff;
+//$body-bg: #0A314D;
+//$accordion-button-bg:#0A314D;
+// $accordion-bg: #0A314D;
+
+// 3. Include remainder of required Bootstrap stylesheets (including any separate color mode stylesheets)
+// @import "../../../../node_modules/bootstrap/scss/variables";
+// @import "../../../../node_modules/bootstrap/scss/variables-dark";
+
+// 4. Include any default map overrides here
+
+// 5. Include remainder of required parts
+// @import "../../../../node_modules/bootstrap/scss/maps";
+// @import "../../../../node_modules/bootstrap/scss/mixins";
+// @import "../../../../node_modules/bootstrap/scss/root";
+
+// 6. Optionally include any other parts as needed
+// @import "../../../../node_modules/bootstrap/scss/accordion";
+// @import "../../../../node_modules/bootstrap/scss/utilities";
+// @import "../../../../node_modules/bootstrap/scss/reboot";
+// @import "../../../../node_modules/bootstrap/scss/type";
+// @import "../../../../node_modules/bootstrap/scss/images";
+// @import "../../../../node_modules/bootstrap/scss/containers";
+// @import "../../../../node_modules/bootstrap/scss/grid";
+// @import "../../../../node_modules/bootstrap/scss/helpers";
+
+// 7. Optionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
+// @import "../../../../node_modules/bootstrap/scss/utilities/api";

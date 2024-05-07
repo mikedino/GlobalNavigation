@@ -43,7 +43,7 @@ export class Datasource {
 
                     //get the categories
                     this.getCategories().then(() => {
-                        //console.log("Categories", this._categories)
+                        console.log("Categories", this._categories)
                         //then get the menu items
                         this.getMenuItems().then(() => {
                             //console.log("MenuItems", this.MenuItems)
@@ -88,7 +88,7 @@ export class Datasource {
             Web(`${Strings.TenantUrl}/sites/${Strings.NavLinksSite}`).Lists(Strings.CategoriesList).Items().query({
                 GetAllItems: true,
                 OrderBy: ["SortOrder"],
-                Select: ["Title", "ID", "Url", "IconName", "SortOrder", "isHome"]
+                Select: ["Title", "ID", "Url", "IconName", "SortOrder", "isHome", "defaultExpanded"]
             }).execute(
                 // success
                 items => {
@@ -106,6 +106,7 @@ export class Datasource {
                                 SortOrder: item.SortOrder,
                                 IconName: item.IconName,
                                 isHome: item.isHome,
+                                defaultExpanded: item.defaultExpanded,
                                 Restricted: false
                             })
                         }

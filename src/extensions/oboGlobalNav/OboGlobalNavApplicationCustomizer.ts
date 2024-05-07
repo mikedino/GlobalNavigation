@@ -1,8 +1,8 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
-import { IGlobalNavProps } from './components/NavigationProps';
+import { IGlobalNavProps } from './components/MenuProps';
 import { IGlobalFooterProps } from './components/FooterProps';
-import GlobalNav from './components/Navigation';
+import GlobalNav from './components/Menu';
 import { GlobalFooter } from './components/Footer';
 //import { DummyNavProvider } from './provider/DummyNavProvider';
 import { Datasource } from './provider/ds';
@@ -17,11 +17,9 @@ import {
 
 import * as strings from 'OboGlobalNavApplicationCustomizerStrings';
 import Strings from '../../strings';
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
+//require('../../extensions/oboGlobalNav/styles/GlobalNavStyles.module.scss');
 import { override } from '@microsoft/decorators';
-
-
-const LOG_SOURCE: string = 'OboGlobalNavApplicationCustomizer';
 
 /**
  * If your command set uses the ClientSideComponentProperties JSON input,
@@ -49,7 +47,7 @@ export default class OboGlobalNavApplicationCustomizer
 
   @override
   public async onInit(): Promise<void> {
-    Log.info(LOG_SOURCE, `Initialized ${strings.Title}`);
+    Log.info(Strings.ProjectName, `Initialized ${strings.Title}`);
 
     // Handle possible changes on the existence of placeholders
     //this.context.placeholderProvider.changedEvent.add(this, this.renderGlobalNav);

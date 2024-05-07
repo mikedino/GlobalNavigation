@@ -5,6 +5,7 @@ export interface IGlobalNavCategory {
     SortOrder: number;
     IconName?: string;
     isHome?: boolean;
+    defaultExpanded?: boolean;
     Restricted: boolean; 
     // "Restricted" is technically not needed for categories, and doesn't "do" anything on them but I'm using
     // it for the click actions on both the categories AND the child items so I can use this

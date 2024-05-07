@@ -27,12 +27,12 @@ export class DummyDatasource {
         return new Promise<IGlobalNavCategory[]>((resolve, reject) => {
 
             const _categories: IGlobalNavCategory[] = [
-                { ID: 6, Title: 'OBO Home', Url: '/', Restricted: false, isHome: true, IconName: "Home", SortOrder: 1 },
-                { ID: 1, Title: 'Organization', Url: '/', Restricted: false, isHome: false, IconName: "Org", SortOrder: 5 },
-                { ID: 2, Title: 'Applications', Url: '/', Restricted: false, isHome: false, IconName: "AppIconDefault", SortOrder: 10 },
-                { ID: 3, Title: 'Processes', Url: '/', Restricted: false, isHome: false, IconName: "Processing", SortOrder: 15 },
-                { ID: 4, Title: 'Resources', Url: '/', Restricted: false, isHome: false, IconName: "D365BusinessCentral", SortOrder: 20 },
-                { ID: 5, Title: 'Contact/Support', Url: '/', Restricted: false, isHome: false, IconName: "ContactList", SortOrder: 25 }
+                { ID: 6, Title: 'OBO Home', Url: '/', Restricted: false, isHome: true, defaultExpanded: false, IconName: "Home", SortOrder: 1 },
+                { ID: 1, Title: 'Organization', Url: '/', Restricted: false, isHome: false, defaultExpanded: true, IconName: "Org", SortOrder: 5 },
+                { ID: 2, Title: 'Applications', Url: '/', Restricted: false, isHome: false, defaultExpanded: false, IconName: "AppIconDefault", SortOrder: 10 },
+                { ID: 3, Title: 'Processes', Url: '/', Restricted: false, isHome: false, defaultExpanded: false, IconName: "Processing", SortOrder: 15 },
+                { ID: 4, Title: 'Resources', Url: '/', Restricted: false, isHome: false, defaultExpanded: false, IconName: "D365BusinessCentral", SortOrder: 20 },
+                { ID: 5, Title: 'Contact/Support', Url: '/', Restricted: false, isHome: false, defaultExpanded: false, IconName: "ContactList", SortOrder: 25 }
             ];
             this._categories = _categories;
             resolve(_categories);

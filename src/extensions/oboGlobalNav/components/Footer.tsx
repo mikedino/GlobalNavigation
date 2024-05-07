@@ -1,5 +1,5 @@
 import * as React from 'react';
-import styles from '../GlobalNavStyles.module.scss';
+import styles from '../styles/styles.module.scss';
 import { Icon } from '@fluentui/react/lib/Icon';
 import { IGlobalFooterProps } from './FooterProps';
 import { IGlobalFooter } from '../provider/dsDefinitions';
