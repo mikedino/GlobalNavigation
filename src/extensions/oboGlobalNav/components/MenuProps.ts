@@ -4,4 +4,5 @@ export interface IGlobalNavProps {
     isExpanded: boolean;
     categories: IGlobalNavCategory[];
     menuitems: IGlobalNavItem[];
+    defaultExpandedKey: string;
 }

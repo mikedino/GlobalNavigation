@@ -86,7 +86,8 @@ export default class OboGlobalNavApplicationCustomizer
         {
           isExpanded: false,
           categories: Datasource.Categories,
-          menuitems: Datasource.MenuItems
+          menuitems: Datasource.MenuItems,
+          defaultExpandedKey: Datasource.DefaultExpandedKey
         }
       );
 

@@ -75,6 +75,8 @@ export class Datasource {
 
     }
 
+    private static _defaultExpandedKey: string = '';
+    static get DefaultExpandedKey(): string { return this._defaultExpandedKey; }
     private static _categories: IGlobalNavCategory[] = [];
     static get Categories(): IGlobalNavCategory[] { return this._categories; }
     private static getCategories(): Promise<IGlobalNavCategory[]> {
@@ -106,9 +108,9 @@ export class Datasource {
                                 SortOrder: item.SortOrder,
                                 IconName: item.IconName,
                                 isHome: item.isHome,
-                                defaultExpanded: item.defaultExpanded,
-                                Restricted: false
+                                defaultExpanded: item.defaultExpanded
                             })
+                            if(item.defaultExpanded) this._defaultExpandedKey = item.ID.toString()
                         }
 
                         // resolve the requet

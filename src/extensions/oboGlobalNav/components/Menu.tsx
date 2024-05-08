@@ -3,12 +3,12 @@ import { DefaultButton, Icon } from '@fluentui/react';
 import styles from '../styles/styles.module.scss';
 import { Accordion, AccordionBody, AccordionHeader, AccordionItem } from 'react-bootstrap';
 //import SearchBoxCustom from './SearchComponent';
-import { IGlobalNavCategory } from '../provider/dsDefinitions';
+import { IGlobalNavCategory, IGlobalNavItem } from '../provider/dsDefinitions';
 import SearchResultsList from './SearchList';
 import { IGlobalNavProps } from './MenuProps';
 require('../styles/bootstrap-custom.scss');
 
-const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitems }) => {
+const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitems, defaultExpandedKey }) => {
 
     // State to set menu toggle status
     const [expanded, setExpanded] = React.useState<boolean>(isExpanded);
@@ -16,17 +16,15 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
     const [toggleIconName, setToggleIconName] = React.useState<string>("CollapseMenu");
     // State for breadcrumb & click menu
     //const [breadcrumb, setBreadcrumb] = React.useState<string[]>(["Organization"]); ///this was for a breadcrumb (using array)
-    const [breadcrumb, setBreadcrumb] = React.useState<IGlobalNavCategory>(); ///this is for a string only (show Division)
+    const [breadcrumb, setBreadcrumb] = React.useState<IGlobalNavCategory | IGlobalNavItem>(); ///this is for a string only (show Division)
     const [showClickMenu, setClickMenu] = React.useState<boolean>(false);
-    // State for the default active key (default expanded category)
-    const [defaultActiveKey, setDefaultActiveKey] = React.useState<string>();
     // State for the click menu parent item id
     const [clickMenuParentID, setClickMenuParentID] = React.useState<number | null>(null);
     // State for holding the search term callback
     const [searchTerm, setSearchTerm] = React.useState<string>('');
 
     // Handler for menu item click
-    const menuSelect = (item: IGlobalNavCategory, reset: boolean): void => {
+    const menuSelect = (item: IGlobalNavCategory | IGlobalNavItem, reset: boolean): void => {
         // if this is a click on parent item, reset the breadcrumb/array and hide it
         if (reset) {
             setClickMenu(false);
@@ -38,17 +36,26 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
         }
     };
 
-    // Use useEffect set default Click menu parent on component load (which is the expanded category)
+    // const handleHomeButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    //     event.preventDefault();
+    //     window.location.href = '/';
+    // }
+
+    // Use useEffect set default Click menu parent on component load
     React.useEffect(() => {
-        // Call menuSelect with the default expanded item if categories are available
+        // Call menuSelect with the first item if categories are available
         if (categories.length > 0) {
-            // find the default expanded item
-            const defaultCategory = categories.filter(category => category.defaultExpanded)[0];
-            // ensure defaultCategory is defined
-            if(defaultCategory){
-                setDefaultActiveKey(defaultCategory.ID.toString());
-                menuSelect(defaultCategory, true);
-            }
+            menuSelect(categories[0], true);
+        }
+        // get the first accordion header (home) and disable the click function
+        const homeButton = document.querySelector<HTMLButtonElement>(".accordion > .accordion-item:first-child > .accordion-header > .accordion-button");
+        if (homeButton) {
+            //homeButton.disabled = true;
+            homeButton.addEventListener("click", (ev: MouseEvent) => {ev.preventDefault(); window.location.href = '/'});
+            // homeButton.addEventListener("click", handleHomeButtonClick);
+            // return () => {
+            //     homeButton.removeEventListener("click", handleHomeButtonClick);
+            // };
         }
         // Disable the warning for missing 'categories' in the dependency array because we only want this to run once on load
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -80,63 +87,69 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
                 </div>
                 <div className={`${styles.globalMenu} ${expanded ? styles.change : ""}`} id="GlobalMenu" >
                     <SearchResultsList onSearchTermChange={(term) => setSearchTerm(term)} />
-                    <div id='clickMenuContainer' className={`${styles.clickMenu} ${showClickMenu ? styles.toggle : ""}`}>
-                        <div className={`${styles.menuTopRow} ${styles.mainMenuBack} accordion-button`} onClick={() => menuSelect(categories[0], true)}>
-                            <Icon iconName='Back' className={styles.categoryIcon} about='Back to main menu' title='Back to main menu'></Icon>
-                            Main Menu
-                        </div>
-                        {/* <div className={`${styles.menuTopRow} accordion-button`}>{breadcrumb.join(' > ')}</div> */}
-                        <div className={`${styles.menuTopRow} ${styles.parentItem} accordion-button`} onClick={() => {
-                            if (breadcrumb && breadcrumb.Url) handleDivClick(breadcrumb.Url)
-                        }}>{breadcrumb?.Title}
-                        </div>
-                        <div className='clickMenuSubItemsContainer accordion-body'>
-                            {menuitems
-                                .filter(item => item.Parent?.Id === clickMenuParentID)
-                                .map(filteredItem =>
-                                    <div key={filteredItem.ID}>
-                                        <div className={`${styles.childItem} ${styles.linkOnly}`} onClick={() => handleDivClick(filteredItem.Url)}>
-                                            <div>
-                                                <a href={filteredItem.Url}>{filteredItem.Title}</a>
-                                                {filteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
-                                            </div>
-                                        </div>
-                                        {menuitems.filter(childItem => childItem.Parent?.Id === filteredItem.ID).map(childFilteredItem =>
-                                            <div className={`${styles.childItem} ${styles.indent} ${styles.linkOnly}`} onClick={() => handleDivClick(filteredItem.Url)}>
+                    {/* Conditionally render the click menu based on searchTerm */}
+                    {!searchTerm && (
+                        <div id='clickMenuContainer' className={`${styles.clickMenu} ${showClickMenu ? styles.toggle : ""}`}>
+                            <div className={`${styles.menuTopRow} ${styles.mainMenuBack} accordion-button`} onClick={() => menuSelect(categories[0], true)}>
+                                <Icon iconName='Back' className={styles.categoryIcon} about='Back to main menu' title='Back to main menu'></Icon>
+                                Main Menu
+                            </div>
+                            {/* <div className={`${styles.menuTopRow} accordion-button`}>{breadcrumb.join(' > ')}</div> */}
+                            <div className={`${styles.menuTopRow} ${styles.parentItem} accordion-button`} onClick={() => {
+                                if (breadcrumb && breadcrumb.Url) handleDivClick(breadcrumb.Url)
+                            }}>{breadcrumb?.Title}
+                            </div>
+                            <div className='clickMenuSubItemsContainer accordion-body'>
+                                {menuitems
+                                    .filter(item => item.Parent?.Id === clickMenuParentID)
+                                    .map(filteredItem =>
+                                        <div key={filteredItem.ID}>
+                                            <div className={`${styles.childItem} ${styles.linkOnly}`} onClick={() => handleDivClick(filteredItem.Url)}>
                                                 <div>
-                                                    <a href={childFilteredItem.Url}>{childFilteredItem.Title}</a>
-                                                    {childFilteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
+                                                    <a href={filteredItem.Url}>{filteredItem.Title}</a>
+                                                    {filteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
                                                 </div>
                                             </div>
-                                        )}
+                                            {menuitems.filter(childItem => childItem.Parent?.Id === filteredItem.ID).map(childFilteredItem =>
+                                                <div className={`${styles.childItem} ${styles.indent} ${styles.linkOnly}`} onClick={() => handleDivClick(filteredItem.Url)}>
+                                                    <div>
+                                                        <a href={childFilteredItem.Url}>{childFilteredItem.Title}</a>
+                                                        {childFilteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
+                                                    </div>
+                                                </div>
+                                            )}
 
-                                    </div>
-                                )
-                            }
+                                        </div>
+                                    )
+                                }
+                            </div>
                         </div>
-                    </div>
+                    )}
                     {/* Conditionally render the accordionContainer based on searchTerm */}
                     {!searchTerm && (
                         <div id='accordionContainer' className={`${showClickMenu ? styles.accordionContainerHide : ""}`}>
-                            {categories
+                            {/************* THIS IS FOR THE MANUAL "HOME" BUTTON ABOVE THE ACCORDION. Switched to render with the accordion with manual modifications.
+                             *  {categories
                                 .filter(category => category.isHome)
                                 .slice(0, 1) // Only take the first item if any
                                 .map(fCategory => (
                                     <div key={fCategory.ID} className={`${styles.menuTopRow} accordion-button`} onClick={() => handleDivClick(fCategory.Url)}>
                                         <div className={styles.menuHome}><Icon iconName={fCategory.IconName} className={styles.categoryIcon}></Icon>{fCategory.Title}</div>
-                                        <div className={styles.menuExpand}>{/* <Icon iconName='ExpandAll' className='mx-1'></Icon> */}</div>
+                                        <div className={styles.menuExpand}><Icon iconName='ExpandAll' className='mx-1'></Icon></div>
                                     </div>
                                 ))
-                            }
+                            } */}
                             <div>
                                 {/* <Accordion defaultActiveKey='2' activeKey={activeKeys} onSelect={handleSelect} alwaysOpen> */}
-                                <Accordion flush defaultActiveKey={defaultActiveKey}>
+                                <Accordion flush defaultActiveKey={defaultExpandedKey}>
                                     {categories
                                         //.filter(category => !category.isHome)
                                         .map(fCategory =>
                                             <AccordionItem eventKey={fCategory.ID.toString()}>
-                                                <AccordionHeader onClick={() => menuSelect(fCategory, true)}><Icon iconName={fCategory.IconName} className={styles.categoryIcon}></Icon> {fCategory.Title}</AccordionHeader>
-                                                <AccordionBody onEnter={fCategory.isHome ? () => handleDivClick(fCategory.Url) : undefined}>
+                                                <AccordionHeader onClick={() => menuSelect(fCategory, true)} className={fCategory.isHome ? styles['accordion-homeCategory'] : ''}><Icon iconName={fCategory.IconName} className={styles.categoryIcon}></Icon> {fCategory.Title}
+                                                    {/* {fCategory.isHome ? <AccordionButton onSelect={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {handleHomeButtonClick(event, fCategory.Url);}}></AccordionButton> : undefined} */}
+                                                </AccordionHeader>
+                                                <AccordionBody>
                                                     {menuitems
                                                         .filter(item => item.Category.Id === fCategory.ID && item.Parent.Id === undefined)
                                                         .map(filteredItem => {

@@ -3,16 +3,20 @@ export interface IGlobalNavCategory {
     Title: string;
     Url: string;
     SortOrder: number;
-    IconName?: string;
-    isHome?: boolean;
-    defaultExpanded?: boolean;
-    Restricted: boolean; 
+    IconName: string;
+    isHome: boolean;
+    defaultExpanded: boolean;
     // "Restricted" is technically not needed for categories, and doesn't "do" anything on them but I'm using
     // it for the click actions on both the categories AND the child items so I can use this
     // interface for both instead of writing 2 functions or complex logic for 2nd level clicks
 }
 
-export interface IGlobalNavItem extends IGlobalNavCategory {
+export interface IGlobalNavItem {
+    ID: number;
+    Title: string;
+    Url: string;
+    SortOrder: number;
+    Restricted: boolean; 
     Category: {
         Id: number | undefined;
         Title: string | undefined;

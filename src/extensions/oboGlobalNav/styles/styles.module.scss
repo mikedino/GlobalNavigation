@@ -1,19 +1,14 @@
-
 //
 // Custom styles
 //
 @import '~@microsoft/sp-office-ui-fabric-core/dist/sass/SPFabricCore.scss';
 
-$OBObgcolor: #0A314D;
-$OBOcolor: #ffffff;
-$OBOhoverBG: #A6E5F3;
-//$OBOhoverLink: #2499C2;
+//$OBOhoverLink: #2499C2; //for a white background
 $OBOhoverLink: #FAD980;
-$MenuHoverBG: #cfe2ff;
-
 
 /*** override bootstrap classes taking over SP controls ***/
-body, body.ms-font-m{
+body,
+body.ms-font-m {
   background-color: $ms-color-white !important;
 }
 
@@ -59,7 +54,7 @@ body, body.ms-font-m{
     top: 35px;
     left: 0px;
     background-color: var(--bs-body-bg);
-    color: $OBOcolor;
+    color: var(--bs-body-color);
     z-index: 0;
     padding-bottom: 5px;
     padding-top: 5px;
@@ -68,7 +63,7 @@ body, body.ms-font-m{
     opacity: 0;
     overflow: hidden;
     min-width: 600px;
-    border: 2px solid #91c9d5;
+    border: 2px solid var(--bs-body-color);
 
     .menuTopRow {
       display: flex;
@@ -95,41 +90,51 @@ body, body.ms-font-m{
 
   .globalMenu.change {
     opacity: 1;
-    height: calc(100% - 35px); /*subtract top indent*/
+    height: auto;
+    min-height: 80%;
+    max-height: calc(100% - 35px);
+    /*subtract top indent*/
     z-index: 20000;
   }
 }
 
 /********* customized Accordion styles **********/
-.accordionContainerHide{
+.accordionContainerHide {
   display: none !important;
+}
+
+.accordion-homeCategory > button::after {
+  display: none;
+  background-image: none;
 }
 
 .categoryIcon {
   padding-right: 10px;
-  padding-top:2px;
+  padding-top: 2px;
 }
 
 .childItem {
-  display:flex;
+  display: flex;
   justify-content: space-between;
   align-items: center;
   padding-left: 27px;
   padding-top: 3px;
   cursor: pointer;
 
-  &.linkOnly:hover{
-    > div > a{
+  &.linkOnly:hover {
+    >div>a {
       color: $OBOhoverLink;
     }
   }
 
-  &:hover{
+  &:hover {
     background-color: var(--bs-primary-bg-subtle);
   }
 
-  a, a:visited,
-  > div > a, a:visited {
+  a,
+  a:visited,
+  >div>a,
+  a:visited {
     color: inherit;
     text-decoration: none;
 
@@ -138,11 +143,11 @@ body, body.ms-font-m{
     }
   }
 
-  > div:first-child > i {
+  >div:first-child>i {
     padding-left: 3px;
   }
 
-  .moreItemsIcon{
+  .moreItemsIcon {
     text-align: right;
     flex-grow: 1;
     padding-right: 5px;
@@ -151,27 +156,28 @@ body, body.ms-font-m{
 
 /****************** breadcrumb / click menu *********************/
 
-.childItem.indent{
+.childItem.indent {
   padding-left: 50px;
 }
 
-.clickMenu{
+.clickMenu {
   width: 100%;
   display: none !important;
-  box-sizing: content-box; /*undo the icon :before :after box-sizing*/
+  box-sizing: content-box;
+  /*undo the icon :before :after box-sizing*/
 
-  .mainMenuBack{
+  .mainMenuBack {
     border-bottom: 1px solid black;
     font-weight: 500;
     cursor: pointer;
 
-    &:hover{
+    &:hover {
       background-color: var(--bs-primary-bg-subtle);
       color: var(--bs-body-color);
     }
   }
 
-  .parentItem{
+  .parentItem {
     font-weight: 500;
 
     &:hover {
@@ -180,49 +186,50 @@ body, body.ms-font-m{
     }
   }
 }
-.clickMenu.toggle{
+
+.clickMenu.toggle {
   display: inline-block !important;
 }
 
 /********************** Search ************************/
-.searchCustom{
+.searchCustom {
   padding: 10px;
 
-  .searchBox{
+  .searchBox {
     width: 350px;
   }
 
-  .searchResults{
+  .searchResults {
     padding-top: 20px;
   }
 
-  .resultsItem{
+  .resultsItem {
     display: flex;
     cursor: pointer;
 
-    > div{
+    >div {
       padding: 4px 3px;
     }
 
-    &:hover{
+    &:hover {
       background-color: var(--bs-primary-bg-subtle);
     }
 
-    &:hover > div {
+    &:hover>div {
       color: $OBOhoverLink;
     }
   }
 
-  .level2item{
+  .level2item {
     padding-left: 15px;
   }
 
-  .level3item{
+  .level3item {
     padding-left: 50px;
   }
 
-  .childOfIcon{
-    padding-top:3px;
+  .childOfIcon {
+    padding-top: 3px;
   }
 
 }
@@ -330,7 +337,6 @@ body, body.ms-font-m{
     }
   }
 
-  
+
 
 }
-
