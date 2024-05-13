@@ -59,16 +59,13 @@ export default class OboGlobalNavApplicationCustomizer
 
         this.renderGlobalNav().then(() => {
           return Promise.resolve();
+        }).catch(error => {
+          Log.warn(Strings.ProjectName, "Error rendering Global Nav " + JSON.stringify(error));
         });
-
-      },
-      //error loading data
-      error => {
-        Log.warn(Strings.ProjectName, "error loading Datasource" + error);
-
-        return Promise.reject();
       }
-    )
+    ).catch(error => {
+      Log.warn(Strings.ProjectName, "Error initializing data source " + JSON.stringify(error));
+  });
 
   }
 

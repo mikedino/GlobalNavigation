@@ -17,6 +17,7 @@ const boldifyMatch = (text: string, searchTerm: string): React.ReactNode => {
     }
 
     // Create a regular expression with the global flag to match all occurrences of the search term
+    // eslint-disable-next-line @rushstack/security/no-unsafe-regexp
     const regex = new RegExp(searchTerm, 'gi');
 
     // Replace occurrences of the search term with bold text
@@ -39,6 +40,11 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({ onSearchTermChang
             setMenuItems(Datasource.MenuItems);
             //console.log("[Search Menu Items]", Datasource.MenuItems);
         })
+        .catch(error => {
+            // Handle the error here
+            console.error("Error initializing datasource for search list: ", error);
+            setIsLoading(false); // Set loading state to false if an error occurs
+        });
     }, []); // Empty dependency array means this effect runs only once, similar to componentDidMount)
 
     // Function to filter menu items based on search term

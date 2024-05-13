@@ -171,7 +171,7 @@ export class Datasource {
                         // resolve the requet
                         resolve(this._menuItems);
 
-                    } else reject;
+                    } else reject();
 
                 },
                 //error
@@ -219,7 +219,7 @@ export class Datasource {
                         // resolve the requet
                         resolve(this._footerItems);
 
-                    } else reject;
+                    } else reject();
 
                 },
                 //error

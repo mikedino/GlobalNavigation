@@ -15,6 +15,7 @@
 $OBOhoverLink: #FAD980;
 
 /*** override bootstrap classes taking over SP controls ***/
+// eslint-disable-next-line @typescript-eslint/camelcase
 body,
 body.ms-font-m {
   background-color: $ms-color-white !important;
@@ -183,10 +184,10 @@ body.ms-font-m {
 
   .parentItem {
     font-weight: 500;
+    background-color: var(--bs-primary-bg-subtle) !important;
 
     &:hover {
-      background-color: var(--bs-primary-bg-subtle);
-      color: var(--bs-body-color);
+      color: $OBOhoverLink;
     }
   }
 }

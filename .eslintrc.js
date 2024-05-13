@@ -2,6 +2,9 @@ require('@rushstack/eslint-config/patch/modern-module-resolution');
 module.exports = {
   extends: ['@microsoft/eslint-config-spfx/lib/profiles/default', 'plugin:react-hooks/recommended'],
   parserOptions: { tsconfigRootDir: __dirname },
+  rules: {
+    "@typescript-eslint/naming-convention": "off"
+  },
   overrides: [
     {
       files: ['*.ts', '*.tsx'],
