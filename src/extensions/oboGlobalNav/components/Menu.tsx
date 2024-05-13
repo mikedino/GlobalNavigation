@@ -2,7 +2,6 @@ import * as React from 'react';
 import { DefaultButton, Icon } from '@fluentui/react';
 import styles from '../styles/styles.module.scss';
 import { Accordion, AccordionBody, AccordionHeader, AccordionItem } from 'react-bootstrap';
-//import SearchBoxCustom from './SearchComponent';
 import { IGlobalNavCategory, IGlobalNavItem } from '../provider/dsDefinitions';
 import SearchResultsList from './SearchList';
 import { IGlobalNavProps } from './MenuProps';
@@ -36,26 +35,11 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
         }
     };
 
-    // const handleHomeButtonClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-    //     event.preventDefault();
-    //     window.location.href = '/';
-    // }
-
     // Use useEffect set default Click menu parent on component load
     React.useEffect(() => {
         // Call menuSelect with the first item if categories are available
         if (categories.length > 0) {
             menuSelect(categories[0], true);
-        }
-        // get the first accordion header (home) and disable the click function
-        const homeButton = document.querySelector<HTMLButtonElement>(".accordion > .accordion-item:first-child > .accordion-header > .accordion-button");
-        if (homeButton) {
-            //homeButton.disabled = true;
-            homeButton.addEventListener("click", (ev: MouseEvent) => {ev.preventDefault(); window.location.href = '/'});
-            // homeButton.addEventListener("click", handleHomeButtonClick);
-            // return () => {
-            //     homeButton.removeEventListener("click", handleHomeButtonClick);
-            // };
         }
         // Disable the warning for missing 'categories' in the dependency array because we only want this to run once on load
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -87,14 +71,13 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
                 </div>
                 <div className={`${styles.globalMenu} ${expanded ? styles.change : ""}`} id="GlobalMenu" >
                     <SearchResultsList onSearchTermChange={(term) => setSearchTerm(term)} />
-                    {/* Conditionally render the click menu based on searchTerm */}
+                    {/* Conditionally render the "click menu" based on searchTerm */}
                     {!searchTerm && (
                         <div id='clickMenuContainer' className={`${styles.clickMenu} ${showClickMenu ? styles.toggle : ""}`}>
                             <div className={`${styles.menuTopRow} ${styles.mainMenuBack} accordion-button`} onClick={() => menuSelect(categories[0], true)}>
                                 <Icon iconName='Back' className={styles.categoryIcon} about='Back to main menu' title='Back to main menu'></Icon>
                                 Main Menu
                             </div>
-                            {/* <div className={`${styles.menuTopRow} accordion-button`}>{breadcrumb.join(' > ')}</div> */}
                             <div className={`${styles.menuTopRow} ${styles.parentItem} accordion-button`} onClick={() => {
                                 if (breadcrumb && breadcrumb.Url) handleDivClick(breadcrumb.Url)
                             }}>{breadcrumb?.Title}
@@ -128,27 +111,25 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
                     {/* Conditionally render the accordionContainer based on searchTerm */}
                     {!searchTerm && (
                         <div id='accordionContainer' className={`${showClickMenu ? styles.accordionContainerHide : ""}`}>
-                            {/************* THIS IS FOR THE MANUAL "HOME" BUTTON ABOVE THE ACCORDION. Switched to render with the accordion with manual modifications.
-                             *  {categories
+                            {/********* render the home page link above the accordion ***** */}
+                            {categories
                                 .filter(category => category.isHome)
                                 .slice(0, 1) // Only take the first item if any
                                 .map(fCategory => (
                                     <div key={fCategory.ID} className={`${styles.menuTopRow} accordion-button`} onClick={() => handleDivClick(fCategory.Url)}>
                                         <div className={styles.menuHome}><Icon iconName={fCategory.IconName} className={styles.categoryIcon}></Icon>{fCategory.Title}</div>
-                                        <div className={styles.menuExpand}><Icon iconName='ExpandAll' className='mx-1'></Icon></div>
+                                        <div className={styles.menuExpand}>{/*<Icon iconName='Color' className='mx-1' onClick={toggleTheme}></Icon>*/}</div>
                                     </div>
                                 ))
-                            } */}
+                            }
                             <div>
-                                {/* <Accordion defaultActiveKey='2' activeKey={activeKeys} onSelect={handleSelect} alwaysOpen> */}
+                                {/********* render the rest of the categories for the accordion ***** */}
                                 <Accordion flush defaultActiveKey={defaultExpandedKey}>
                                     {categories
-                                        //.filter(category => !category.isHome)
+                                        .filter(category => !category.isHome)
                                         .map(fCategory =>
                                             <AccordionItem eventKey={fCategory.ID.toString()}>
-                                                <AccordionHeader onClick={() => menuSelect(fCategory, true)} className={fCategory.isHome ? styles['accordion-homeCategory'] : ''}><Icon iconName={fCategory.IconName} className={styles.categoryIcon}></Icon> {fCategory.Title}
-                                                    {/* {fCategory.isHome ? <AccordionButton onSelect={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {handleHomeButtonClick(event, fCategory.Url);}}></AccordionButton> : undefined} */}
-                                                </AccordionHeader>
+                                                <AccordionHeader onClick={() => menuSelect(fCategory, true)}><Icon iconName={fCategory.IconName} className={styles.categoryIcon}></Icon> {fCategory.Title}</AccordionHeader>
                                                 <AccordionBody>
                                                     {menuitems
                                                         .filter(item => item.Category.Id === fCategory.ID && item.Parent.Id === undefined)

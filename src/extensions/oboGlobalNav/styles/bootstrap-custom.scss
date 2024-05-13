@@ -7,14 +7,18 @@
 //
 //********** Option 1: Include the entire Bootstrap lib
 // custom variable overrides go first
-// $accordion-bg: #0A314D;
-$body-bg: #0A314D;
+//$body-bg: #0A314D; dark blue
+$body-bg: #093e60;
 $body-color: #fff;
 $primary-bg-subtle: #345d96;
 //$accordion-button-active-bg: #345d96;
 $accordion-button-active-color: $body-color;
+$accordion-button-focus-box-shadow: none;
 $primary-text-emphasis: #A6E5F3;
 
+.accordion-button:hover{
+    background-color: var(--bs-accordion-active-bg);
+  }
 
 // then import the lib
 @import "~bootstrap/scss/bootstrap";

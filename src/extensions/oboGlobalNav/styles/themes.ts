@@ -51,6 +51,7 @@ export const darkTheme = createTheme({
         neutralPrimary: '#ffffff',
         neutralDark: '#bea561',
         black: '#0A2240',
-        white: '#0a314d'
+        white: '#093e60'
+        //white: '#0a314d' darker blue
     }
 });

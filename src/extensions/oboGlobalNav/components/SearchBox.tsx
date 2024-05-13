@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { SearchBox } from '@fluentui/react/lib/SearchBox';
 import styles from '../styles/styles.module.scss';
-//import { lightTheme } from '../styles/themes';
+import { darkTheme } from '../styles/themes';
 
 const SearchBoxCustom: React.FC<{ onSearchTermChange: (searchTerm: string) => void }> = ({ onSearchTermChange }) => {
   const [searchTerm, setSearchTerm] = React.useState<string>('');
@@ -30,7 +30,7 @@ const SearchBoxCustom: React.FC<{ onSearchTermChange: (searchTerm: string) => vo
         onEscape={handleClearSearch}
         onClear={handleClearSearch}
         onChange={handleSearchTermChange} 
-        //theme={lightTheme}
+        theme={darkTheme}
       />
     </div>
 

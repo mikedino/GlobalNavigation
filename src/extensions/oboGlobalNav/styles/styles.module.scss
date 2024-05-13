@@ -1,3 +1,11 @@
+// this was playing with toggling themes
+// :root {
+//   --dark-mode-color: #fff;
+//   --dark-mode-bg: #093e60;
+//   --light-mode-color: #0A314D;
+//   --light-mode-bg: #fff;
+// }
+
 //
 // Custom styles
 //
@@ -16,7 +24,6 @@ body.ms-font-m {
 .menu {
 
   .menuIconContainer {
-    height: 40px;
     text-align: left;
     /*background-color: $ms-color-themeDark;*/
     background-color: var(--bs-body-bg);
@@ -39,10 +46,8 @@ body.ms-font-m {
         color: $ms-color-themePrimary;
       }
 
-      div {
-        width: 1em;
-        height: 40px;
-        line-height: 40px;
+      > span > i {
+        font-size: 20px;
       }
     }
 
@@ -51,7 +56,6 @@ body.ms-font-m {
   /**********************  MENU/Navigation ************************/
   .globalMenu {
     position: absolute;
-    top: 35px;
     left: 0px;
     background-color: var(--bs-body-bg);
     color: var(--bs-body-color);
@@ -61,7 +65,7 @@ body.ms-font-m {
     height: 0;
     transition: opacity .25s ease-out;
     opacity: 0;
-    overflow: hidden;
+    overflow-x: hidden;
     min-width: 600px;
     border: 2px solid var(--bs-body-color);
 
@@ -69,7 +73,12 @@ body.ms-font-m {
       display: flex;
       padding: 16px 20px;
       align-items: center;
+      border-bottom: 1px solid;
       cursor: pointer;
+
+      &:hover{
+        background-color: var(--bs-primary-bg-subtle);
+      }
 
       div {
         flex: 50%;
@@ -101,11 +110,6 @@ body.ms-font-m {
 /********* customized Accordion styles **********/
 .accordionContainerHide {
   display: none !important;
-}
-
-.accordion-homeCategory > button::after {
-  display: none;
-  background-image: none;
 }
 
 .categoryIcon {
@@ -336,7 +340,4 @@ body.ms-font-m {
 
     }
   }
-
-
-
 }
