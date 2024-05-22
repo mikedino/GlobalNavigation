@@ -4,11 +4,9 @@ import { IGlobalNavProps } from './components/MenuProps';
 import { IGlobalFooterProps } from './components/FooterProps';
 import GlobalNav from './components/Menu';
 import { GlobalFooter } from './components/Footer';
-//import { DummyNavProvider } from './provider/DummyNavProvider';
 import { Datasource } from './provider/ds';
 import { Log } from '@microsoft/sp-core-library';
 import {
-  //ApplicationCustomizerContext,
   BaseApplicationCustomizer,
   PlaceholderContent,
   PlaceholderName
@@ -17,8 +15,7 @@ import {
 
 import * as strings from 'OboGlobalNavApplicationCustomizerStrings';
 import Strings from '../../strings';
-//import 'bootstrap/dist/css/bootstrap.min.css';
-//require('../../extensions/oboGlobalNav/styles/GlobalNavStyles.module.scss');
+
 import { override } from '@microsoft/decorators';
 
 /**

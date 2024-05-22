@@ -5,7 +5,7 @@ import { Accordion, AccordionBody, AccordionHeader, AccordionItem } from 'react-
 import { IGlobalNavCategory, IGlobalNavItem } from '../provider/dsDefinitions';
 import SearchResultsList from './SearchList';
 import { IGlobalNavProps } from './MenuProps';
-import '../styles/bootstrap-custom.module.scss';
+import '../styles/bootstrap-custom.scss';
 
 const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitems, defaultExpandedKey }) => {
 

@@ -3,9 +3,10 @@
   "solution": {
     "name": "obo-global-navigation-client-side-solution",
     "id": "13042b2a-6271-44a0-b6b6-42e209e9dd89",
-    "version": "1.0.0.0",
+    "version": "1.0.0.2",
+    "iconPath": "assets/OBO-Logo_black_96x96.png",
     "includeClientSideAssets": true,
-    "skipFeatureDeployment": true,
+    "skipFeatureDeployment": false,
     "isDomainIsolated": false,
     "developer": {
       "name": "Mike Landino, Koniag Government Services",
@@ -30,7 +31,7 @@
         "title": "Application Extension - Deployment of custom action",
         "description": "Deploys a custom action with ClientSideComponentId association",
         "id": "760ded96-1ab2-4ec3-aef5-5e85b5847daf",
-        "version": "1.0.0.0",
+        "version": "1.0.0.2",
         "assets": {
           "elementManifests": [
             "elements.xml",
