@@ -4,7 +4,7 @@
 
 Provides a global navigation as a hamburger menu which has an accordion and search function.  Items are data-driven from an SP List defined in the Strings.
 
-Also creates a fixed footer with a logo, center links and support link on the right.  This data is also data-driven.
+Creates a fixed footer with a logo, center links and support link on the right.  This data is also data-driven.
 
 [pictures forthcoming...]
 
@@ -25,6 +25,8 @@ Also creates a fixed footer with a logo, center links and support link on the ri
   - GlobalNavCategory
   - GlobalNavItem
   - GlobalNavFooter
+
+The packaged solution does not include the client-side assets.  Those are hosted in the Azure CDN here: https://obo.azureedge.us
 
 ## Solution
 
