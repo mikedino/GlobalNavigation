@@ -5,54 +5,59 @@
 // it to work, so here we are... -MDL 5/7/24
 //
 //********** Option 1: Include the entire Bootstrap lib
-// custom variable overrides go first
+// Define custom variables
 //$body-bg: #0A314D; dark blue
-$body-bg: #093e60;
-$body-color: #fff;
-$primary-bg-subtle: #345d96;
 //$accordion-button-active-bg: #345d96;
-$accordion-button-active-color: $body-color;
-$accordion-button-focus-box-shadow: none;
-$primary-text-emphasis: #A6E5F3;
+$body-bg: #093e60 !default;
+$body-color: #fff !default;
+$primary-bg-subtle: #345d96 !default;
+$accordion-button-active-color: $body-color !default;
+$accordion-button-focus-box-shadow: none !default;
+$accordion-border-color: $body-color !default;
+$accordion-border-width: 1px !default;
+$primary-text-emphasis: #A6E5F3 !default;
 
-.accordion-button:hover{
-    background-color: var(--bs-accordion-active-bg);
-  }
+// Use the custom variables in Bootstrap
+:root {
+  --bs-body-bg: #093e60;
+  --bs-body-color: #fff;
+  --bs-primary-bg-subtle: #345d96;
+  --bs-accordion-button-active-color: var(--bs-body-color);
+  --bs-accordion-button-focus-box-shadow: none;
+  --bs-accordion-border-color: var(--bs-body-color);
+  --bs-accordion-border-width: 1px;
+  --bs-primary-text-emphasis: #A6E5F3;
+}
 
 // then import the lib
-@import "~bootstrap/scss/bootstrap";
-
+// isolate the bootstrap css to this component to not affect other SP elements
+.bootstrap-wrapper {  
+  //custom hover color for categories
+  .accordion-button:hover {
+    background-color: var(--bs-accordion-active-bg);
+  }
+  @import "~bootstrap/scss/bootstrap";
+}
 
 //********** Option 2:  Only include required parts
-//1. Include functions first (so you can manipulate colors, SVGs, calc, etc)
-// @import "../../../../node_modules/bootstrap/scss/functions";
+// @import "~bootstrap/scss/functions";
+// @import "~bootstrap/scss/variables"; // Ensure variables are imported here to apply your custom variables
+// @import "~bootstrap/scss/mixins";
 
-// 2. Include any default variable overrides here
-//$body-color: #fff;
-//$body-bg: #0A314D;
-//$accordion-button-bg:#0A314D;
-// $accordion-bg: #0A314D;
+// @import "~bootstrap/scss/root";
+// @import "~bootstrap/scss/reboot";
+// @import "~bootstrap/scss/type";
+// @import "~bootstrap/scss/images";
+// @import "~bootstrap/scss/code";
+// @import "~bootstrap/scss/grid";
+// @import "~bootstrap/scss/tables";
+// @import "~bootstrap/scss/forms";
+// @import "~bootstrap/scss/buttons";
 
-// 3. Include remainder of required Bootstrap stylesheets (including any separate color mode stylesheets)
-// @import "../../../../node_modules/bootstrap/scss/variables";
-// @import "../../../../node_modules/bootstrap/scss/variables-dark";
-
-// 4. Include any default map overrides here
-
-// 5. Include remainder of required parts
-// @import "../../../../node_modules/bootstrap/scss/maps";
-// @import "../../../../node_modules/bootstrap/scss/mixins";
-// @import "../../../../node_modules/bootstrap/scss/root";
-
-// 6. Optionally include any other parts as needed
-// @import "../../../../node_modules/bootstrap/scss/accordion";
-// @import "../../../../node_modules/bootstrap/scss/utilities";
-// @import "../../../../node_modules/bootstrap/scss/reboot";
-// @import "../../../../node_modules/bootstrap/scss/type";
-// @import "../../../../node_modules/bootstrap/scss/images";
-// @import "../../../../node_modules/bootstrap/scss/containers";
-// @import "../../../../node_modules/bootstrap/scss/grid";
-// @import "../../../../node_modules/bootstrap/scss/helpers";
-
-// 7. Optionally include utilities API last to generate classes based on the Sass map in `_utilities.scss`
-// @import "../../../../node_modules/bootstrap/scss/utilities/api";
+// @import "~bootstrap/scss/transitions";
+// @import "~bootstrap/scss/dropdown";
+// @import "~bootstrap/scss/button-group";
+// @import "~bootstrap/scss/nav";
+// @import "~bootstrap/scss/navbar";
+// @import "~bootstrap/scss/card";
+// @import "~bootstrap/scss/accordion";

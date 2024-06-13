@@ -49,7 +49,8 @@ const SearchResultsList: React.FC<SearchResultsListProps> = ({ onSearchTermChang
 
     // Function to filter menu items based on search term
     const filteredMenuItems = menuItems?.filter(item =>
-        item.Title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
+        //ensure item.Title is not null
+        item.Title && item.Title.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1
     );
 
     const handleDivClick = (url:string):void => {

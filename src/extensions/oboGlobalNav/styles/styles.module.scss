@@ -3,13 +3,6 @@
 //$OBOhoverLink: #2499C2; //for a white background
 $OBOhoverLink: #FAD980;
 
-/*** override bootstrap classes taking over SP controls ***/
-// eslint-disable-next-line @typescript-eslint/camelcase
-body,
-body.ms-font-m {
-  background-color: $ms-color-white !important;
-}
-
 /***************  Top header component *******************/
 .menu {
 
@@ -36,7 +29,7 @@ body.ms-font-m {
         color: $ms-color-themePrimary;
       }
 
-      > span > i {
+      >span>i {
         font-size: 20px;
       }
     }
@@ -57,16 +50,17 @@ body.ms-font-m {
     opacity: 0;
     overflow-x: hidden;
     min-width: 600px;
-    border: 2px solid var(--bs-body-color);
+    border: 1px solid var(--bs-body-color);
 
+    //home link on top
     .menuTopRow {
       display: flex;
       padding: 16px 20px;
       align-items: center;
-      border-bottom: 1px solid;
+      //border-bottom: 1px solid;
       cursor: pointer;
 
-      &:hover{
+      &:hover {
         background-color: var(--bs-primary-bg-subtle);
       }
 
@@ -97,6 +91,7 @@ body.ms-font-m {
   }
 }
 
+
 /********* customized Accordion styles **********/
 .accordionContainerHide {
   display: none !important;
@@ -111,8 +106,7 @@ body.ms-font-m {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-left: 27px;
-  padding-top: 3px;
+  padding: 3px 0px 3px 27px;
   cursor: pointer;
 
   &.linkOnly:hover {
@@ -227,6 +221,7 @@ body.ms-font-m {
   }
 
 }
+
 
 
 /*************** FOOTER ***************/

@@ -20,7 +20,6 @@ export const setContext = (context: any):void => {
  */
 const Strings = {
     ProjectName: "OBO Global Navigation",
-    //NavLinksSite: "TheLanding",  //dino's dev site
     NavLinksSite: "OBO-Main",  //production
     CategoriesList: "GlobalNavCategory",
     MenuItemsList: "GlobalNavItem",
