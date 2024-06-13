@@ -25,7 +25,7 @@ const Strings = {
     MenuItemsList: "GlobalNavItem",
     FooterList: "GlobalNavFooter",
     TenantUrl: "",
-    Version: "0.1"
+    Version: "1.0.4"
 };
 
 export default Strings;
