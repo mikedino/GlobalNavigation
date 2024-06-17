@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "obo-global-navigation-client-side-solution",
+    "name": "OBO Enterprise Navigation",
     "id": "13042b2a-6271-44a0-b6b6-42e209e9dd89",
     "version": "1.0.4.0",
     "iconPath": "assets/OBO-Logo_white_96x96.png",
