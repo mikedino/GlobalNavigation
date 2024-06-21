@@ -1,8 +1,8 @@
-# obo-global-navigation
+# OBO Enterprise Navigation 
 
 ## Summary
 
-Provides a global navigation as a hamburger menu which has an accordion and search function.  Items are data-driven from an SP List defined in the Strings.
+Application Extension that provides a global navigation as a hamburger menu which has an accordion and search function.  Items are data-driven from an SP List defined in the Strings.
 
 Creates a fixed footer with a logo, center links and support link on the right.  This data is also data-driven.
 
@@ -21,12 +21,24 @@ Creates a fixed footer with a logo, center links and support link on the right. 
 
 ## Prerequisites
 
-> The following lists must be created to work:
+> The following lists (and columns) must be created and on the current site:
   - GlobalNavCategory
+    * Title
+    * Url
+    * IconName
+    * SortOrder
+    * isHome (boolean)
+    * defaultExpanded (boolean)
   - GlobalNavItem
-  - GlobalNavFooter
+    * Title
+    * Url
+    * Restricted (boolean)
+    * SortOrder
+    * Category (lookup)
+    * Parent (lookup)
 
-The packaged solution does not include the client-side assets.  Those are hosted in the Azure CDN here: https://obo.azureedge.us
+NOTE:  The Development branch is only for local development and contains the client-side assets.  The main branch 
+does not include the client-side assets.  Those are hosted in the Azure CDN here: https://obo.azureedge.us
 
 ## Solution
 

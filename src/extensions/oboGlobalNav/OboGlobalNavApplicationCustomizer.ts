@@ -11,133 +11,101 @@ import {
   PlaceholderContent,
   PlaceholderName
 } from "@microsoft/sp-application-base";
-//import { Dialog } from '@microsoft/sp-dialog';
 
 import * as strings from 'OboGlobalNavApplicationCustomizerStrings';
 import Strings from '../../strings';
 
 import { override } from '@microsoft/decorators';
 
-/**
- * If your command set uses the ClientSideComponentProperties JSON input,
- * it will be deserialized into the BaseExtension.properties object.
- * You can define an interface to describe it.
- */
 export interface IOboGlobalNavApplicationCustomizerProperties {
-  /**
-   * If isDebug=true then the customizer will use fake json data instead of
-   * existing sharepoint list.
-   * Note: that property in the debug url queryString should be:
-   *                  GOOD:{"isDebug":false}
-   *                  WRONG: {"isDebug":"false"}
-   */
   isDebug: boolean;
 }
 
-/** A Custom Action which can be run during execution of a Client Side Application */
 export default class OboGlobalNavApplicationCustomizer
   extends BaseApplicationCustomizer<IOboGlobalNavApplicationCustomizerProperties> {
 
-  // global variable
-  private _navbar: PlaceholderContent | any = null;
-  private _footer: PlaceholderContent | any = null;
+  private _navbar: PlaceholderContent | undefined = undefined;
+  private _footer: PlaceholderContent | undefined = undefined;
 
   @override
   public async onInit(): Promise<void> {
     Log.info(Strings.ProjectName, `Initialized ${strings.Title}`);
 
-    // Handle possible changes on the existence of placeholders
-    //this.context.placeholderProvider.changedEvent.add(this, this.renderGlobalNav);
+    try {
+      await Datasource.init(this.context, this.properties.isDebug);
+      Log.info(Strings.ProjectName, "DataProvider > init() ran successfully");
 
-    Datasource.init(this.context, this.properties.isDebug).then(
-      //data successfully loaded
-      () => {
-        Log.info(Strings.ProjectName, "DataProvider > init() ran successfully");
-
-        this.renderGlobalNav().then(() => {
-          return Promise.resolve();
-        }).catch(error => {
-          Log.warn(Strings.ProjectName, "Error rendering Global Nav " + JSON.stringify(error));
-        });
-      }
-    ).catch(error => {
-      Log.warn(Strings.ProjectName, "Error initializing data source " + JSON.stringify(error));
-  });
-
+      await this.renderGlobalNav();
+    } catch (error) {
+      Log.warn(Strings.ProjectName, `Error initializing or rendering Global Nav: ${JSON.stringify(error)}`);
+    }
   }
 
   private async renderGlobalNav(): Promise<void> {
+    try {
+      // Ensure the header doesn't exist already
+      if (!this._navbar) {
+        this._navbar = this.context.placeholderProvider.tryCreateContent(PlaceholderName.Top, { onDispose: this._onDispose });
+        Log.info(Strings.ProjectName, "Created the header");
 
-    // Ensure the header doesn't exist already
-    if (!this._navbar) {
+        const navElement: React.ReactElement<IGlobalNavProps> = React.createElement(
+          GlobalNav,
+          {
+            isExpanded: false,
+            categories: Datasource.Categories,
+            menuitems: Datasource.MenuItems,
+            defaultExpandedKey: Datasource.DefaultExpandedKey
+          }
+        );
 
-      // Create the header
-      this._navbar = this.context.placeholderProvider.tryCreateContent(PlaceholderName.Top, { onDispose: this._onDispose });
-      Log.info(Strings.ProjectName, "created the header");
+        await this.renderElement(navElement, this._navbar!.domElement);
+      }
 
-      const navElement: React.ReactElement<IGlobalNavProps> = React.createElement(
-        GlobalNav,
-        {
-          isExpanded: false,
-          categories: Datasource.Categories,
-          menuitems: Datasource.MenuItems,
-          defaultExpandedKey: Datasource.DefaultExpandedKey
-        }
-      );
+      // Ensure the footer doesn't exist already
+      if (!this._footer) {
+        this._footer = this.context.placeholderProvider.tryCreateContent(PlaceholderName.Bottom, { onDispose: this._onDispose });
+        Log.info(Strings.ProjectName, "Created the footer");
 
-      // render the Nav UI using a React component
-      await new Promise<void>((resolve, reject) => {
-        try {
-          ReactDom.render(navElement, this._navbar.domElement, () => { Log.info(Strings.ProjectName, "render the header"); resolve() });
-        } catch (error) {
-          console.error(error);
-          Log.error(Strings.ProjectName, error);
-          reject(error);
-        }
-      });
+        const footerElement: React.ReactElement<IGlobalFooterProps> = React.createElement(
+          GlobalFooter,
+          {
+            footerItems: Datasource.FooterItems
+          }
+        );
 
-    } else {
-      //unmount existing ones if they exist
-      ReactDom.unmountComponentAtNode(this._navbar.domElement);
-      this._navbar = undefined;
+        await this.renderElement(footerElement, this._footer!.domElement);
+      }
+    } catch (error) {
+      Log.warn(Strings.ProjectName, `Error rendering Global Nav/Footer: ${JSON.stringify(error)}`);
     }
+  }
 
-    // Ensure the footer doesn't exist already
-    if (!this._footer) {
-      // Create the footer
-      this._footer = this.context.placeholderProvider.tryCreateContent(PlaceholderName.Bottom, { onDispose: this._onDispose });
-      Log.info(Strings.ProjectName, "created the footer");
-
-      const footerElement: React.ReactElement<IGlobalFooterProps> = React.createElement(
-        GlobalFooter,
-        {
-          footerItems: Datasource.FooterItems
-        }
-      );
-
-      // render the Footer UI using a React component
-      await new Promise<void>((resolve, reject) => {
-        try {
-          ReactDom.render(footerElement, this._footer.domElement, () => { Log.info(Strings.ProjectName, "render the footer"); resolve() });
-        } catch (error) {
-          console.error(error);
-          Log.error(Strings.ProjectName, error);
-          reject(error);
-        }
-      });
-
-    } else {
-      //unmount existing ones if they exist
-      ReactDom.unmountComponentAtNode(this._footer.domElement);
-      this._footer = undefined;
-    }
-
-    return Promise.resolve();
-
+  private async renderElement(element: React.ReactElement, domElement: HTMLElement): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      try {
+        ReactDom.render(element, domElement, () => {
+          Log.info(Strings.ProjectName, "Component rendered");
+          resolve();
+        });
+      } catch (error) {
+        console.error(error);
+        Log.error(Strings.ProjectName, error);
+        reject(error);
+      }
+    });
   }
 
   private _onDispose(): void {
     Log.info(Strings.ProjectName, "Global navigation disposed");
-  }
 
+    if (this._navbar) {
+      ReactDom.unmountComponentAtNode(this._navbar.domElement);
+      this._navbar = undefined;
+    }
+
+    if (this._footer) {
+      ReactDom.unmountComponentAtNode(this._footer.domElement);
+      this._footer = undefined;
+    }
+  }
 }
