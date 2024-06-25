@@ -2,6 +2,7 @@
 
 //$OBOhoverLink: #2499C2; //for a white background
 $OBOhoverLink: #FAD980;
+$SearchPlaceholder: #688194;
 
 /***************  Top header component *******************/
 .menu {
@@ -88,6 +89,17 @@ $OBOhoverLink: #FAD980;
     max-height: calc(100% - 35px);
     /*subtract top indent*/
     z-index: 20000;
+  }
+
+  .versionContainer{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    .version{
+      color: $SearchPlaceholder;
+      font-size: x-small;
+    }
   }
 }
 
@@ -184,7 +196,12 @@ $OBOhoverLink: #FAD980;
   padding: 10px;
 
   .searchBox {
-    width: 350px;
+    display: flex;
+    justify-content: end;
+    
+    input::placeholder{
+      color: $SearchPlaceholder;
+    }
   }
 
   .searchResults {

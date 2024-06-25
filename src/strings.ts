@@ -19,13 +19,13 @@ export const setContext = (context: any):void => {
  * be set before they are used.
  */
 const Strings = {
-    ProjectName: "OBO Global Navigation",
+    ProjectName: "OBO Enterprise Navigation",
     NavLinksSite: "OBO-Main",  //production
     CategoriesList: "GlobalNavCategory",
     MenuItemsList: "GlobalNavItem",
     FooterList: "GlobalNavFooter",
     TenantUrl: "",
-    Version: "1.0.4"
+    Version: "1.0.5" //USE THIS VERSION TO INCREMENT CHANGES (due to quantity of deployments)
 };
 
 export default Strings;

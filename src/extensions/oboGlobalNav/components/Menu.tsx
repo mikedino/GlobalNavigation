@@ -5,6 +5,7 @@ import { Accordion, AccordionBody, AccordionHeader, AccordionItem } from 'react-
 import { IGlobalNavCategory, IGlobalNavItem } from '../provider/dsDefinitions';
 import SearchResultsList from './SearchList';
 import { IGlobalNavProps } from './MenuProps';
+import Strings from '../../../strings';
 import '../styles/bootstrap-custom.scss';
 
 const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitems, defaultExpandedKey }) => {
@@ -146,7 +147,7 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
                                                     <AccordionHeader onClick={() => menuSelect(fCategory, true)}><Icon iconName={fCategory.IconName} className={styles.categoryIcon}></Icon> {fCategory.Title}</AccordionHeader>
                                                     <AccordionBody>
                                                         {menuitems
-                                                            .filter(item => item.Category.Id === fCategory.ID && item.Parent.Title == null)
+                                                            .filter(item => item.Category.Id === fCategory.ID && (!item.Parent.Title || item.Parent.Title === null))
                                                             .map(filteredItem => {
 
                                                                 // Check if filteredItem.ID is also ParentID in the array (if it has children)
@@ -174,6 +175,7 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
                                 </div>
                             </div>
                         )}
+                        <div className={styles.versionContainer}><div className={styles.version}>v{Strings.Version}</div></div>
                     </div>
                 </div>
             </div>
