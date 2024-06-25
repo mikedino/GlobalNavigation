@@ -146,7 +146,7 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
                                                     <AccordionHeader onClick={() => menuSelect(fCategory, true)}><Icon iconName={fCategory.IconName} className={styles.categoryIcon}></Icon> {fCategory.Title}</AccordionHeader>
                                                     <AccordionBody>
                                                         {menuitems
-                                                            .filter(item => item.Category.Id === fCategory.ID && item.Parent.Id === undefined)
+                                                            .filter(item => item.Category.Id === fCategory.ID && item.Parent.Title == null)
                                                             .map(filteredItem => {
 
                                                                 // Check if filteredItem.ID is also ParentID in the array (if it has children)
