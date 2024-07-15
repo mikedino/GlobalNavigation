@@ -9,7 +9,7 @@ const SearchBoxCustom: React.FC<{ onSearchTermChange: (searchTerm: string) => vo
   const [searchTerm, setSearchTerm] = React.useState<string>('');
 
   // Function to handle search term change
-  const handleSearchTermChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleSearchTermChange = (event: React.ChangeEvent<HTMLInputElement>):void => {
     const newSearchTerm = event ? event.target.value : '';
     setSearchTerm(newSearchTerm);
     // Call the callback function to update the search term in the parent component
@@ -17,7 +17,7 @@ const SearchBoxCustom: React.FC<{ onSearchTermChange: (searchTerm: string) => vo
   };
 
   // Function to clear search term
-  const handleClearSearch = (): void => {
+  const handleClearSearch = ():void => {
     setSearchTerm(''); // Set search term to blank
     onSearchTermChange(''); // Call the callback function to update the search term in the parent component to blank
   };
@@ -31,7 +31,7 @@ const SearchBoxCustom: React.FC<{ onSearchTermChange: (searchTerm: string) => vo
         value={searchTerm}
         onEscape={handleClearSearch}
         onClear={handleClearSearch}
-        onChange={handleSearchTermChange}
+        onChange={handleSearchTermChange} 
         theme={darkTheme}
       />
     </div>

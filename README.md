@@ -48,9 +48,12 @@ does not include the client-side assets.  Those are hosted in the Azure CDN here
 
 ## Version history
 
-| Version | Date             | Comments        |
-| ------- | ---------------- | --------------- |
-| 1.0     | May 1, 2024      | Initial release |
+| Version | Date             | Comments                                                                                                         |
+| ------- | ---------------- | ---------------------------------------------------------------------------------------------------------------- |
+| 1.0     | May 1, 2024      | Initial release                                                                                                  |
+| 1.0.4   | June 13, 2024    | Add Bootstrap wrapper to these components in order to limit effect on rest of SPO site.                          |
+| 1.0.5   | June 24, 2024    | Bug Fix for menu displaying twice on occasion.  Dispose of component properly.                                   |
+| 1.0.6   | July 15, 2024    | Change click action of nested children to display as accordions. Update search results to show infinite levels.  |
 
 ## Disclaimer
 

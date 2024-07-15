@@ -2,49 +2,31 @@ import * as React from 'react';
 import { DefaultButton, Icon } from '@fluentui/react';
 import styles from '../styles/styles.module.scss';
 import { Accordion, AccordionBody, AccordionHeader, AccordionItem } from 'react-bootstrap';
-import { IGlobalNavCategory, IGlobalNavItem } from '../provider/dsDefinitions';
+import { IGlobalNavItem } from '../provider/dsDefinitions';
 import SearchResultsList from './SearchList';
 import { IGlobalNavProps } from './MenuProps';
 import Strings from '../../../strings';
 import '../styles/bootstrap-custom.scss';
 
+interface RenderMenuItemsProps {
+    items: IGlobalNavItem[];
+    allItems: IGlobalNavItem[];
+    parentId: number | undefined;
+    activeKeys: { [key: number]: { eventKey: string, parentKey: string | undefined }[] };
+    handleToggle: (itemId: number, eventKey: string | undefined, parentKey: string | undefined) => void;
+}
+
 const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitems, defaultExpandedKey }) => {
     // Reference to the menu container
-    const menuRef = React.useRef<HTMLDivElement>(null); 
+    const menuRef = React.useRef<HTMLDivElement>(null);
     // State to set menu toggle status
     const [expanded, setExpanded] = React.useState<boolean>(isExpanded);
     // State to swap the menu icon
     const [toggleIconName, setToggleIconName] = React.useState<string>("CollapseMenu");
-    // State for breadcrumb & click menu
-    const [breadcrumb, setBreadcrumb] = React.useState<IGlobalNavCategory | IGlobalNavItem>(); // this is for a string only (show Division)
-    const [showClickMenu, setClickMenu] = React.useState<boolean>(false);
-    // State for the click menu parent item id
-    const [clickMenuParentID, setClickMenuParentID] = React.useState<number | null>(null);
     // State for holding the search term callback
     const [searchTerm, setSearchTerm] = React.useState<string>('');
-
-    // Handler for menu item click
-    const menuSelect = (item: IGlobalNavCategory | IGlobalNavItem, reset: boolean): void => {
-        // if this is a click on parent item, reset the breadcrumb/array and hide it
-        if (reset) {
-            setClickMenu(false);
-        } else {
-            setBreadcrumb(item);
-            // once we have a second level click, show the breadcrumb
-            setClickMenu(true);
-            setClickMenuParentID(item.ID);
-        }
-    };
-
-    // Use useEffect set default Click menu parent on component load
-    React.useEffect(() => {
-        // Call menuSelect with the first item if categories are available
-        if (categories.length > 0) {
-            menuSelect(categories[0], true);
-        }
-        // Disable the warning for missing 'categories' in the dependency array because we only want this to run once on load
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    // State for managing the active keys of child accordions
+    const [activeKeys, setActiveKeys] = React.useState<{ [key: number]: { eventKey: string, parentKey: string | undefined }[] }>({});
 
     // Collapse the menu if clicked outside
     const handleClickOutside = (event: MouseEvent): void => {
@@ -60,7 +42,7 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    });
+    }, []);
 
     // Toggle menu function
     const menuToggle = (): void => {
@@ -68,10 +50,94 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
         setToggleIconName(expanded ? "CollapseMenu" : "ChromeClose");
     };
 
-    // open menu items without children by clicking the entire DIV
+    // Open menu items without children by clicking the entire DIV
     const handleDivClick = (url: string): void => {
         window.location.href = url;
-    }
+    };
+
+    const handleToggle = (itemId: number, eventKey: string | undefined, parentKey: string | undefined): void => {
+        if (eventKey === undefined) return;
+
+        setActiveKeys(prevState => {
+            const currentKeys = prevState[itemId] || [];
+            const isCurrentlyActive = currentKeys.some(key => key.eventKey === eventKey);
+            const newKeys = isCurrentlyActive
+                ? currentKeys.filter(key => key.eventKey !== eventKey)
+                : [...currentKeys, { eventKey, parentKey }];
+
+            if (isCurrentlyActive) {
+                const updatedKeys = { ...prevState };
+
+                const removeDescendants = (parentId: string): void => {
+                    for (const key in updatedKeys) {
+                        if (Object.prototype.hasOwnProperty.call(updatedKeys, key)) {
+                            // Find all children of the current parentId
+                            const children = updatedKeys[key].filter(childKey => childKey.parentKey === parentId);
+                            // Recursively remove all descendants of each child
+                            children.forEach(child => removeDescendants(child.eventKey));
+                            // Remove the children of the current parentId
+                            updatedKeys[key] = updatedKeys[key].filter(childKey => childKey.parentKey !== parentId);
+                            // If there are no more keys for this item, delete the key from updatedKeys
+                            if (updatedKeys[key].length === 0) {
+                                delete updatedKeys[key];
+                            }
+                        }
+                    }
+                };
+
+                // Start removing from the specified eventKey
+                removeDescendants(eventKey);
+
+                return { ...updatedKeys, [itemId]: newKeys };
+            }
+
+            return { ...prevState, [itemId]: newKeys };
+        });
+    };
+
+
+    // Function to clear active keys when parent accordion is selected
+    const handleParentSelect = (): void => {
+        setActiveKeys({});
+    };
+
+    // Repeatable function to render the child menu items recursively
+    const RenderMenuItems: React.FC<RenderMenuItemsProps> = ({ items, allItems, parentId, activeKeys, handleToggle }) => {
+        return (
+            <>
+                {items.map(item => {
+                    const children = allItems.filter(childItem => childItem.Parent?.Id === item.ID);
+                    const currentActiveKeys = activeKeys[item.ID]?.map(key => key.eventKey) || [];
+
+                    return children.length > 0 ? (
+                        <Accordion
+                            key={item.ID}
+                            className={styles.customChildAccordion}
+                            activeKey={currentActiveKeys}
+                            onSelect={(eventKey) => handleToggle(item.ID, eventKey as string | undefined, parentId !== undefined ? parentId.toString() : undefined)}
+                        >
+                            <AccordionItem className={styles.customChildAccordionItem} eventKey={item.ID.toString()}>
+                                <AccordionHeader className={styles.customChildAccordionHeader} title={item.Title}>
+                                    <a href={item.Url}>{item.Title}</a>
+                                    {item.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
+                                </AccordionHeader>
+                                <AccordionBody className={styles.customChildAccordionBody}>
+                                    <RenderMenuItems items={children} allItems={allItems} parentId={item.ID} activeKeys={activeKeys} handleToggle={handleToggle} />
+                                </AccordionBody>
+                            </AccordionItem>
+                        </Accordion>
+                    ) : (
+                        <div key={item.ID} className={`${styles.childItem} ${styles.linkOnly}`} onClick={() => handleDivClick(item.Url)} title={item.Title}>
+                            <div>
+                                <a href={item.Url} >{item.Title}</a>
+                                {item.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
+                            </div>
+                        </div>
+                    );
+                })}
+            </>
+        );
+    };
 
     return (
         <div className='bootstrap-wrapper'>
@@ -87,87 +153,29 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
                     </div>
                     <div className={`${styles.globalMenu} ${expanded ? styles.change : ""}`} id="GlobalMenu">
                         <SearchResultsList onSearchTermChange={(term) => setSearchTerm(term)} />
-                        {/* Conditionally render the "click menu" based on searchTerm */}
                         {!searchTerm && (
-                            <div id='clickMenuContainer' className={`${styles.clickMenu} ${showClickMenu ? styles.toggle : ""}`}>
-                                <div className={`${styles.menuTopRow} ${styles.mainMenuBack} accordion-button`} onClick={() => menuSelect(categories[0], true)}>
-                                    <Icon iconName='Back' className={styles.categoryIcon} about='Back to main menu' title='Back to main menu'></Icon>
-                                    Main Menu
-                                </div>
-                                <div className={`${styles.menuTopRow} ${styles.parentItem} accordion-button`} onClick={() => {
-                                    if (breadcrumb && breadcrumb.Url) handleDivClick(breadcrumb.Url)
-                                }}>{breadcrumb?.Title}
-                                </div>
-                                <div className='clickMenuSubItemsContainer accordion-body'>
-                                    {menuitems
-                                        .filter(item => item.Parent?.Id === clickMenuParentID)
-                                        .map(filteredItem =>
-                                            <div key={filteredItem.ID}>
-                                                <div className={`${styles.childItem} ${styles.linkOnly}`} onClick={() => handleDivClick(filteredItem.Url)}>
-                                                    <div>
-                                                        <a href={filteredItem.Url}>{filteredItem.Title}</a>
-                                                        {filteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
-                                                    </div>
-                                                </div>
-                                                {menuitems.filter(childItem => childItem.Parent?.Id === filteredItem.ID).map(childFilteredItem =>
-                                                    <div className={`${styles.childItem} ${styles.indent} ${styles.linkOnly}`} onClick={() => handleDivClick(filteredItem.Url)}>
-                                                        <div>
-                                                            <a href={childFilteredItem.Url}>{childFilteredItem.Title}</a>
-                                                            {childFilteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
-                                                        </div>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        )
-                                    }
-                                </div>
-                            </div>
-                        )}
-                        {/* Conditionally render the accordionContainer based on searchTerm */}
-                        {!searchTerm && (
-                            <div id='accordionContainer' className={`${showClickMenu ? styles.accordionContainerHide : ""}`}>
-                                {/********* render the home page link above the accordion ***** */}
+                            <div id='accordionContainer'>
                                 {categories
                                     .filter(category => category.isHome)
-                                    .slice(0, 1) // Only take the first item if any
+                                    .slice(0, 1)
                                     .map(fCategory => (
-                                        <div key={fCategory.ID} className={`${styles.menuTopRow} accordion-button`} onClick={() => handleDivClick(fCategory.Url)}>
-                                            <div className={styles.menuHome}><Icon iconName={fCategory.IconName} className={styles.categoryIcon}></Icon>{fCategory.Title}</div>
-                                            <div className={styles.menuExpand}>{/*<Icon iconName='Color' className='mx-1' onClick={toggleTheme}></Icon>*/}</div>
+                                        <div key={fCategory.ID} className={`${styles.menuTopRow} accordion-button`} onClick={() => handleDivClick(fCategory.Url)} title={fCategory.Title}>
+                                            <div className={styles.menuHome} ><Icon iconName={fCategory.IconName} className={styles.categoryIcon}></Icon>{fCategory.Title}</div>
+                                            <div className={styles.menuExpand}></div>
                                         </div>
                                     ))
                                 }
                                 <div>
-                                    {/********* render the rest of the categories for the accordion ***** */}
                                     <Accordion defaultActiveKey={defaultExpandedKey}>
                                         {categories
                                             .filter(category => !category.isHome)
                                             .map(fCategory =>
-                                                <AccordionItem eventKey={fCategory.ID.toString()}>
-                                                    <AccordionHeader onClick={() => menuSelect(fCategory, true)}><Icon iconName={fCategory.IconName} className={styles.categoryIcon}></Icon> {fCategory.Title}</AccordionHeader>
+                                                <AccordionItem key={fCategory.ID} eventKey={fCategory.ID.toString()}>
+                                                    <AccordionHeader onClick={handleParentSelect} title={fCategory.Title}>
+                                                        <Icon iconName={fCategory.IconName} className={styles.categoryIcon}></Icon>{fCategory.Title}
+                                                    </AccordionHeader>
                                                     <AccordionBody>
-                                                        {menuitems
-                                                            .filter(item => item.Category.Id === fCategory.ID && (!item.Parent.Title || item.Parent.Title === null))
-                                                            .map(filteredItem => {
-
-                                                                // Check if filteredItem.ID is also ParentID in the array (if it has children)
-                                                                const hasChildren = menuitems.some(childItem => childItem.Parent?.Id === filteredItem.ID);
-
-                                                                return (
-                                                                    <div key={filteredItem.ID} className={`${styles.childItem} ${hasChildren ? '' : styles.linkOnly}`} onClick={() =>
-                                                                        hasChildren ? menuSelect(filteredItem, false) : handleDivClick(filteredItem.Url)
-                                                                    }>
-                                                                        <div>
-                                                                            <a href={filteredItem.Url}>{filteredItem.Title}</a>
-                                                                            {filteredItem.Restricted ? <Icon iconName='BlockedSite' about='Restricted Site' title='Restricted Site' className='ms-fontColor-alert'></Icon> : ""}
-                                                                        </div>
-                                                                        {hasChildren ? <div className={styles.moreItemsIcon}>
-                                                                            <Icon iconName='ChevronRight' about='See sub-sites' title='See sub-sites'></Icon>
-                                                                        </div> : ""}
-                                                                    </div>
-                                                                );
-                                                            })
-                                                        }
+                                                        <RenderMenuItems items={menuitems.filter(item => item.Category.Id === fCategory.ID && (!item.Parent.Title || item.Parent.Title === undefined))} allItems={menuitems} parentId={undefined} activeKeys={activeKeys} handleToggle={handleToggle} />
                                                     </AccordionBody>
                                                 </AccordionItem>
                                             )}

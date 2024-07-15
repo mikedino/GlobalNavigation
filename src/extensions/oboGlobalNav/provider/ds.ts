@@ -43,7 +43,7 @@ export class Datasource {
 
                     //get the categories
                     this.getCategories().then(() => {
-                        console.log("Categories", this._categories)
+                        //console.log("Categories", this._categories)
                         //then get the menu items
                         this.getMenuItems().then(() => {
                             //console.log("MenuItems", this.MenuItems)
