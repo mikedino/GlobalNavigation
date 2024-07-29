@@ -54,6 +54,7 @@ does not include the client-side assets.  Those are hosted in the Azure CDN here
 | 1.0.4   | June 13, 2024    | Add Bootstrap wrapper to these components in order to limit effect on rest of SPO site.                          |
 | 1.0.5   | June 24, 2024    | Bug Fix for menu displaying twice on occasion.  Dispose of component properly.                                   |
 | 1.0.6   | July 15, 2024    | Change click action of nested children to display as accordions. Update search results to show infinite levels.  |
+| 1.0.7   | July 29, 2024    | Add "Menu" text to the right of the pancake icon                                                                 |
 
 ## Disclaimer
 

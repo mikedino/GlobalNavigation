@@ -150,6 +150,7 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
                             className={styles.toggleButton}
                             onClick={menuToggle}
                         />
+                        <div className={styles.menuIconText}>Menu</div>
                     </div>
                     <div className={`${styles.globalMenu} ${expanded ? styles.change : ""}`} id="GlobalMenu">
                         <SearchResultsList onSearchTermChange={(term) => setSearchTerm(term)} />
