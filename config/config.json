@@ -2,17 +2,17 @@
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/config.2.0.schema.json",
   "version": "2.0",
   "bundles": {
-    "obo-global-nav-application-customizer": {
+    "global-nav-application-customizer": {
       "components": [
         {
-          "entrypoint": "./lib/extensions/oboGlobalNav/OboGlobalNavApplicationCustomizer.js",
-          "manifest": "./src/extensions/oboGlobalNav/OboGlobalNavApplicationCustomizer.manifest.json"
+          "entrypoint": "./lib/extensions/GlobalNav/GlobalNavApplicationCustomizer.js",
+          "manifest": "./src/extensions/GlobalNav/GlobalNavApplicationCustomizer.manifest.json"
         }
       ]
     }
   },
   "externals": {},
   "localizedResources": {
-    "OboGlobalNavApplicationCustomizerStrings": "lib/extensions/oboGlobalNav/loc/{locale}.js"
+    "GlobalNavApplicationCustomizerStrings": "lib/extensions/GlobalNav/loc/{locale}.js"
   }
 }

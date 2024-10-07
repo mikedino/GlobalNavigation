@@ -365,6 +365,10 @@ $SearchPlaceholder: #688194;
         border-left: 1px solid $ms-color-neutralPrimary;
       }
 
+      a:hover{
+        color: $OBOhoverLink;
+      }
+
     }
 
   }
@@ -392,6 +396,10 @@ $SearchPlaceholder: #688194;
       i {
         font-size: 20px;
         padding-right: 5px;
+        color: $OBOhoverLink;
+      }
+
+      a:hover{
         color: $OBOhoverLink;
       }
 

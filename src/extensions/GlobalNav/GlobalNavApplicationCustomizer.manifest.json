@@ -2,7 +2,7 @@
   "$schema": "https://developer.microsoft.com/json-schemas/spfx/client-side-extension-manifest.schema.json",
 
   "id": "bd69934f-f947-425f-8c09-d23fb7802fa0",
-  "alias": "OboGlobalNavApplicationCustomizer",
+  "alias": "GlobalNavApplicationCustomizer",
   "componentType": "Extension",
   "extensionType": "ApplicationCustomizer",
 

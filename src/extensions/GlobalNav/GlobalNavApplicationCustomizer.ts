@@ -13,7 +13,7 @@ import {
 } from "@microsoft/sp-application-base";
 //import { Dialog } from '@microsoft/sp-dialog';
 
-import * as strings from 'OboGlobalNavApplicationCustomizerStrings';
+import * as strings from 'GlobalNavApplicationCustomizerStrings';
 import Strings from '../../strings';
 
 import { override } from '@microsoft/decorators';
@@ -23,7 +23,7 @@ import { override } from '@microsoft/decorators';
  * it will be deserialized into the BaseExtension.properties object.
  * You can define an interface to describe it.
  */
-export interface IOboGlobalNavApplicationCustomizerProperties {
+export interface IGlobalNavApplicationCustomizerProperties {
   /**
    * If isDebug=true then the customizer will use fake json data instead of
    * existing sharepoint list.
@@ -35,8 +35,8 @@ export interface IOboGlobalNavApplicationCustomizerProperties {
 }
 
 /** A Custom Action which can be run during execution of a Client Side Application */
-export default class OboGlobalNavApplicationCustomizer
-  extends BaseApplicationCustomizer<IOboGlobalNavApplicationCustomizerProperties> {
+export default class GlobalNavApplicationCustomizer
+  extends BaseApplicationCustomizer<IGlobalNavApplicationCustomizerProperties> {
 
   // global variable
   private _navbar: PlaceholderContent | any = null;

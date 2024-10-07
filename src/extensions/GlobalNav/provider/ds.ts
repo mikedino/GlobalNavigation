@@ -28,8 +28,7 @@ export class Datasource {
                 return DummyDatasource.init().then(() => {
                     this._categories = DummyDatasource.Categories;
                     this._menuItems = DummyDatasource.MenuItems;
-                    // get real footer data
-                    return this.getFooterItems();
+                    this._footerItems = DummyDatasource.FooterItems;
                 }).then(() => {
                     //set initialized flag
                     this.initialized = true;

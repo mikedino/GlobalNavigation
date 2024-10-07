@@ -1,11 +1,11 @@
 {
   "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
   "solution": {
-    "name": "OBO Enterprise Navigation",
+    "name": "Koniag Enterprise Navigation",
     "id": "13042b2a-6271-44a0-b6b6-42e209e9dd89",
-    "version": "1.0.7.0",
-    "iconPath": "assets/OBO-Logo_white_96x96.png",
-    "includeClientSideAssets": false,
+    "version": "1.0.0.1",
+    "iconPath": "assets/KGS-Logo-Stacked_96x96.jpg",
+    "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "isDomainIsolated": false,
     "developer": {
@@ -17,10 +17,10 @@
     },
     "metadata": {
       "shortDescription": {
-        "default": "OBO Global Navigation hamburger menu and fixed footer"
+        "default": "Koniag Enterprise Navigation hamburger menu and fixed footer"
       },
       "longDescription": {
-        "default": "OBO Global Navigation hamburger menu and fixed footer; both data driven by SP Lists. Assets are in the Azure CDN."
+        "default": "Koniag Enterprise Navigation hamburger menu and fixed footer; both data driven by SP Lists"
       },
       "screenshotPaths": [],
       "videoUrl": "",
@@ -31,7 +31,7 @@
         "title": "Application Extension - Deployment of custom action",
         "description": "Deploys a custom action with ClientSideComponentId association",
         "id": "760ded96-1ab2-4ec3-aef5-5e85b5847daf",
-        "version": "1.0.7.0",
+        "version": "1.0.0.1",
         "assets": {
           "elementManifests": [
             "elements.xml",
@@ -42,6 +42,6 @@
     ]
   },
   "paths": {
-    "zippedPackage": "solution/obo-global-navigation.sppkg"
+    "zippedPackage": "solution/koniag-global-navigation.sppkg"
   }
 }

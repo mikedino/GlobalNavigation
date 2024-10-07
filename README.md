@@ -37,8 +37,6 @@ Creates a fixed footer with a logo, center links and support link on the right. 
     * Category (lookup)
     * Parent (lookup)
 
-NOTE:  The Development branch is only for local development and contains the client-side assets.  The main branch 
-does not include the client-side assets.  Those are hosted in the Azure CDN here: https://obo.azureedge.us
 
 ## Solution
 

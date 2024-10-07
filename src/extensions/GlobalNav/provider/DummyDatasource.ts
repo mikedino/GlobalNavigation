@@ -1,4 +1,4 @@
-import { IGlobalNavCategory, IGlobalNavItem } from "./dsDefinitions";
+import { IGlobalNavCategory, IGlobalNavItem, IGlobalFooter } from "./dsDefinitions";
 
 /**
  * Fake data provider for offline tests and debugging.
@@ -9,11 +9,14 @@ export class DummyDatasource {
     public static init(): Promise<any> {
 
         return new Promise<void>((resolve, reject) => {
-            //get the categories
-            this.getCategories().then(() => {
-                //then get the menu items
-                this.getMenuItems().then(() => {
-                    resolve();
+            //get the footer items
+            this.getFooterItems().then(() => {
+                //get the categories
+                this.getCategories().then(() => {
+                    //then get the menu items
+                    this.getMenuItems().then(() => {
+                        resolve();
+                    }, reject)
                 }, reject)
             }, reject)
         })
@@ -112,4 +115,51 @@ export class DummyDatasource {
 
     }
 
+    private static _footerItems: IGlobalFooter[] = [];
+    static get FooterItems(): IGlobalFooter[] { return this._footerItems; }
+    private static getFooterItems(): Promise<IGlobalFooter[]> {
+
+        return new Promise<IGlobalFooter[]>((resolve, reject) => {
+
+            const _footerItems: IGlobalFooter[] = [
+                {
+                    ID: 1,
+                    Title: "rOBO",
+                    Url: "/",
+                    Position: "CENTER",
+                    SortOrder: 0
+                },
+                {
+                    ID: 2,
+                    Title: "IT Service Center (202.647.2000)",
+                    Url: "/",
+                    Position: "RIGHT",
+                    SortOrder: 0,
+                    IconName: "Headset"
+                },
+                {
+                    ID: 3,
+                    Title: "OBO SharePoint Support",
+                    Url: "mailto:obosharepoint@state.gov",
+                    Position: "CENTER",
+                    SortOrder: 1,
+                },
+                {
+                    ID: 4,
+                    Title: "My Apps Dashboard",
+                    Url: "https://myapps.microsoft.com",
+                    Position: "CENTER",
+                    SortOrder: 2
+                }
+            ];
+            this._footerItems = _footerItems;
+            resolve(_footerItems);
+
+        });
+
+    }
+
 }
+
+
+
