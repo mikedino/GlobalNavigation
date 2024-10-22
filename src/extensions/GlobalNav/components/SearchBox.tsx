@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { SearchBox, ISearchBoxStyles } from '@fluentui/react/lib/SearchBox';
 import styles from '../styles/styles.module.scss';
+import Strings from '../../../strings';
 import { darkTheme } from '../styles/themes';
 
 const searchBoxStyles: Partial<ISearchBoxStyles> = { root: { width: 350, borderColor: '#688194' } };
@@ -27,7 +28,7 @@ const SearchBoxCustom: React.FC<{ onSearchTermChange: (searchTerm: string) => vo
     <div className={styles.searchBox}>
       <SearchBox
         styles={searchBoxStyles}
-        placeholder="Search OBO Enterprise Navigation"
+        placeholder={Strings.SearchPlaceholder}
         value={searchTerm}
         onEscape={handleClearSearch}
         onClear={handleClearSearch}

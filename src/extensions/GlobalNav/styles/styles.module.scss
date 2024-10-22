@@ -384,14 +384,14 @@ $SearchPlaceholder: #688194;
       align-items: center;
 
       &:hover {
-        color: $ms-color-themePrimary;
+        color: $OBOhoverLink;
       }
 
-      &:hover i,
-      i {
-        //color: $ms-color-themePrimary;
-        color: $ms-color-themeDarker;
-      }
+      // &:hover i,
+      // i {
+      //   //color: $ms-color-themePrimary;
+      //   color: $ms-color-themeDarker;
+      // }
 
       i {
         font-size: 20px;
@@ -399,9 +399,9 @@ $SearchPlaceholder: #688194;
         color: $OBOhoverLink;
       }
 
-      a:hover{
-        color: $OBOhoverLink;
-      }
+      // a:hover{
+      //   color: $OBOhoverLink;
+      // }
 
     }
   }

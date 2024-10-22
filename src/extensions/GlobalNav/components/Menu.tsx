@@ -146,11 +146,11 @@ const GlobalNav: React.FC<IGlobalNavProps> = ({ isExpanded, categories, menuitem
                     <div id="menu-icon" className={styles.menuIcon}>
                         <DefaultButton
                             iconProps={{ iconName: toggleIconName }}
-                            title={expanded ? "Close OBO Global Menu" : "Open OBO Global Menu"}
+                            title={expanded ? `Close ${Strings.HamburgerTooltip}` : `Open ${Strings.HamburgerTooltip}`}
                             className={styles.toggleButton}
                             onClick={menuToggle}
                         />
-                        <div className={styles.menuIconText}>Menu</div>
+                        <div className={styles.menuIconText}>&nbsp;</div>
                     </div>
                     <div className={`${styles.globalMenu} ${expanded ? styles.change : ""}`} id="GlobalMenu">
                         <SearchResultsList onSearchTermChange={(term) => setSearchTerm(term)} />

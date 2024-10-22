@@ -10,6 +10,11 @@ export class GlobalFooter extends React.Component<IGlobalFooterProps> {
 
         const footerItems: IGlobalFooter[] = this.props.footerItems as [];
 
+        // Handle support div click
+        const handleDivClick = (url: string): void => {
+            window.open(url, '_blank');
+        };
+
         return (
             <div className={styles.footer}>
                 <div className={styles.home}>
@@ -29,9 +34,9 @@ export class GlobalFooter extends React.Component<IGlobalFooterProps> {
                         .filter(item => item.Position === "RIGHT")
                         .slice(0, 1) // Only take the first item if any
                         .map(filteredItem => (
-                            <div key={filteredItem.ID}>
+                            <div key={filteredItem.ID} onClick={() => handleDivClick(filteredItem.Url)}>
                                 <div><Icon iconName={filteredItem.IconName} /></div>
-                                <div><a href={filteredItem.Url}>{filteredItem.Title}</a></div>
+                                <div>{filteredItem.Title}</div>
                             </div>
                         ))}
                 </div>

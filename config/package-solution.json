@@ -3,7 +3,7 @@
   "solution": {
     "name": "Koniag Enterprise Navigation",
     "id": "13042b2a-6271-44a0-b6b6-42e209e9dd89",
-    "version": "1.0.0.1",
+    "version": "1.0.0.5",
     "iconPath": "assets/KGS-Logo-Stacked_96x96.jpg",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
@@ -31,7 +31,7 @@
         "title": "Application Extension - Deployment of custom action",
         "description": "Deploys a custom action with ClientSideComponentId association",
         "id": "760ded96-1ab2-4ec3-aef5-5e85b5847daf",
-        "version": "1.0.0.1",
+        "version": "1.0.0.5",
         "assets": {
           "elementManifests": [
             "elements.xml",

@@ -30,14 +30,14 @@ export const lightTheme = createTheme({
 
 export const darkTheme = createTheme({
     palette: {
-        themePrimary: '#2499C2',
+        themePrimary: '#289bbe',
         themeLighterAlt: '#095a8a',
-        themeLighter: '#2499C2',
+        themeLighter: '#289bbe',
         themeLight: '#1a708f',
         themeTertiary: '#638991',
         themeSecondary: '#91c9d5',
         themeDarkAlt: '#688194',
-        themeDark: '#2499C2',
+        themeDark: '#289bbe',
         themeDarker: '#87bac5',
         neutralLighterAlt: '#454a52',
         neutralLighter: '#093e60',
@@ -51,7 +51,7 @@ export const darkTheme = createTheme({
         neutralPrimary: '#ffffff',
         neutralDark: '#bea561',
         black: '#0A2240',
-        white: '#093e60'
+        white: '#275766' //search box fill
         //white: '#0a314d' darker blue
     }
 });

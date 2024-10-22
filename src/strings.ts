@@ -24,7 +24,9 @@ const Strings = {
     CategoriesList: "GlobalNavCategory",
     MenuItemsList: "GlobalNavItem",
     FooterList: "GlobalNavFooter",
-    TenantUrl: "",
+    TenantUrl: "https://koniaggs.sharepoint.com",
+    SearchPlaceholder: "Search Koniag Enterprise Navigation",
+    HamburgerTooltip: "Enterprise Navigation",
     Version: "1.0.1" 
 };
 

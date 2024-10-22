@@ -8,25 +8,25 @@
 // Define custom variables
 //$body-bg: #0A314D; dark blue
 //$accordion-button-active-bg: #345d96;
-$body-bg: #093e60 !default;
+$body-bg: #275766 !default;
 $body-color: #fff !default;
-$primary-bg-subtle: #345d96 !default;
+$primary-bg-subtle: #467c8d !default;
 $accordion-button-active-color: $body-color !default;
 $accordion-button-focus-box-shadow: none !default;
 $accordion-border-color: $body-color !default;
 $accordion-border-width: 1px !default;
-$primary-text-emphasis: #A6E5F3 !default;
+$primary-text-emphasis: #90c4d3 !default;
 
 // Use the custom variables in Bootstrap
 :root {
-  --bs-body-bg: #093e60;
+  --bs-body-bg: #275766;
   --bs-body-color: #fff;
-  --bs-primary-bg-subtle: #345d96;
+  --bs-primary-bg-subtle: #467c8d;
   --bs-accordion-button-active-color: var(--bs-body-color);
   --bs-accordion-button-focus-box-shadow: none;
   --bs-accordion-border-color: var(--bs-body-color);
   --bs-accordion-border-width: 1px;
-  --bs-primary-text-emphasis: #A6E5F3;
+  --bs-primary-text-emphasis: #90c4d3;
 }
 
 // then import the lib
