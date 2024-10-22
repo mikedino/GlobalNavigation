@@ -1,10 +1,10 @@
-# OBO Enterprise Navigation 
+# Enterprise Navigation (Hamburger Menu)
 
 ## Summary
 
 Application Extension that provides a global navigation as a hamburger menu which has an accordion and search function.  Items are data-driven from an SP List defined in the Strings.
 
-Creates a fixed footer with a logo, center links and support link on the right.  This data is also data-driven.
+Also creates a fixed footer with a logo, center links and support link on the right.  This data is also data-driven.
 
 [pictures forthcoming...]
 
@@ -48,11 +48,7 @@ Creates a fixed footer with a logo, center links and support link on the right. 
 
 | Version | Date             | Comments                                                                                                         |
 | ------- | ---------------- | ---------------------------------------------------------------------------------------------------------------- |
-| 1.0     | May 1, 2024      | Initial release                                                                                                  |
-| 1.0.4   | June 13, 2024    | Add Bootstrap wrapper to these components in order to limit effect on rest of SPO site.                          |
-| 1.0.5   | June 24, 2024    | Bug Fix for menu displaying twice on occasion.  Dispose of component properly.                                   |
-| 1.0.6   | July 15, 2024    | Change click action of nested children to display as accordions. Update search results to show infinite levels.  |
-| 1.0.7   | July 29, 2024    | Add "Menu" text to the right of the pancake icon                                                                 |
+| 1.0.5   | Oct 22, 2024     | Initial release                                                                                                  |
 
 ## Disclaimer
 
@@ -72,17 +68,11 @@ Creates a fixed footer with a logo, center links and support link on the right. 
 
 ## Features
 
-Description of the extension that expands upon high-level summary above.
+Example of the menu while expanded 
+![ScreenShot](/sharepoint/assets/MenuScreenshot.PNG)
 
-This extension illustrates the following concepts:
-
-- topic 1
-- topic 2
-- topic 3
-
-> Notice that better pictures and documentation will increase the sample usage and the value you are providing for others. Thanks for your submissions advance.
-
-> Share your web part with others through Microsoft 365 Patterns and Practices program to get visibility and exposure. More details on the community, open-source projects and other activities from http://aka.ms/m365pnp.
+Example of the fixed footer 
+![ScreenShot](/sharepoint/assets/FooterScreenshot.PNG)
 
 ## References
 
