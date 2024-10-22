@@ -69,10 +69,10 @@ Also creates a fixed footer with a logo, center links and support link on the ri
 ## Features
 
 Example of the menu while expanded 
-![ScreenShot](/src/screenshots/MenuScreenshot.PNG)
+![ScreenShot](/sharepoint/assets/MenuScreenshot.png)
 
 Example of the fixed footer 
-![ScreenShot](/src/screenshots/FooterScreenshot.PNG)
+![ScreenShot](/sharepoint/assets/FooterScreenshot.png)
 
 ## References
 
